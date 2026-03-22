@@ -1,8 +1,8 @@
 ---
 layout: default
 permalink: /blog/
-title: blog
-nav: false
+title: BLOG
+nav: true
 nav_order: 1
 pagination:
   enabled: true
@@ -28,6 +28,25 @@ pagination:
     <h2>{{ site.blog_description }}</h2>
   </div>
   {% endif %}
+
+<div class="container featured-posts mt-4">
+  <div class="col mb-4 px-0">
+    <a href="{{ '/blog/find-me-this-but-different/' | relative_url }}">
+      <div class="card hoverable">
+        <div class="card-body">
+          <div class="float-right">
+            <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
+          </div>
+          <h3 class="card-title">"Find Me This, But Different": A Blog on Composed Image Retrieval</h3>
+          <p class="card-text">
+            A themed walkthrough of TIRG, multimodal retrieval, and why image-plus-text search works when the model treats the image as an anchor and text as a modifier.
+          </p>
+          <p class="post-meta mb-0">Featured read &nbsp; &middot; &nbsp; Computer Vision &nbsp; &middot; &nbsp; Multimodal AI</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
 
 {% if site.display_tags and site.display_tags.size > 0 or site.display_categories and site.display_categories.size > 0 %}
 
