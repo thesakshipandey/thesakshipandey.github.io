@@ -4,212 +4,171 @@ permalink: /blog/
 title: Blog
 nav: true
 nav_order: 1
-pagination:
-  enabled: true
-  collection: posts
-  permalink: /page/:num/
-  per_page: 5
-  sort_field: date
-  sort_reverse: true
-  trail:
-    before: 1 # The number of links before the current page
-    after: 3 # The number of links after the current page
 ---
 
-<div class="post">
+<style>
+  .blog-home {
+    max-width: 820px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+  }
 
-{% assign blog_name_size = site.blog_name | size %}
-{% assign blog_description_size = site.blog_description | size %}
+  .blog-home .blog-hero {
+    padding: 2rem 0 2.5rem;
+    border-bottom: 1px solid var(--global-divider-color);
+    margin-bottom: 2rem;
+  }
 
-{% if blog_name_size > 0 or blog_description_size > 0 %}
+  .blog-home .blog-kicker {
+    margin-bottom: 0.75rem;
+    color: var(--global-theme-color);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-  <div class="header-bar">
-    <h1>{{ site.blog_name }}</h1>
-    <h2>{{ site.blog_description }}</h2>
-  </div>
-  {% endif %}
+  .blog-home h1 {
+    margin-bottom: 0.85rem;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 1.06;
+  }
 
-<div class="container featured-posts mt-4">
-  <div class="col mb-4 px-0">
-    <a href="{{ '/blog/find-me-this-but-different/' | relative_url }}">
-      <div class="card hoverable">
-        <div class="card-body">
-          <div class="float-right">
-            <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
-          </div>
-          <h3 class="card-title">"Find Me This, But Different": A Blog on Composed Image Retrieval</h3>
-          <p class="card-text">
-            A themed walkthrough of TIRG, multimodal retrieval, and why image-plus-text search works when the model treats the image as an anchor and text as a modifier.
-          </p>
-          <p class="post-meta mb-0">Featured read &nbsp; &middot; &nbsp; Computer Vision &nbsp; &middot; &nbsp; Multimodal AI</p>
-        </div>
-      </div>
-    </a>
-  </div>
-</div>
+  .blog-home .blog-lede {
+    max-width: 700px;
+    margin-bottom: 1rem;
+    color: var(--global-text-color-light);
+    font-size: 1.08rem;
+    line-height: 1.8;
+  }
 
-{% if site.display_tags and site.display_tags.size > 0 or site.display_categories and site.display_categories.size > 0 %}
+  .blog-home .blog-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    color: var(--global-text-color-light);
+    font-size: 0.95rem;
+  }
 
-  <div class="tag-category-list">
-    <ul class="p-0 m-0">
-      {% for tag in site.display_tags %}
-        <li>
-          <i class="fa-solid fa-hashtag fa-sm"></i> <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
-        </li>
-        {% unless forloop.last %}
-          <p>&bull;</p>
-        {% endunless %}
-      {% endfor %}
-      {% if site.display_categories.size > 0 and site.display_tags.size > 0 %}
-        <p>&bull;</p>
-      {% endif %}
-      {% for category in site.display_categories %}
-        <li>
-          <i class="fa-solid fa-tag fa-sm"></i> <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
-        </li>
-        {% unless forloop.last %}
-          <p>&bull;</p>
-        {% endunless %}
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
+  .blog-home .blog-chip {
+    padding: 0.28rem 0.65rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 999px;
+    background: var(--global-card-bg-color);
+  }
 
-{% assign featured_posts = site.posts | where: "featured", "true" %}
-{% if featured_posts.size > 0 %}
-<br>
+  .blog-home .blog-section {
+    margin: 2rem 0;
+  }
 
-<div class="container featured-posts">
-{% assign is_even = featured_posts.size | modulo: 2 %}
-<div class="row row-cols-{% if featured_posts.size <= 2 or is_even == 0 %}2{% else %}3{% endif %}">
-{% for post in featured_posts %}
-<div class="col mb-4">
-<a href="{{ post.url | relative_url }}">
-<div class="card hoverable">
-<div class="row g-0">
-<div class="col-md-12">
-<div class="card-body">
-<div class="float-right">
-<i class="fa-solid fa-thumbtack fa-xs"></i>
-</div>
-<h3 class="card-title text-lowercase">{{ post.title }}</h3>
-<p class="card-text">{{ post.description }}</p>
+  .blog-home .blog-section h2 {
+    margin-bottom: 0.8rem;
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+  }
 
-                    {% if post.external_source == blank %}
-                      {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-                    {% else %}
-                      {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-                    {% endif %}
-                    {% assign year = post.date | date: "%Y" %}
+  .blog-home .blog-section p {
+    color: var(--global-text-color-light);
+    line-height: 1.85;
+  }
 
-                    <p class="post-meta">
-                      {{ read_time }} min read &nbsp; &middot; &nbsp;
-                      <a href="{{ year | prepend: '/blog/' | relative_url }}">
-                        <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-      </div>
-    </div>
-    <hr>
+  .blog-home .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
 
-{% endif %}
+  .blog-home .blog-card {
+    display: block;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 16px;
+    background: var(--global-card-bg-color);
+    text-decoration: none;
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
 
-  <ul class="post-list">
+  .blog-home .blog-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--global-theme-color);
+    text-decoration: none;
+  }
 
-    {% if page.pagination.enabled %}
-      {% assign postlist = paginator.posts %}
-    {% else %}
-      {% assign postlist = site.posts %}
-    {% endif %}
+  .blog-home .blog-card-title {
+    margin-bottom: 0.5rem;
+    color: var(--global-text-color);
+    font-size: 1.45rem;
+    line-height: 1.25;
+  }
 
-    {% for post in postlist %}
+  .blog-home .blog-card-copy {
+    margin-bottom: 0.75rem;
+    color: var(--global-text-color-light);
+  }
 
-    {% if post.external_source == blank %}
-      {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-    {% else %}
-      {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-    {% endif %}
-    {% assign year = post.date | date: "%Y" %}
-    {% assign tags = post.tags | join: "" %}
-    {% assign categories = post.categories | join: "" %}
+  .blog-home .blog-card-meta {
+    color: var(--global-text-color-light);
+    font-size: 0.92rem;
+  }
 
-    <li>
+  .blog-home .blog-list {
+    padding-left: 1.1rem;
+    color: var(--global-text-color-light);
+  }
 
-{% if post.thumbnail %}
+  .blog-home .blog-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+</style>
 
-<div class="row">
-          <div class="col-sm-9">
-{% endif %}
-        <h3>
-        {% if post.redirect == blank %}
-          <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        {% elsif post.redirect contains '://' %}
-          <a class="post-title" href="{{ post.redirect }}" target="_blank">{{ post.title }}</a>
-          <svg width="2rem" height="2rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        {% else %}
-          <a class="post-title" href="{{ post.redirect | relative_url }}">{{ post.title }}</a>
-        {% endif %}
-      </h3>
-      <p>{{ post.description }}</p>
-      <p class="post-meta">
-        {{ read_time }} min read &nbsp; &middot; &nbsp;
-        {{ post.date | date: '%B %d, %Y' }}
-        {% if post.external_source %}
-        &nbsp; &middot; &nbsp; {{ post.external_source }}
-        {% endif %}
-      </p>
-      <p class="post-tags">
-        <a href="{{ year | prepend: '/blog/' | relative_url }}">
-          <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
-
-          {% if tags != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for tag in post.tags %}
-            <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">
-              <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
-              {% unless forloop.last %}
-                &nbsp;
-              {% endunless %}
-              {% endfor %}
-          {% endif %}
-
-          {% if categories != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for category in post.categories %}
-            <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">
-              <i class="fa-solid fa-tag fa-sm"></i> {{ category }}</a>
-              {% unless forloop.last %}
-                &nbsp;
-              {% endunless %}
-              {% endfor %}
-          {% endif %}
+<div class="post blog-home">
+  <section class="blog-hero">
+    <div class="blog-kicker">Sakshi Pandey</div>
+    <h1>Research Notes and Technical Writing</h1>
+    <p class="blog-lede">
+      I am an M.S. Research Scholar in Computer Science at IIT Bombay working on trustworthy machine learning, reinforcement learning,
+      LLM alignment, and AI security. This page collects paper notes, technical explainers, and research writing shaped by those interests.
     </p>
+    <div class="blog-meta">
+      <span class="blog-chip">IIT Bombay</span>
+      <span class="blog-chip">Trustworthy ML</span>
+      <span class="blog-chip">Reinforcement Learning</span>
+      <span class="blog-chip">AI Security</span>
+      <span class="blog-chip">Multimodal Systems</span>
+    </div>
+  </section>
 
-{% if post.thumbnail %}
+  <section class="blog-section">
+    <h2>About This Blog</h2>
+    <p>
+      Most of the writing here will revolve around the questions I keep returning to in research:
+      how to make machine learning systems more reliable, how to reason clearly about model behavior,
+      and how to connect theory with practical system building.
+    </p>
+  </section>
 
-</div>
+  <section class="blog-section">
+    <h2>Featured</h2>
+    <div class="blog-grid">
+      <a class="blog-card" href="{{ '/blog/find-me-this-but-different/' | relative_url }}">
+        <div class="blog-card-title">"Find Me This, But Different": A Blog on Composed Image Retrieval</div>
+        <div class="blog-card-copy">
+          A detailed walkthrough of TIRG and composed image retrieval, focusing on how image and text can work together
+          when one acts as the reference and the other acts as the modification.
+        </div>
+        <div class="blog-card-meta">Computer Vision · Multimodal AI · Paper Notes</div>
+      </a>
+    </div>
+  </section>
 
-  <div class="col-sm-3">
-    <img class="card-img" src="{{ post.thumbnail | relative_url }}" style="object-fit: cover; height: 90%" alt="image">
-  </div>
-</div>
-{% endif %}
-    </li>
-
-    {% endfor %}
-
-  </ul>
-
-{% if page.pagination.enabled %}
-{% include pagination.liquid %}
-{% endif %}
-
+  <section class="blog-section">
+    <h2>Coming Soon</h2>
+    <ul class="blog-list">
+      <li>Notes on reinforcement learning for side-channel analysis and neural architecture search.</li>
+      <li>Writing on multilingual red-teaming, jailbreak behavior, and safety gaps in LLMs.</li>
+      <li>Short technical essays on evaluation, robustness, and applied ML research practice.</li>
+    </ul>
+  </section>
 </div>
