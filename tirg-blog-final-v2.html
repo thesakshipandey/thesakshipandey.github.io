@@ -25,7 +25,7 @@ description: A deep dive into TIRG, multimodal retrieval, and why image-plus-tex
   }
 
   .tirg-article .post-header {
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
   }
 
   .tirg-article .post-tag,
@@ -56,6 +56,62 @@ description: A deep dive into TIRG, multimodal retrieval, and why image-plus-tex
   .tirg-article .dataset {
     border-left: 4px solid var(--tirg-accent);
     padding-left: 1rem;
+  }
+
+  .tirg-article .featured-quote {
+    color: #c0185d;
+    font-style: italic;
+    font-size: 1.18rem;
+    font-weight: 500;
+    margin: 2rem 0;
+  }
+
+  .tirg-article h2 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .tirg-article .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.8rem;
+    align-items: center;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    color: var(--tirg-muted);
+  }
+
+  .tirg-article .meta-sep {
+    color: var(--tirg-muted);
+    opacity: 0.5;
+  }
+
+  .tirg-article .authors-section {
+    margin: 3rem 0 1.5rem;
+    padding: 1.5rem;
+    border-top: 1px solid var(--tirg-border);
+    border-bottom: 1px solid var(--tirg-border);
+  }
+
+  .tirg-article .authors-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tirg-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .tirg-article .authors-names {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+  }
+
+  .tirg-article .authors-thanks {
+    font-size: 0.9rem;
+    color: var(--tirg-muted);
+    margin-bottom: 0;
   }
 
   .tirg-article .callout,
@@ -248,14 +304,16 @@ description: A deep dive into TIRG, multimodal retrieval, and why image-plus-tex
   <h1>"Find Me This, But Different":<br>A Deep Dive into Composed Image Retrieval</h1>
   <p class="post-subtitle">How TIRG, short for Text Image Residual Gating, handles multimodal retrieval by treating the image as the anchor and the text as the edit.</p>
   <div class="post-meta">
-    <span>📄 Nam Vo et al., Google Research</span>
-    <span>⏱ 16 min read</span>
-    <span>🏷 Computer Vision · Multimodal AI · Metric Learning</span>
+    <span class="meta-item"><strong>Paper:</strong> Nam Vo et al., Google Research · CVPR 2019</span>
+    <span class="meta-sep">&middot;</span>
+    <span class="meta-item"><strong>Read time:</strong> 16 min</span>
+    <span class="meta-sep">&middot;</span>
+    <span class="meta-item"><strong>Topics:</strong> Computer Vision · Multimodal AI · Metric Learning</span>
   </div>
 </header>
 
 <!-- ════════════ INTRO ════════════ -->
-<div class="lede">Imagine showing a system a photo of a red dress and saying, "find the same dress but in blue."</div>
+<div class="lede featured-quote">Imagine showing a system a photo of a red dress and saying, "find the same dress but in blue."</div>
 
 <p>A normal image retrieval system only sees the current image, and a normal text retrieval system ignores the visual reference. This paper asks: <strong>can we retrieve images using both a reference image and a textual modification?</strong></p>
 
@@ -619,10 +677,10 @@ The loss fires only when the negative is dangerously close:
 
 <blockquote>TIRG works best when the change is local, like changing color or sleeve style. When the edit is broader and more semantic, the gap to the baselines gets smaller.</blockquote>
 
-<h3>CSS Dataset: Table 4</h3>
+<h3>CSS Dataset: Table 3</h3>
 
 <div class="data-table-wrap">
-  <div class="data-table-title">Table 4: CSS dataset retrieval performance (R@1)</div>
+  <div class="data-table-title">Table 3: CSS dataset retrieval performance (R@1)</div>
   <table class="data-table">
     <thead>
       <tr>
@@ -730,6 +788,12 @@ The loss fires only when the negative is dangerously close:
 <hr>
 
 <p>If the query has a reference and an edit, the model should treat them that way. They are not two interchangeable inputs. <strong>That asymmetry is the task.</strong></p>
+
+<div class="authors-section">
+  <p class="authors-label">Written by</p>
+  <p class="authors-names">Amit Pandey &nbsp;&middot;&nbsp; Sakshi Pandey &nbsp;&middot;&nbsp; Sharath H N</p>
+  <p class="authors-thanks"><em>Thank you for reading. We hope this walkthrough made TIRG a little more intuitive.</em></p>
+</div>
 
 <div class="tags">
   <span class="tag">Computer Vision</span>
