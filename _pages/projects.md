@@ -2,10 +2,10 @@
 layout: page
 title: Projects
 permalink: /projects/
-description: Coming Soon...
+description: Research, course, and self projects in ML, NLP, and recommender systems.
 nav: true
 nav_order: 3
-# display_categories: [work, fun]
+display_categories: [research, course, self]
 horizontal: false
 ---
 

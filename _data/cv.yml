@@ -3,119 +3,164 @@
   contents:
     - name: Full Name
       value: Sakshi Pandey
-    - name: Date of Birth
-      value: 27 December 2001
     - name: Contact
-      value: sakshipandey@cse.iitb.ac.in 
+      value: sakshipandey@iitb.ac.in
+    - name: Phone
+      value: +91 8879372210
     - name: Languages
       value: English, Hindi, Marathi, Gujarati
 
 - title: Education
   type: time_table
   contents:
-    - title: M.S. by Research in Computer Science
+    - title: M.S. by Research in Computer Science (Intelligence Systems)
       institution: Indian Institute of Technology Bombay, Mumbai, India
       year: 2024 – Present
       description:
-        - CGPI 9.29 / 10.00 after Semester 1:contentReference[oaicite:0]{index=0}:contentReference[oaicite:1]{index=1}
-        - Coursework highlights: Foundations of Machine Learning, Foundations of Intelligent & Learning Agents
+        - "CPI: 8.54 / 10.00 (up to Semester 3)"
+        - "Thesis: Multi-Expert Hybrid Retrieval with Learned Query Routing for Movie Recommendation"
+        - "Advisor: Prof. Arpit Agarwal"
     - title: B.E. in Computer Engineering
-      institution: University of Mumbai, Mumbai, India
+      institution: University of Mumbai (RGIT), Mumbai, India
       year: 2019 – 2023
       description:
-        - GPA 8.86 / 10.00:contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
-        - Final-year thesis on a decentralized storage system using blockchain (published at IEEE ASIACON ’23)
+        - "GPA: 8.86 / 10.00"
 
 - title: Experience
   type: time_table
   contents:
-    - title: Cyber-security Intern
+    - title: Cybersecurity Intern
       institution: Bombay Stock Exchange Ltd., Mumbai, India
-      year: Sept 2021 – Oct 2021
+      year: Sept – Oct 2021
       description:
-        - Performed risk & vulnerability analysis of critical exchange systems:contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
-        - Used IBM QRadar + Watson for real-time threat detection & response
-        - Implemented honey-comb trapping techniques to harden security posture
+        - Conducted risk and vulnerability analysis of critical exchange systems
+        - Monitored and mitigated active threats using IBM QRadar (SIEM) and IBM Watson for event correlation
+        - Deployed Honeycomb trapping techniques as an active decoy to enhance threat detection
 
-- title: Selected Research & Course Projects
+- title: Research Projects
   type: time_table
   contents:
+    - title: Multi-Expert Hybrid Retrieval for Movie Recommendation
+      institution: M.S. Thesis · IIT Bombay · Guide — Prof. Arpit Agarwal
+      year: Aug 2025 – Present
+      description:
+        - Designed a multi-expert retrieval system combining semantic, lexical, collaborative, and emotion-aware experts
+        - Developed a learned query router trained with Bradley–Terry–Luce pairwise loss over 9,000 human-judged movie pairs
+        - Achieved up to 4.5% higher pairwise agreement over strong baselines (BGE-Reranker, Qwen-1.5B, Kimi-K2) on MovieLens-100K
+    - title: Indian Multilingual Jailbreaking
+      institution: CS626 — NLP · IIT Bombay · Guide — Prof. Pushpak Bhattacharyya
+      year: Aug 2024 – May 2025
+      description:
+        - Built Indic-JailbreakBench — 1,668 multilingual malicious prompts across 12 harm categories
+        - Proposed four novel jailbreak techniques achieving up to 35% higher ASR in Indic languages versus English
+        - Evaluated six state-of-the-art LLMs using a multi-judge ASR framework for cross-lingual safety assessment
     - title: Reinforcement Learning for Side-Channel CNN Design
-      institution: IIT Bombay — R&D under Prof. Shivaram K. & Sayandeep S.
-      year: 2024 –
+      institution: R&D · IIT Bombay · Guide — Prof. Shivaram K. & Sayandeep S.
+      year: Jan – May 2025
       description:
-        - Built a Q-learning agent that discovers lightweight 1D-CNNs for power-trace attacks
-        - Engineered rewards that combine multi-trace guessing entropy and model size
-        - Ran ≈ 2 700 architecture trials; matched or beat SOTA key-recovery accuracy:contentReference[oaicite:6]{index=6}:contentReference[oaicite:7]{index=7}
-    - title: Multilingual Red-Teaming of Large Language Models
-      institution: CFILT Lab
-      year: 2024
+        - Built a Q-learning agent that automatically composes 1D-CNN architectures for profiling-based SCA
+        - Engineered composite reward functions combining guessing-entropy convergence, validation accuracy, and model-size penalty
+        - Executed >2,700 architecture trials on ASCAD, DPAContest v4, and CHES CTF datasets
+
+- title: Course Projects
+  type: time_table
+  contents:
+    - title: Cross-Lingual Emotion Understanding for Indic Languages
+      institution: CS772 — Deep Learning for NLP · IIT Bombay
+      year: Aug – Nov 2025
       description:
-        - Exposed safety-filter gaps in Indic languages (Telugu, Bengali, Marathi)
-        - Crafted custom prompt templates to bypass filters using Mixtral LLM:contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}
+        - Built a translation + LLM quality-scoring pipeline mapping GoEmotions (58K samples) into 5 Indic languages
+        - Distilled RoBERTa-GoEmotions into IndicBERT using embedding alignment + KL-divergence; ~3.3x improvement over zero-shot baselines
+    - title: Auction Design for Voluntary Carbon Markets
+      institution: CS6001 — Game Theory & Mechanism Design · IIT Bombay
+      year: Aug – Nov 2025
+      description:
+        - Proved that without a formal mechanism, cheating is the dominant strategy for all VCM participants
+        - Designed and implemented a Vickrey–Clarke–Groves (VCG) auction ensuring truthful bidding
+    - title: Self-Driving Car Controller
+      institution: CS747 — Foundations of Intelligent & Learning Agents · IIT Bombay
+      year: Jan – May 2025
+      description:
+        - Implemented a HighwayEnv racetrack controller with midline steering + PID speed control
+        - Optimized PID gains using CMA-ES; benchmarked against A2C across 6 tracks × 3 seeds
     - title: Signboard OCR & Transliteration
-      institution: Course project — Foundations of Machine Learning
-      year: 2023
+      institution: CS725 — Foundations of Machine Learning · IIT Bombay
+      year: Aug – Nov 2024
       description:
-        - Faster R-CNN for text detection; EasyOCR + GRU ED for transliteration
-        - End-to-end pipeline for Hindi → English signboard translation:contentReference[oaicite:10]{index=10}:contentReference[oaicite:11]{index=11}
-    - title: Hybrid Movie Recommendation Engine
-      institution: Software Lab
-      year: 2022
+        - Faster R-CNN for text detection + EasyOCR with attention-based GRU Encoder-Decoder for Hindi-to-English transliteration
+        - "Achieved 92% detection accuracy and 89% transliteration accuracy"
+
+- title: Self Projects
+  type: time_table
+  contents:
+    - title: NutritionRAG — Grounded Nutrition Chatbot
+      year: Sept – Oct 2025
       description:
-        - Combined SVD-based collaborative filtering with content similarity & review sentiment:contentReference[oaicite:12]{index=12}:contentReference[oaicite:13]{index=13}
+        - Full RAG pipeline with web app; hybrid BM25 + ANN retrieval over a textbook corpus stored in pgvector
+        - Inline citations and source snippets in generated answers
+    - title: Direct Preference Optimization (DPO) from Scratch
+      year: Jul – Aug 2025
+      description:
+        - Implemented the DPO algorithm end-to-end in PyTorch to align LLM outputs with human preferences
+    - title: RLHF Pipeline from Scratch
+      year: 2025
+      description:
+        - Implemented Vanilla Policy Gradient (VPG) to steer GPT-2 toward generating positive stories
+    - title: Transformer from Scratch
+      year: 2025
+      description:
+        - Built full Transformer architecture (multi-head attention, encoder-decoder) with beam search inference
 
 - title: Technical Skills
   type: list
   contents:
-    - Languages: Python, C/C++, Java, Solidity, Bash
-    - Frameworks Tools: PyTorch, TensorFlow, Flask, Bootstrap, Numpy, Pandas
-    - Concepts: Reinforcement Learning, Neural Networks, Attention, Side-Channel Analysis, Cyber-Security
+    - "<b>Languages:</b> Python, C/C++, Java, LaTeX, Bash, SQL, HTML/CSS"
+    - "<b>Frameworks & Libraries:</b> PyTorch, TensorFlow, Keras, Hugging Face Transformers, Scikit-learn, NumPy, Pandas, FAISS, BM25"
+    - "<b>Intelligence Systems:</b> Machine Learning, NLP, Recommender Systems, Bandits, LLMs, RAG, RLHF, DPO, Transformers, CNNs, Hybrid Retrieval, MoE"
+
+- title: Courses
+  type: list
+  contents:
+    - Human-Centered AI
+    - Foundations of Machine Learning
+    - Online Learning and Optimization
+    - Game Theory and Algorithmic Mechanism Design
+    - Speech, Natural Language Processing, and the Web
+    - Deep Learning in Natural Language Processing
+    - Foundations of Intelligent and Learning Agents
+    - Software Lab
 
 - title: Honors & Awards
   type: time_table
   contents:
+    - year: 2025
+      items:
+        - "Reliance Foundation PG Scholar — one of 100 recipients selected nationwide for academic excellence and leadership"
+        - "Inter IIT Tech Meet 14.0 — selected as part of Bombay76, IIT Bombay's official contingent, for the ObserveAI track"
     - year: 2024
       items:
-        - Reliance Foundation Post-Graduate Scholar (top 100 nationwide):contentReference[oaicite:14]{index=14}:contentReference[oaicite:15]{index=15}
-    - year: 2023
-      items:
-        - IEEE ASIACON ’23 paper on blockchain-based decentralized storage
-        - 1st place in both Kaggle competitions for CS725 (FML) course:contentReference[oaicite:16]{index=16}:contentReference[oaicite:17]{index=17}
-    - year: 2022
-      items:
-        - First Google Developer Student Club Lead of institute (Google DSC):contentReference[oaicite:18]{index=18}:contentReference[oaicite:19]{index=19}
+        - "GATE CS — 99.09 percentile (top 0.91%), outperforming 123,967 candidates nationwide"
+        - "1st place in both Kaggle competitions for CS725 (Foundations of ML) at IIT Bombay, outperforming 198 students"
+        - "Google Developer Student Club Lead (2022) — first-ever DSC Lead at institute; organized technical workshops and hackathons"
 
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Trustworthy & Aligned AI
+    - title: Recommender Systems & Preference Learning
       items:
-        - Reward-modeling and preference learning for LLM alignment
-        - Adversarial robustness & red-teaming
-    - title: Machine Learning for Security
+        - Multi-expert hybrid retrieval with learned routing
+        - Bandit algorithms for interactive and online recommendation
+        - Preference optimization — DPO, RLHF, reward modeling
+    - title: LLM Alignment & Safety
       items:
-        - Reinforcement-Learning-based SCA
-        - Prompt-level jailbreak detection & mitigation
-    - title: Recommender Systems
+        - Multilingual red-teaming and jailbreak evaluation
+        - Cross-lingual safety gaps in large language models
+    - title: Applied NLP & Multimodal Systems
       items:
-        - Hybrid collaborative-/content-based methods
-        - Conversational personalization
-
-- title: Open-Source Projects
-  type: time_table
-  contents:
-    - title: <a href="https://github.com/thesakshipandey/JailbreakinLLMs">Jailbreak in LLMs</a>
-      year: 2024 – now
-      description: Prompt-collection & evaluation framework for multilingual LLM jailbreak research.
-    - title: <a href="https://github.com/thesakshipandey/IITB_CS626">RL for SCA (IITB CS626)</a>
-      year: 2024
-      description: Code & experiments for RL-driven CNN architecture search in side-channel attacks.
-    - title: <a href="https://github.com/thesakshipandey/SpaceXclone">SpaceX Clone</a>
-      year: 2022
-      description: Front-end replica of the SpaceX site to practice responsive design.
+        - Cross-lingual transfer and low-resource NLP
+        - Retrieval-augmented generation (RAG)
 
 - title: Other Interests
   type: list
   contents:
-    - <u>Hobbies:</u> Basketball, Badminton, Chess, Gaming, Fantasy Novels, World Cuisines
+    - "<u>Hobbies:</u> Fantasy novels (Sarah J. Maas, Rebecca Yarros), Gaming, Puzzles, Exploring world cuisines"

@@ -7,168 +7,154 @@ nav_order: 1
 ---
 
 <style>
-  .blog-home {
-    max-width: 820px;
+  .sp-blog-wrap {
+    max-width: 860px;
     margin: 0 auto;
-    padding-bottom: 3rem;
+    padding: 2.5rem 1rem 4rem;
   }
 
-  .blog-home .blog-hero {
-    padding: 2rem 0 2.5rem;
-    border-bottom: 1px solid var(--global-divider-color);
-    margin-bottom: 2rem;
-  }
-
-  .blog-home .blog-kicker {
-    margin-bottom: 0.75rem;
-    color: var(--global-theme-color);
-    font-size: 0.82rem;
+  .sp-blog-wrap h1 {
+    font-size: 2.2rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin-bottom: 0.5rem;
   }
 
-  .blog-home h1 {
-    margin-bottom: 0.85rem;
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
-    line-height: 1.06;
-  }
-
-  .blog-home .blog-lede {
-    max-width: 700px;
-    margin-bottom: 1rem;
+  .sp-blog-wrap .sp-lede {
     color: var(--global-text-color-light);
-    font-size: 1.08rem;
-    line-height: 1.8;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    max-width: 680px;
   }
 
-  .blog-home .blog-meta {
+  .sp-tag-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    color: var(--global-text-color-light);
-    font-size: 0.95rem;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
   }
 
-  .blog-home .blog-chip {
-    padding: 0.28rem 0.65rem;
+  .sp-tag {
+    padding: 0.3rem 0.85rem;
     border: 1px solid var(--global-divider-color);
     border-radius: 999px;
+    font-size: 0.82rem;
+    color: var(--global-text-color-light);
     background: var(--global-card-bg-color);
   }
 
-  .blog-home .blog-section {
-    margin: 2rem 0;
-  }
-
-  .blog-home .blog-section h2 {
-    margin-bottom: 0.8rem;
-    font-size: 1.15rem;
-    letter-spacing: 0.01em;
-  }
-
-  .blog-home .blog-section p {
-    color: var(--global-text-color-light);
-    line-height: 1.85;
-  }
-
-  .blog-home .blog-grid {
-    display: grid;
-    grid-template-columns: 1fr;
+  .sp-post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    margin-top: 1rem;
   }
 
-  .blog-home .blog-card {
+  .sp-post-card {
     display: block;
-    padding: 1.4rem 1.5rem;
-    border: 1px solid var(--global-divider-color);
-    border-radius: 16px;
+    padding: 1.4rem 1.6rem;
+    border: 1.5px solid var(--global-divider-color);
+    border-radius: 10px;
+    text-decoration: none !important;
     background: var(--global-card-bg-color);
-    text-decoration: none;
-    transition: transform 0.18s ease, border-color 0.18s ease;
+    transition: border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
   }
 
-  .blog-home .blog-card:hover {
-    transform: translateY(-2px);
+  .sp-post-card:hover {
     border-color: var(--global-theme-color);
-    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    text-decoration: none !important;
   }
 
-  .blog-home .blog-card-title {
+  .sp-post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     margin-bottom: 0.5rem;
+  }
+
+  .sp-post-date {
+    font-size: 0.78rem;
+    color: var(--global-text-color-light);
+  }
+
+  .sp-post-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--global-divider-color);
+  }
+
+  .sp-post-tag {
+    font-size: 0.72rem;
+    color: var(--global-theme-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--global-theme-color);
+    border-radius: 4px;
+    opacity: 0.85;
+  }
+
+  .sp-post-title {
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--global-text-color);
-    font-size: 1.45rem;
-    line-height: 1.25;
+    line-height: 1.35;
+    margin: 0;
   }
 
-  .blog-home .blog-card-copy {
-    margin-bottom: 0.75rem;
+  .sp-post-desc {
+    margin-top: 0.4rem;
+    font-size: 0.93rem;
     color: var(--global-text-color-light);
+    line-height: 1.6;
   }
 
-  .blog-home .blog-card-meta {
-    color: var(--global-text-color-light);
-    font-size: 0.92rem;
-  }
-
-  .blog-home .blog-list {
-    padding-left: 1.1rem;
-    color: var(--global-text-color-light);
-  }
-
-  .blog-home .blog-list li {
-    margin-bottom: 0.5rem;
-    line-height: 1.7;
+  .sp-read-more {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--global-theme-color);
+    letter-spacing: 0.03em;
   }
 </style>
 
-<div class="post blog-home">
-  <section class="blog-hero">
-    <div class="blog-kicker">Sakshi Pandey</div>
-    <h1>Research Notes and Technical Writing</h1>
-    <p class="blog-lede">
-      I am an M.S. Research Scholar in Computer Science at IIT Bombay working on trustworthy machine learning, reinforcement learning,
-      LLM alignment, and AI security. This page collects paper notes, technical explainers, and research writing shaped by those interests.
-    </p>
-    <div class="blog-meta">
-      <span class="blog-chip">IIT Bombay</span>
-      <span class="blog-chip">Trustworthy ML</span>
-      <span class="blog-chip">Reinforcement Learning</span>
-      <span class="blog-chip">AI Security</span>
-      <span class="blog-chip">Multimodal Systems</span>
-    </div>
-  </section>
+<div class="sp-blog-wrap">
+  <h1>Blog</h1>
+  <p class="sp-lede">
+    Weekly writing on ML, math, LLMs, and GenAI — paper summaries, topic deep-dives, roadmap series,
+    reviews, and things I find genuinely useful or interesting along the way.
+  </p>
 
-  <section class="blog-section">
-    <h2>About This Blog</h2>
-    <p>
-      Most of the writing here will revolve around the questions I keep returning to in research:
-      how to make machine learning systems more reliable, how to reason clearly about model behavior,
-      and how to connect theory with practical system building.
-    </p>
-  </section>
+  <div class="sp-tag-row">
+    <span class="sp-tag">Paper Summary</span>
+    <span class="sp-tag">Topic Deep-Dive</span>
+    <span class="sp-tag">Roadmap</span>
+    <span class="sp-tag">Review</span>
+    <span class="sp-tag">ML / Math</span>
+    <span class="sp-tag">LLMs / GenAI</span>
+    <span class="sp-tag">Bandits</span>
+    <span class="sp-tag">Journey</span>
+  </div>
 
-  <section class="blog-section">
-    <h2>Featured</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="{{ '/blog/find-me-this-but-different/' | relative_url }}">
-        <div class="blog-card-title">"Find Me This, But Different": A Blog on Composed Image Retrieval</div>
-        <div class="blog-card-copy">
-          A detailed walkthrough of TIRG and composed image retrieval, focusing on how image and text can work together
-          when one acts as the reference and the other acts as the modification.
+  <ul class="sp-post-list">
+    <li>
+      <a class="sp-post-card" href="{{ '/blog/find-me-this-but-different/' | relative_url }}">
+        <div class="sp-post-card-meta">
+          <span class="sp-post-date">Apr 2025</span>
+          <span class="sp-post-dot"></span>
+          <span class="sp-post-tag">Paper Summary</span>
         </div>
-        <div class="blog-card-meta">Computer Vision · Multimodal AI · Paper Notes</div>
+        <div class="sp-post-title">"Find Me This, But Different": A Blog on Composed Image Retrieval</div>
+        <div class="sp-post-desc">A deep dive into TIRG and composed image retrieval — how image and text combine when one is the reference and the other is the modification.</div>
+        <span class="sp-read-more">Read post →</span>
       </a>
-    </div>
-  </section>
-
-  <section class="blog-section">
-    <h2>Coming Soon</h2>
-    <ul class="blog-list">
-      <li>Notes on reinforcement learning for side-channel analysis and neural architecture search.</li>
-      <li>Writing on multilingual red-teaming, jailbreak behavior, and safety gaps in LLMs.</li>
-      <li>Short technical essays on evaluation, robustness, and applied ML research practice.</li>
-    </ul>
-  </section>
+    </li>
+  </ul>
 </div>
