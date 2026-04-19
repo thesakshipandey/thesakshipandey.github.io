@@ -1,11 +1,12 @@
 {
   "basics": {
     "name": "Sakshi Pandey",
-    "label": "M.S. Research Scholar",
+    "label": "M.S. by Research Scholar — IIT Bombay",
     "image": "",
-    "email": "sakshipandey@cse.iitb.ac.in",
-    "url": "https://sakshipandey.github.io",
-    "summary": "Master’s student at IIT Bombay exploring reinforcement learning, LLM alignment, and AI security. I build trustworthy, human-centred ML systems.",
+    "email": "sakshipandey@iitb.ac.in",
+    "phone": "+91 8879372210",
+    "url": "https://thesakshipandey.github.io",
+    "summary": "M.S. by Research scholar at IIT Bombay working on multi-expert recommender systems, preference optimization, bandits, and LLM alignment.",
     "location": {
       "city": "Mumbai",
       "region": "Maharashtra",
@@ -24,18 +25,26 @@
       }
     ]
   },
-
   "education": [
     {
       "institution": "Indian Institute of Technology Bombay",
-      "area": "Computer Science & Engineering",
+      "area": "Computer Science & Engineering (Intelligence Systems)",
       "studyType": "M.S. by Research",
       "startDate": "2024-07-01",
       "endDate": "",
-      "score": "CGPI 9.29 / 10.00"
+      "score": "CPI 8.54 / 10.00 (up to Semester 3)",
+      "courses": [
+        "Human-Centered AI",
+        "Foundations of Machine Learning",
+        "Online Learning and Optimization",
+        "Game Theory and Algorithmic Mechanism Design",
+        "Speech, Natural Language Processing, and the Web",
+        "Deep Learning in Natural Language Processing",
+        "Foundations of Intelligent and Learning Agents"
+      ]
     },
     {
-      "institution": "University of Mumbai",
+      "institution": "University of Mumbai (RGIT)",
       "area": "Computer Engineering",
       "studyType": "B.E.",
       "startDate": "2019-08-01",
@@ -43,110 +52,136 @@
       "score": "GPA 8.86 / 10.00"
     }
   ],
-
   "work": [
     {
       "name": "Bombay Stock Exchange Ltd.",
-      "position": "Cyber-security Intern",
+      "position": "Cybersecurity Intern",
       "startDate": "2021-09-01",
       "endDate": "2021-10-31",
-      "summary": "Performed risk & vulnerability analysis of critical exchange systems; deployed IBM QRadar + Watson for real-time threat detection."
+      "location": "Mumbai, India",
+      "highlights": [
+        "Conducted risk and vulnerability analysis of critical exchange systems",
+        "Monitored and mitigated active threats using IBM QRadar (SIEM) and IBM Watson",
+        "Deployed Honeycomb trapping techniques as an active decoy to enhance threat detection"
+      ]
     }
   ],
-
   "projects": [
     {
-      "name": "RL-Driven CNN Design for Side-Channel Attacks",
-      "startDate": "2025-01-01",
-      "endDate": "2025-04-30",
+      "name": "Multi-Expert Hybrid Retrieval for Movie Recommendation",
+      "description": "M.S. Thesis — multi-expert retrieval combining semantic, lexical, collaborative, and emotion-aware experts with a learned BTL query router.",
+      "startDate": "2025-08-01",
+      "endDate": "",
       "highlights": [
-        "Q-learning agent explored ≈2700 architectures.",
-        "Reward combined guessing-entropy, accuracy, and model size."
+        "Learned query router trained with Bradley–Terry–Luce pairwise loss over 9,000 human-judged movie pairs",
+        "Up to 4.5% higher pairwise agreement over BGE-Reranker, Qwen-1.5B, Kimi-K2 on MovieLens-100K"
       ]
     },
     {
-      "name": "Multilingual Red-Teaming of LLMs",
-      "startDate": "2024-02-01",
-      "endDate": "2025-03-30",
+      "name": "Indian Multilingual Jailbreaking",
+      "description": "Built Indic-JailbreakBench and proposed four jailbreak techniques achieving up to 35% higher ASR in Indic languages.",
+      "startDate": "2024-08-01",
+      "endDate": "2025-05-31",
+      "url": "https://github.com/thesakshipandey/JailbreakinLLMs",
       "highlights": [
-        "Bypassed safety filters in Telugu, Bengali, and Marathi with custom prompts."
-      ],
-      "url": "https://github.com/thesakshipandey/IITB_CS626"
+        "1,668 multilingual malicious prompts across 12 harm categories",
+        "Evaluated six state-of-the-art LLMs with a multi-judge ASR framework"
+      ]
+    },
+    {
+      "name": "NutritionRAG — Grounded Nutrition Chatbot",
+      "description": "Full RAG pipeline with web app using hybrid BM25 + ANN retrieval over a textbook corpus stored in pgvector.",
+      "startDate": "2025-09-01",
+      "endDate": "2025-10-31",
+      "highlights": [
+        "Semantic chunking and pgvector embedding storage",
+        "Hybrid BM25 + ANN retrieval with inline citations"
+      ]
+    },
+    {
+      "name": "Direct Preference Optimization (DPO) from Scratch",
+      "description": "End-to-end PyTorch implementation of DPO to align LLM outputs with human preference data.",
+      "startDate": "2025-07-01",
+      "endDate": "2025-08-31",
+      "highlights": [
+        "Full training loop optimizing reward functions to prefer human-aligned over rejected outputs"
+      ]
     },
     {
       "name": "Signboard OCR & Transliteration",
+      "description": "Multilingual OCR pipeline with Faster R-CNN and GRU encoder-decoder for Hindi-to-English transliteration.",
       "startDate": "2024-08-01",
-      "endDate": "2024-12-13",
+      "endDate": "2024-11-30",
+      "url": "https://github.com/thesakshipandey/IITB_CS725",
       "highlights": [
-        "Faster R-CNN for detection; EasyOCR + GRU ED for transliteration."
-      ],
-      "url": "https://github.com/thesakshipandey/CS725_FML"
+        "92% detection accuracy, 89% transliteration accuracy"
+      ]
     },
     {
-      "name": "Decentralized Storage via Blockchain",
-      "startDate": "2022-01-01",
-      "endDate": "2023-05-01",
+      "name": "Cross-Lingual Emotion Understanding for Indic Languages",
+      "description": "Teacher-student distillation of RoBERTa-GoEmotions into IndicBERT across 5 Indic languages.",
+      "startDate": "2025-08-01",
+      "endDate": "2025-11-30",
       "highlights": [
-        "Smart-contract-based storage; published at IEEE ASIACON ’23."
+        "~3.3x improvement over zero-shot baselines on Hindi, Bengali, Marathi, Gujarati, Tamil"
       ]
     }
   ],
-
   "skills": [
     {
-      "name": "Programming Languages",
-      "keywords": ["Python", "C", "C++", "Java", "Solidity", "Bash"]
+      "name": "Languages",
+      "keywords": ["Python", "C/C++", "Java", "LaTeX", "Bash", "SQL", "HTML/CSS"]
     },
     {
-      "name": "Frameworks & Tools",
-      "keywords": ["PyTorch", "TensorFlow", "Flask", "Bootstrap", "NumPy", "Pandas"]
+      "name": "Frameworks & Libraries",
+      "keywords": ["PyTorch", "TensorFlow", "Keras", "Hugging Face Transformers", "Scikit-learn", "NumPy", "Pandas", "FAISS", "BM25"]
     },
     {
-      "name": "Concepts",
-      "keywords": [
-        "Reinforcement Learning",
-        "Neural Networks",
-        "Prompt Engineering"
-      ]
-    },
-    {
-      "name": "\\",
-      "keywords": [
-        "Side-Channel Analysis",
-        "Machine Learning",
-        "Deep Learning"
-      ]
+      "name": "Intelligence Systems",
+      "keywords": ["Machine Learning", "NLP", "Recommender Systems", "Bandits", "LLMs", "RAG", "RLHF", "DPO", "Transformers", "CNNs", "Hybrid Retrieval", "MoE"]
     }
   ],
-
   "awards": [
     {
-      "title": "Reliance Foundation Post-Graduate Scholar (Top 100 India)",
-      "date": "2025-02-01",
-      "awarder": "Reliance Foundation"
+      "title": "Reliance Foundation PG Scholar",
+      "date": "2025-01-01",
+      "awarder": "Reliance Foundation",
+      "summary": "One of 100 recipients selected nationwide for academic excellence and leadership"
     },
     {
-      "title": "Best Paper – IEEE ASIACON ’23 (Blockchain Storage)",
-      "date": "2023-05-01",
-      "awarder": "IEEE ASIACON 2023"
+      "title": "GATE CS — 99.09 percentile",
+      "date": "2024-03-01",
+      "awarder": "GATE",
+      "summary": "Top 0.91% nationwide, outperforming 123,967 candidates"
     },
     {
-      "title": "First Place – Kaggle Competitions (CS725 FML)",
+      "title": "Inter IIT Tech Meet 14.0 — Bombay76",
+      "date": "2024-12-01",
+      "awarder": "IIT Bombay",
+      "summary": "Selected as part of IIT Bombay's official contingent for the ObserveAI track"
+    },
+    {
+      "title": "1st Place — Kaggle Competitions, CS725",
       "date": "2024-11-01",
-      "awarder": "IIT Bombay"
+      "awarder": "IIT Bombay",
+      "summary": "1st place in both internal Kaggle competitions, outperforming 198 students"
+    },
+    {
+      "title": "Google Developer Student Club Lead",
+      "date": "2022-08-01",
+      "awarder": "Google",
+      "summary": "First-ever DSC Lead at institute; organized technical workshops and hackathons"
     }
   ],
-
   "languages": [
     { "language": "English", "fluency": "Professional" },
     { "language": "Hindi", "fluency": "Native" },
     { "language": "Marathi", "fluency": "Conversational" },
-    { "language": "Gujarati", "fluency": "Basic" }
+    { "language": "Gujarati", "fluency": "Conversational" }
   ],
-
   "interests": [
+    { "name": "Fantasy Novels", "keywords": ["Sarah J. Maas", "Rebecca Yarros"] },
     { "name": "Gaming & Puzzles" },
-    { "name": "Fantasy Novels" },
     { "name": "Exploring World Cuisines" }
   ]
 }

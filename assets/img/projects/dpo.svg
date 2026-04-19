@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e0533;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#831843;stop-opacity:0.5"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <rect x="0" y="0" width="5" height="420" fill="#ec4899"/>
+  <circle cx="700" cy="100" r="140" fill="#9d174d" opacity="0.1"/>
+  <!-- Preference pair visual -->
+  <!-- Chosen -->
+  <rect x="85" y="120" width="140" height="50" rx="5" fill="#831843" opacity="0.5" stroke="#ec4899" stroke-width="1.5"/>
+  <text x="95" y="140" font-size="11" fill="#fbcfe8" font-family="monospace">✓ chosen</text>
+  <text x="95" y="158" font-size="10" fill="#f9a8d4" font-family="monospace" opacity="0.7">"A warm story..."</text>
+  <!-- Rejected -->
+  <rect x="85" y="185" width="140" height="50" rx="5" fill="#3b0764" opacity="0.5" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="95" y="205" font-size="11" fill="#ddd6fe" font-family="monospace">✗ rejected</text>
+  <text x="95" y="223" font-size="10" fill="#c4b5fd" font-family="monospace" opacity="0.7">"Cold and blunt..."</text>
+  <!-- Arrow to formula -->
+  <line x1="235" y1="168" x2="270" y2="168" stroke="#f0abfc" stroke-width="2"/>
+  <polygon points="270,163 282,168 270,173" fill="#f0abfc"/>
+  <!-- Loss formula -->
+  <rect x="285" y="140" width="170" height="55" rx="5" fill="#4a044e" opacity="0.6"/>
+  <text x="295" y="162" font-size="13" fill="#f0abfc" font-family="monospace">L_DPO(π)</text>
+  <text x="295" y="183" font-size="11" fill="#d8b4fe" font-family="monospace" opacity="0.7">= −E[log σ(β·Δ)]</text>
+  <!-- Text -->
+  <text x="80" y="300" font-size="30" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, sans-serif" fill="white">DPO from Scratch</text>
+  <text x="80" y="338" font-size="20" font-family="-apple-system, BlinkMacSystemFont, sans-serif" fill="#f9a8d4" opacity="0.85">Direct Preference Optimization · PyTorch</text>
+  <rect x="80" y="360" width="145" height="24" rx="4" fill="#9d174d" opacity="0.35"/>
+  <text x="90" y="377" font-size="12" font-family="monospace" fill="#fbcfe8">LLM Alignment · Self Project</text>
+</svg>

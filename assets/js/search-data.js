@@ -16,6 +16,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
+        },{id: "nav-notes",
+          title: "Notes",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/notes/";
+          },
         },{id: "nav-repositories",
           title: "Repositories",
           description: "A curated look at the code I craft, the ideas I prototype, and the coursework that keeps my skills sharp.",
@@ -25,7 +32,7 @@ ninja.data = [{
           },
         },{id: "nav-projects",
           title: "Projects",
-          description: "Coming Soon...",
+          description: "Research, course, and self projects in ML, NLP, and recommender systems.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
@@ -411,7 +418,42 @@ ninja.data = [{
             },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
           title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
           description: "",
-          section: "News",},{
+          section: "News",},{id: "projects-multi-expert-hybrid-retrieval-for-movie-recommendation",
+          title: 'Multi-Expert Hybrid Retrieval for Movie Recommendation',
+          description: "M.S. Thesis — Learned query routing over semantic, lexical, collaborative, and emotion-aware experts for prompt-conditioned recommendation.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/1_thesis/";
+            },},{id: "projects-indian-multilingual-jailbreaking",
+          title: 'Indian Multilingual Jailbreaking',
+          description: "Built Indic-JailbreakBench and proposed four jailbreak techniques achieving up to 35% higher ASR in Indic languages than English.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/2_jailbreak/";
+            },},{id: "projects-signboard-ocr-amp-transliteration",
+          title: 'Signboard OCR &amp;amp; Transliteration',
+          description: "Multilingual OCR pipeline using Faster R-CNN and an attention-based GRU encoder-decoder for Hindi-to-English transliteration. 92% detection, 89% transliteration accuracy.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/3_signboard/";
+            },},{id: "projects-direct-preference-optimization-dpo-from-scratch",
+          title: 'Direct Preference Optimization (DPO) from Scratch',
+          description: "End-to-end PyTorch implementation of the DPO algorithm to align LLM outputs with human preference data.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/4_dpo/";
+            },},{id: "projects-rlhf-pipeline-from-scratch",
+          title: 'RLHF Pipeline from Scratch',
+          description: "Implemented a full RLHF pipeline using Vanilla Policy Gradient (VPG) to steer a GPT-2 SLM to generate positive tiny stories.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/5_rlhf/";
+            },},{id: "projects-nutritionrag-grounded-nutrition-chatbot",
+          title: 'NutritionRAG — Grounded Nutrition Chatbot',
+          description: "Full RAG pipeline with a web app — hybrid BM25 + ANN retrieval over a textbook corpus stored in pgvector, with inline citations.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/6_rag/";
+            },},{id: "projects-cross-lingual-emotion-understanding-for-indic-languages",
+          title: 'Cross-Lingual Emotion Understanding for Indic Languages',
+          description: "Teacher-student distillation of RoBERTa-GoEmotions into IndicBERT across 5 Indic languages — ~3.3× improvement over zero-shot baselines.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/7_emotion/";
+            },},{
         id: 'social-email',
         title: 'email',
         section: 'Socials',

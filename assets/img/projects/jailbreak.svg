@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#4c1d95;stop-opacity:0.5"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <rect x="0" y="0" width="5" height="420" fill="#a855f7"/>
+  <circle cx="680" cy="80" r="150" fill="#6d28d9" opacity="0.1"/>
+  <!-- Lock icon -->
+  <rect x="100" y="155" width="70" height="55" rx="6" fill="none" stroke="#a855f7" stroke-width="2.5"/>
+  <path d="M115 155 Q115 128 135 128 Q155 128 155 155" fill="none" stroke="#a855f7" stroke-width="2.5"/>
+  <circle cx="135" cy="182" r="7" fill="#a855f7" opacity="0.8"/>
+  <line x1="135" y1="182" x2="135" y2="197" stroke="#a855f7" stroke-width="2.5"/>
+  <!-- Crack/break lines -->
+  <line x1="175" y1="145" x2="195" y2="165" stroke="#f0abfc" stroke-width="2" opacity="0.6"/>
+  <line x1="195" y1="145" x2="178" y2="162" stroke="#f0abfc" stroke-width="2" opacity="0.4"/>
+  <!-- Language tags -->
+  <rect x="80" y="240" width="58" height="22" rx="3" fill="#6d28d9" opacity="0.5"/>
+  <text x="90" y="256" font-size="12" fill="#e9d5ff" font-family="monospace">Hindi</text>
+  <rect x="148" y="240" width="66" height="22" rx="3" fill="#6d28d9" opacity="0.5"/>
+  <text x="158" y="256" font-size="12" fill="#e9d5ff" font-family="monospace">Bengali</text>
+  <rect x="224" y="240" width="68" height="22" rx="3" fill="#6d28d9" opacity="0.5"/>
+  <text x="234" y="256" font-size="12" fill="#e9d5ff" font-family="monospace">Marathi</text>
+  <!-- Text -->
+  <text x="80" y="308" font-size="30" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, sans-serif" fill="white">Multilingual Jailbreaking</text>
+  <text x="80" y="346" font-size="20" font-family="-apple-system, BlinkMacSystemFont, sans-serif" fill="#d8b4fe" opacity="0.85">Indic LLM Safety · CS626 · IIT Bombay</text>
+  <rect x="80" y="368" width="110" height="24" rx="4" fill="#7c3aed" opacity="0.3"/>
+  <text x="90" y="385" font-size="12" font-family="monospace" fill="#d8b4fe">35% higher ASR</text>
+</svg>
