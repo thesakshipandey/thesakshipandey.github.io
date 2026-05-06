@@ -76,19 +76,19 @@ For the optimal value function, the Bellman equation takes a nonlinear form invo
 
 **Lemma 5.3.** *For a discounted MDP $M(S, A, P, C, \alpha)$:*
 
-$$V^*(i) = \min_{a \in A}\!\left[c_{i,a} + \alpha \sum_{j \in S} p_{i,j}(a) V^*(j)\right] \quad \forall i \in S$$
+$$V^\ast(i) = \min_{a \in A}\!\left[c_{i,a} + \alpha \sum_{j \in S} p_{i,j}(a) V^\ast(j)\right] \quad \forall i \in S$$
 
 **Proof.** For any policy $\pi$:
 
 $$V_\pi(i) = \sum_{a \in A} P_\pi(a)\!\left[c(i, a) + \sum_{j \in S} p_{i,j}(a) W(j)\right]$$
 
-where $W(j)$ is the expected discounted cost from time step 1 onwards under $\pi$. Since $W(j) \geq \alpha V^*(j)$ (the optimal value is a lower bound on any future cost):
+where $W(j)$ is the expected discounted cost from time step 1 onwards under $\pi$. Since $W(j) \geq \alpha V^\ast(j)$ (the optimal value is a lower bound on any future cost):
 
-$$V_\pi(i) \geq \sum_{a \in A} P_\pi(a)\!\left[c(i,a) + \alpha \sum_{j \in S} p_{i,j}(a) V^*(j)\right] \geq \min_{a \in A}\!\left[c(i,a) + \alpha \sum_{j \in S} p_{i,j}(a) V^*(j)\right]$$
+$$V_\pi(i) \geq \sum_{a \in A} P_\pi(a)\!\left[c(i,a) + \alpha \sum_{j \in S} p_{i,j}(a) V^\ast(j)\right] \geq \min_{a \in A}\!\left[c(i,a) + \alpha \sum_{j \in S} p_{i,j}(a) V^\ast(j)\right]$$
 
 This holds for all policies $\pi$. Taking the infimum over $\pi$:
 
-$$V^*(i) \geq \min_{a \in A}\!\left[c(i,a) + \alpha \sum_{j \in S} p_{i,j}(a) V^*(j)\right]$$
+$$V^\ast(i) \geq \min_{a \in A}\!\left[c(i,a) + \alpha \sum_{j \in S} p_{i,j}(a) V^\ast(j)\right]$$
 
 The reverse inequality follows from the existence of an optimal policy (Theorem 5.1): applying the optimal action at state $i$ achieves the minimum. $\square$
 
@@ -96,6 +96,6 @@ The reverse inequality follows from the existence of an optimal policy (Theorem 
 
 ## Significance
 
-The Bellman optimality equations characterize $V^*$ uniquely. However, unlike the policy-specific equations, they are nonlinear (due to the $\min$). This is why we cannot directly solve them as a linear system.
+The Bellman optimality equations characterize $V^\ast$ uniquely. However, unlike the policy-specific equations, they are nonlinear (due to the $\min$). This is why we cannot directly solve them as a linear system.
 
 The Bellman operator framework (next post) turns this into an iterative algorithm.

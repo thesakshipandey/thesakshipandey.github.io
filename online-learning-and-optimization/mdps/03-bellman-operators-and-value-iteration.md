@@ -26,17 +26,17 @@ $$B_\pi(F(i)) \stackrel{\text{def}}{=} c_i(\pi(i)) + \alpha \sum_{j \in S} p_{i,
 
 **Definition (Bellman Optimality Operator).** The policy-free version minimizes over all actions:
 
-$$B^*(F(i)) \stackrel{\text{def}}{=} \min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) \cdot F(j)\right]$$
+$$B^\ast(F(i)) \stackrel{\text{def}}{=} \min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) \cdot F(j)\right]$$
 
 By the Bellman equations:
 - $V_\pi$ is the unique fixed point of $B_\pi$: $B_\pi(V_\pi) = V_\pi$
-- $V^*$ is the unique fixed point of $B^*$: $B^*(V^*) = V^*$
+- $V^\ast$ is the unique fixed point of $B^\ast$: $B^\ast(V^\ast) = V^\ast$
 
 ---
 
 ## Contraction Property
 
-**Lemma 5.4.** *Both $B_\pi$ and $B^*$ are contraction maps in the Banach space $(\mathbb{R}^S, \|\cdot\|_\infty)$ with contraction factor $\alpha$.*
+**Lemma 5.4.** *Both $B_\pi$ and $B^\ast$ are contraction maps in the Banach space $(\mathbb{R}^S, \|\cdot\|_\infty)$ with contraction factor $\alpha$.*
 
 **Proof for $B_\pi$.**
 
@@ -46,25 +46,25 @@ $$\leq \alpha \max_{i \in S} \sum_j p_{i,j}(\pi(i)) |F(j) - G(j)| \leq \alpha \m
 
 So $B_\pi$ is a contraction with factor $\alpha < 1$. $\square$
 
-**Proof for $B^*$.** The difficulty is the $\min$: the minimizing action may differ for $F$ and $G$.
+**Proof for $B^\ast$.** The difficulty is the $\min$: the minimizing action may differ for $F$ and $G$.
 
 Let $a'$ be the minimizer for $G$ at state $i$. Then:
 
-$$B^*(F(i)) - B^*(G(i)) \leq \left[c_i(a') + \alpha\sum_j p_{i,j}(a') F(j)\right] - \left[c_i(a') + \alpha\sum_j p_{i,j}(a') G(j)\right]$$
+$$B^\ast(F(i)) - B^\ast(G(i)) \leq \left[c_i(a') + \alpha\sum_j p_{i,j}(a') F(j)\right] - \left[c_i(a') + \alpha\sum_j p_{i,j}(a') G(j)\right]$$
 
 $$= \alpha \sum_j p_{i,j}(a')[F(j) - G(j)] \leq \alpha \|F - G\|_\infty$$
 
 By symmetry (swapping $F$ and $G$), the bound holds in both directions:
 
-$$\|B^*(F) - B^*(G)\|_\infty \leq \alpha \|F - G\|_\infty \quad \square$$
+$$\|B^\ast(F) - B^\ast(G)\|_\infty \leq \alpha \|F - G\|_\infty \quad \square$$
 
 ---
 
 ## Value Iteration
 
-Since $B^*$ is a contraction map, by **Banach's Fixed Point Theorem** (see Appendix C), starting from any initial value function $V_0$, iterating $B^*$ converges to the unique fixed point $V^*$:
+Since $B^\ast$ is a contraction map, by **Banach's Fixed Point Theorem** (see Appendix C), starting from any initial value function $V_0$, iterating $B^\ast$ converges to the unique fixed point $V^\ast$:
 
-$$V_t \to V^* \quad \text{as } t \to \infty, \quad \text{at rate } \alpha^t$$
+$$V_t \to V^\ast \quad \text{as } t \to \infty, \quad \text{at rate } \alpha^t$$
 
 **Algorithm 15: Value Iteration**
 
@@ -83,15 +83,15 @@ $t = 0$
 
 From the contraction property:
 
-$$\|V_t - V^*\|_\infty \leq \alpha^t \|V_0 - V^*\|_\infty$$
+$$\|V_t - V^\ast\|_\infty \leq \alpha^t \|V_0 - V^\ast\|_\infty$$
 
-To achieve $\epsilon$-accuracy, we need $t \geq \frac{\ln(1/\epsilon) + \ln\|V_0 - V^*\|_\infty}{\ln(1/\alpha)}$ iterations. For small $\alpha$ (heavy discounting), convergence is fast. For $\alpha$ close to 1, convergence slows significantly.
+To achieve $\epsilon$-accuracy, we need $t \geq \frac{\ln(1/\epsilon) + \ln\|V_0 - V^\ast\|_\infty}{\ln(1/\alpha)}$ iterations. For small $\alpha$ (heavy discounting), convergence is fast. For $\alpha$ close to 1, convergence slows significantly.
 
 ### Extracting the Optimal Policy
 
-Once $V^*$ is known (approximately), the optimal policy is:
+Once $V^\ast$ is known (approximately), the optimal policy is:
 
-$$\pi^*(s) = \arg\min_{a \in A}\!\left[c_s(a) + \alpha \sum_{s'} p_{s,s'}(a) V^*(s')\right]$$
+$$\pi^\ast(s) = \arg\min_{a \in A}\!\left[c_s(a) + \alpha \sum_{s'} p_{s,s'}(a) V^\ast(s')\right]$$
 
 ---
 
@@ -101,10 +101,10 @@ For completeness, the theorem that underpins Value Iteration:
 
 **Theorem C.1 (Banach's Fixed Point Theorem).** *Let $(X, \|\cdot\|)$ be a Banach space and $Z: X \to X$ be a contraction map with factor $l \in [0, 1)$. Then:*
 
-- $Z$ has a unique fixed point $x^* \in X$.
-- For all $x \in X$ and $m \geq 0$: $\|Z^m(x) - x^*\| \leq l^m \|x - x^*\|$.
+- $Z$ has a unique fixed point $x^\ast \in X$.
+- For all $x \in X$ and $m \geq 0$: $\|Z^m(x) - x^\ast\| \leq l^m \|x - x^\ast\|$.
 
-Applying to $Z = B^*$ and $X = \mathbb{R}^S$ with $l = \alpha$: Value Iteration converges to the unique $V^*$ at a geometric rate.
+Applying to $Z = B^\ast$ and $X = \mathbb{R}^S$ with $l = \alpha$: Value Iteration converges to the unique $V^\ast$ at a geometric rate.
 
 ---
 
@@ -112,4 +112,4 @@ Applying to $Z = B^*$ and $X = \mathbb{R}^S$ with $l = \alpha$: Value Iteration 
 
 For a fixed policy $\pi$, the Bellman equations are linear and can be solved exactly as $(I - \alpha P_\pi) V_\pi = C_\pi$. This requires $O(|S|^3)$ time (matrix inversion).
 
-Value Iteration instead applies the nonlinear $B^*$ iteratively. Each iteration costs $O(|S|^2|A|)$ (one Bellman backup per state). For large state spaces where $|S|^3$ is prohibitive, Value Iteration is more practical.
+Value Iteration instead applies the nonlinear $B^\ast$ iteratively. Each iteration costs $O(|S|^2|A|)$ (one Bellman backup per state). For large state spaces where $|S|^3$ is prohibitive, Value Iteration is more practical.

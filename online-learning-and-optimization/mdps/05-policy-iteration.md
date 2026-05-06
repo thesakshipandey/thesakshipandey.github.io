@@ -20,25 +20,25 @@ Value Iteration works on the value function space. Policy Iteration works direct
 
 ## Greedy Policy Improvement
 
-Given a stationary policy $f$, define the **one-step improvement** $f^*$:
+Given a stationary policy $f$, define the **one-step improvement** $f^\ast$:
 
-$$f^*(x) = \begin{cases} \arg\min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) V_f(j)\right] & \text{if } x = i \\ f(x) & \text{otherwise} \end{cases}$$
+$$f^\ast(x) = \begin{cases} \arg\min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) V_f(j)\right] & \text{if } x = i \\ f(x) & \text{otherwise} \end{cases}$$
 
-The policy $f^*$ applies the optimal action at state $i$ (for a single chosen state) and follows $f$ everywhere else.
+The policy $f^\ast$ applies the optimal action at state $i$ (for a single chosen state) and follows $f$ everywhere else.
 
-**Lemma 5.6.** $V_{f^*} \leq V_f$ (component-wise).
+**Lemma 5.6.** $V_{f^\ast} \leq V_f$ (component-wise).
 
-**Proof.** Apply the Bellman operator $B_{f^*}$:
+**Proof.** Apply the Bellman operator $B_{f^\ast}$:
 
-$$(B_{f^*}(V_f))(i) = c_i(f^*(i)) + \alpha \sum_j p_{ij}(f^*(i)) V_f(j)$$
+$$(B_{f^\ast}(V_f))(i) = c_i(f^\ast(i)) + \alpha \sum_j p_{ij}(f^\ast(i)) V_f(j)$$
 
-By definition of $f^*$, the action $f^*(i)$ minimizes $[c_i(a) + \alpha\sum_j p_{ij}(a) V_f(j)]$, so:
+By definition of $f^\ast$, the action $f^\ast(i)$ minimizes $[c_i(a) + \alpha\sum_j p_{ij}(a) V_f(j)]$, so:
 
 $$\leq c_i(f(i)) + \alpha\sum_j p_{ij}(f(i)) V_f(j) = (B_f(V_f))(i) = V_f(i)$$
 
-So $B_{f^*}(V_f) \leq V_f$. Since $B_{f^*}$ is a contraction:
+So $B_{f^\ast}(V_f) \leq V_f$. Since $B_{f^\ast}$ is a contraction:
 
-$$V_{f^*} = \lim_{n \to \infty} B_{f^*}^n(V_f) \leq V_f \quad \square$$
+$$V_{f^\ast} = \lim_{n \to \infty} B_{f^\ast}^n(V_f) \leq V_f \quad \square$$
 
 The core insight: improving the policy myopically at a single state always results in a globally better policy.
 
@@ -118,16 +118,16 @@ $$C(i, 1) = R + L(0) \quad \text{(replace)} \quad C(i, 0) = L(i) \quad \text{(ke
 
 The Bellman equation is:
 
-$$V^*(i) = \min\!\left\{L(i) + \alpha \sum_j P_{ij} V^*(j), \; R + L(0) + \sum_j P_{0j} V^*(j)\right\}$$
+$$V^\ast(i) = \min\!\left\{L(i) + \alpha \sum_j P_{ij} V^\ast(j), \; R + L(0) + \sum_j P_{0j} V^\ast(j)\right\}$$
 
 **Claim 5.8.** *For an increasing function $h(\cdot)$, $\sum_{j=k}^\infty P_{ij} h(j)$ is increasing in $i$.*
 
-**Lemma 5.9.** *The optimal value function $V^*(i)$ is increasing in $i$.*
+**Lemma 5.9.** *The optimal value function $V^\ast(i)$ is increasing in $i$.*
 
-Proof by induction using Value Iteration: $V_1(i) = \min(R + L(0), L(i))$ is increasing (since $L$ is increasing). The Bellman update preserves monotonicity at each step, so $V^*$ is increasing.
+Proof by induction using Value Iteration: $V_1(i) = \min(R + L(0), L(i))$ is increasing (since $L$ is increasing). The Bellman update preserves monotonicity at each step, so $V^\ast$ is increasing.
 
-**Optimal policy structure:** Since $L(i)$ increases and $R + L(0) + \sum_j P_{0j} V^*(j)$ is constant in $i$, there exists a threshold $i^*$ such that:
+**Optimal policy structure:** Since $L(i)$ increases and $R + L(0) + \sum_j P_{0j} V^\ast(j)$ is constant in $i$, there exists a threshold $i^\ast$ such that:
 
-$$i^* = \max\!\left\{i : L(i) + \alpha \sum_j P_{ij} V^*(j) \leq R + L(0) + \sum_j P_{0j} V^*(j)\right\}$$
+$$i^\ast = \max\!\left\{i : L(i) + \alpha \sum_j P_{ij} V^\ast(j) \leq R + L(0) + \sum_j P_{0j} V^\ast(j)\right\}$$
 
-The optimal policy is: keep if $i \leq i^*$, replace if $i > i^*$. This is a **threshold policy**: once degradation crosses the threshold, replacement is optimal.
+The optimal policy is: keep if $i \leq i^\ast$, replace if $i > i^\ast$. This is a **threshold policy**: once degradation crosses the threshold, replacement is optimal.

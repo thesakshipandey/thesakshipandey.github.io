@@ -82,7 +82,7 @@ $$R_n^{\text{REWMA}} \leq \mathbb{E}\!\left[R_n^{\text{REWMA}}\right] + \sqrt{\f
 | Algorithm | Assumption | Regret |
 |---|---|---|
 | Majority (MA) | Perfect expert exists | $\leq \log_2 K$ mistakes (absolute) |
-| Weighted Majority (WMA) | None (0-1 loss) | $\leq \frac{2}{1-\beta} L^* + \frac{2}{\beta} \ln K$ |
+| Weighted Majority (WMA) | None (0-1 loss) | $\leq \frac{2}{1-\beta} L^\ast + \frac{2}{\beta} \ln K$ |
 | Exponential WMA (EWMA) | Convex loss, $\mathcal{D}$ convex | $O(\sqrt{n \ln K})$ |
 | Randomized EWMA | Convex loss, $\mathcal{D}$ arbitrary | $O(\sqrt{n \ln K})$ in expectation |
 

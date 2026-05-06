@@ -24,7 +24,7 @@ The algorithm outputs a triple: a sampling rule (which arm to pull), a stopping 
 
 **Definition.** An algorithm is $\delta$-**probably correct** ($\delta$-PC) if:
 
-$$\mathbb{P}\{\tau < \infty, \hat{a} \neq a^*\} \leq \delta$$
+$$\mathbb{P}\{\tau < \infty, \hat{a} \neq a^\ast\} \leq \delta$$
 
 That is, if the algorithm ever stops, the probability it returns the wrong arm is at most $\delta$.
 
@@ -44,7 +44,7 @@ where $\Delta_1 = \Delta_2 = \mu_1 - \mu_2$.
 
 $$\mu_i^{[1]} = \begin{cases} \mu_2 - \epsilon & i = 1 \\ \mu_i & i \neq 1 \end{cases} \quad \mu_i^{[a]} = \begin{cases} \mu_a + \Delta_a + \epsilon & i = a \\ \mu_i & i \neq a \end{cases}$$
 
-For each $a$, define event $A = \{\tau < \infty, \hat{a} \neq a^*_{\mu^{[a]}}\}$.
+For each $a$, define event $A = \{\tau < \infty, \hat{a} \neq a^\ast_{\mu^{[a]}}\}$.
 
 Since the algorithm is $\delta$-PC, $\mathbb{P}_{\mu^{[a]}}(A) \leq \delta$.
 

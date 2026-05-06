@@ -18,7 +18,7 @@ Discounted MDPs are mathematically convenient but artificially downweight long-t
 
 $$\Phi_\pi(i) = \limsup_{n \to \infty} \frac{1}{n+1} \mathbb{E}_\pi\!\left[\sum_{t=0}^n C(X_t, A_t) \;\Big|\; X_0 = i\right]$$
 
-The MDP is now $\mathcal{M} = (S, A, P, C)$ with no discount factor. A policy $\pi^*$ is optimal if $\Phi_{\pi^*}(i) = \inf_\pi \Phi_\pi(i)$ for all $i \in S$.
+The MDP is now $\mathcal{M} = (S, A, P, C)$ with no discount factor. A policy $\pi^\ast$ is optimal if $\Phi_{\pi^\ast}(i) = \inf_\pi \Phi_\pi(i)$ for all $i \in S$.
 
 ---
 
@@ -56,8 +56,8 @@ The expected time at state $i$ is $2^i$, and by the Stolz-Cesaro theorem, the ti
 $$g + h(i) = \min_{a \in A}\!\left[c_i(a) + \sum_{j \in S} p_{ij}(a) h(j)\right] \quad \forall i \in S$$
 
 *Then a stationary optimal policy exists:*
-- $\pi^*(i) = \arg\min_{a \in A}\!\left[c_i(a) + \sum_{j \in S} p_{ij}(a) h(j)\right]$
-- $\Phi_{\pi^*}(i) = g$ for all $i \in S$
+- $\pi^\ast(i) = \arg\min_{a \in A}\!\left[c_i(a) + \sum_{j \in S} p_{ij}(a) h(j)\right]$
+- $\Phi_{\pi^\ast}(i) = g$ for all $i \in S$
 
 This equation is the **ETA Bellman equation**. It looks like the discounted Bellman equation but with $\alpha = 1$ and a normalization by $g$ instead of discounting. Here $h$ plays the role of the value function and $g$ is the optimal average cost.
 
@@ -93,9 +93,9 @@ If this limit exists, the ETA Bellman equation is satisfied, guaranteeing a stat
 
 The boundedness condition $|V_\alpha(i) - V_\alpha(0)| < N$ is related to how quickly the MDP can return to state 0.
 
-**Definition.** The **expected hitting time** $M_{i,0}(\pi^*_\alpha)$ is the expected time to reach state 0 from state $i$ under the optimal discounted policy $\pi^*_\alpha$.
+**Definition.** The **expected hitting time** $M_{i,0}(\pi^\ast_\alpha)$ is the expected time to reach state 0 from state $i$ under the optimal discounted policy $\pi^\ast_\alpha$.
 
-**Theorem 5.12.** *If $\exists N < \infty$ such that the expected hitting time $M_{i,0}(\pi^*_\alpha) < N$ for all $i, \alpha$, then $|V_\alpha(i) - V_\alpha(0)| < N$ for all $\alpha, i$.*
+**Theorem 5.12.** *If $\exists N < \infty$ such that the expected hitting time $M_{i,0}(\pi^\ast_\alpha) < N$ for all $i, \alpha$, then $|V_\alpha(i) - V_\alpha(0)| < N$ for all $\alpha, i$.*
 
 **Proof sketch.** The value function from state $i$ can be split into the cost of reaching state 0 (bounded by $CN$) and the cost from state 0 onwards ($V_\alpha(0)$). The difference is bounded by $CN$. The reverse bound follows from Jensen's inequality. $\square$
 
@@ -111,6 +111,6 @@ This is the practical condition most finite-state MDPs satisfy.
 |---|---|---|
 | Objective | $\inf_\pi \mathbb{E}[\sum_t \alpha^t C_t]$ | $\inf_\pi \limsup \frac{1}{n}\mathbb{E}[\sum_t C_t]$ |
 | Optimal stationary policy? | Always (Theorem 5.1) | Not always |
-| Bellman equation | $V^*(i) = \min_a[c + \alpha \sum p V^*]$ | $g + h(i) = \min_a[c + \sum p h]$ |
+| Bellman equation | $V^\ast(i) = \min_a[c + \alpha \sum p V^\ast]$ | $g + h(i) = \min_a[c + \sum p h]$ |
 | Key algorithm | Value Iteration / Policy Iteration | Same, when $g, h$ exist |
 | Sufficient condition | $\alpha < 1$ | Finite state + irreducibility |

@@ -99,17 +99,17 @@ The minimax bound applies to the worst case. What about a specific instance?
 
 **Consistent policy:** A policy $\Pi$ is consistent on family $\mathcal{E}^K$ if for all $\nu \in \mathcal{E}^K$, the regret $R_n(\Pi, \nu) = o(n^a)$ for all $a > 0$. UCB is consistent (it has logarithmic regret).
 
-**Definition:** For arm $i$ with distribution $\nu_i$ and optimal mean $\mu^*$:
+**Definition:** For arm $i$ with distribution $\nu_i$ and optimal mean $\mu^\ast$:
 
-$$d_{\inf}(\nu_i, \mu^*, \mathcal{E}) = \inf\!\left\{\text{KL}(\nu_i, \nu'_i) : \nu'_i \in \mathcal{E}, \mu(\nu'_i) > \mu^*\right\}$$
+$$d_{\inf}(\nu_i, \mu^\ast, \mathcal{E}) = \inf\!\left\{\text{KL}(\nu_i, \nu'_i) : \nu'_i \in \mathcal{E}, \mu(\nu'_i) > \mu^\ast\right\}$$
 
 This is the smallest KL-divergence perturbation needed to make arm $i$ optimal.
 
 **Theorem 4.4 (Lai-Robbins Lower Bound).** *For any consistent policy $\Pi$ over $\mathcal{E}^K$ and any instance $\nu \in \mathcal{E}^K$:*
 
-$$\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i: \Delta_i > 0} \frac{\Delta_i}{d_{\inf}(\nu_i, \mu^*, \mathcal{E})}$$
+$$\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i: \Delta_i > 0} \frac{\Delta_i}{d_{\inf}(\nu_i, \mu^\ast, \mathcal{E})}$$
 
-**For Gaussian arms** ($\mathcal{E} = \mathcal{E}_{\mathcal{N}}(1)$): $d_{\inf}(\nu_i, \mu^*, \mathcal{E}) = \Delta_i^2/2$, giving:
+**For Gaussian arms** ($\mathcal{E} = \mathcal{E}_{\mathcal{N}}(1)$): $d_{\inf}(\nu_i, \mu^\ast, \mathcal{E}) = \Delta_i^2/2$, giving:
 
 $$\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i:\Delta_i>0} \frac{2}{\Delta_i}$$
 

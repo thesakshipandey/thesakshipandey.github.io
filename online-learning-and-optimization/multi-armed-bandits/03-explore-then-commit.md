@@ -68,7 +68,7 @@ $$R_n^{\text{ETC}} \leq m\Delta + (n - 2m)\Delta \cdot e^{-m\Delta^2/4}$$
 
 Differentiating with respect to $m$ and setting to zero:
 
-$$m^* = \frac{4}{\Delta^2} \ln\!\left(\frac{n\Delta^2}{4}\right)$$
+$$m^\ast = \frac{4}{\Delta^2} \ln\!\left(\frac{n\Delta^2}{4}\right)$$
 
 Substituting back:
 
@@ -80,11 +80,11 @@ $$R_n^{\text{ETC}} \leq \frac{4}{\Delta}\left[1 + \ln\!\left(\frac{n\Delta^2}{4}
 
 **Logarithmic regret:** Even in the best case (optimal $m$), regret scales as $O(\ln n / \Delta)$. This is the fundamental scale for stochastic bandit problems.
 
-**Instance-dependent bound:** The bound depends on $\Delta$. As $\Delta \to 0$, the optimal $m^*$ explodes: arms that are very close in distribution require far more exploration to distinguish. This makes intuitive sense.
+**Instance-dependent bound:** The bound depends on $\Delta$. As $\Delta \to 0$, the optimal $m^\ast$ explodes: arms that are very close in distribution require far more exploration to distinguish. This makes intuitive sense.
 
-**You need to know $\Delta$ to set $m^*$:** In practice, $\Delta$ is unknown. ETC requires knowing the sub-optimality gap to tune $m$, which it does not have access to.
+**You need to know $\Delta$ to set $m^\ast$:** In practice, $\Delta$ is unknown. ETC requires knowing the sub-optimality gap to tune $m$, which it does not have access to.
 
-**ETC is anytime:** Algorithm 7 itself does not depend on $n$ (it just commits after $mK$ pulls). However, finding $m^*$ requires $n$. A doubling trick can make this fully anytime.
+**ETC is anytime:** Algorithm 7 itself does not depend on $n$ (it just commits after $mK$ pulls). However, finding $m^\ast$ requires $n$. A doubling trick can make this fully anytime.
 
 **Lower bound:** Even with optimal $m$, the regret is $\Omega(\ln n)$. Logarithmic regret is both achievable and optimal for stochastic bandits. The question is whether we can achieve it without knowing $\Delta$.
 

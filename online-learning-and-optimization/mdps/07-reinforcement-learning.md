@@ -52,15 +52,15 @@ Then run Value Iteration or Policy Iteration on the estimated MDP $(\hat{P}, \ha
 
 ## Q-Learning (Model-Free, Off-Policy)
 
-Q-learning directly estimates $Q^*$ without learning $P$ or $C$. The update rule:
+Q-learning directly estimates $Q^\ast$ without learning $P$ or $C$. The update rule:
 
 $$\hat{Q}(X_t, A_t) \leftarrow \hat{Q}(X_t, A_t) + a_t\!\left[C_t + \alpha \min_{a'} \hat{Q}(X_{t+1}, a') - \hat{Q}(X_t, A_t)\right]$$
 
 where $a_t$ is a step size (learning rate). The term in brackets is the **temporal difference (TD) error**: the difference between the target $C_t + \alpha \min_{a'} \hat{Q}(X_{t+1}, a')$ and the current estimate $\hat{Q}(X_t, A_t)$.
 
-**Intuition:** The update pushes $\hat{Q}(X_t, A_t)$ toward the Bellman target $C_t + \alpha \min_{a'} \hat{Q}(X_{t+1}, a')$. As data accumulates, $\hat{Q}$ converges to $Q^*$.
+**Intuition:** The update pushes $\hat{Q}(X_t, A_t)$ toward the Bellman target $C_t + \alpha \min_{a'} \hat{Q}(X_{t+1}, a')$. As data accumulates, $\hat{Q}$ converges to $Q^\ast$.
 
-**Convergence:** Q-learning converges to $Q^*$ almost surely if:
+**Convergence:** Q-learning converges to $Q^\ast$ almost surely if:
 - Every state-action pair is visited infinitely often.
 - Step sizes satisfy $\sum_t a_t = \infty$ and $\sum_t a_t^2 < \infty$ (e.g., $a_t = 1/t$).
 
@@ -78,15 +78,15 @@ Action selection uses $\varepsilon$-greedy:
 
 $$A_t = \begin{cases} \arg\min_{a'} \hat{Q}(X_t, a') & \text{w.p. } 1 - \varepsilon_t \\ \text{Random} & \text{w.p. } \varepsilon_t \end{cases}$$
 
-SARSA learns the Q-function of the **behavior policy** (including its exploration). Q-learning learns $Q^*$ regardless of the behavior policy.
+SARSA learns the Q-function of the **behavior policy** (including its exploration). Q-learning learns $Q^\ast$ regardless of the behavior policy.
 
 ---
 
 ## Deep Q-Learning (Neural Function Approximation)
 
-For large or continuous state spaces, storing a full Q-table is infeasible. Deep Q-learning uses a neural network with parameters $\theta$ to approximate $Q^*$:
+For large or continuous state spaces, storing a full Q-table is infeasible. Deep Q-learning uses a neural network with parameters $\theta$ to approximate $Q^\ast$:
 
-$$Q_\theta(x, a) \approx Q^*(x, a)$$
+$$Q_\theta(x, a) \approx Q^\ast(x, a)$$
 
 **Training procedure:**
 1. Collect transitions $(X_t, A_t, C_t, X_{t+1})$ into a **replay buffer** (a mini-batch $B$).

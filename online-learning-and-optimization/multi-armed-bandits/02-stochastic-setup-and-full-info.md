@@ -28,13 +28,13 @@ The goal is to **maximize expected cumulative reward** over horizon $n$. This is
 
 Let $\mu_i = \mathbb{E}_{X \sim \nu_i}[X]$ be the mean reward of arm $i$. Define:
 
-$$\mu^* = \max_{i \in [K]} \mu_i \quad \text{(optimal mean reward)}$$
+$$\mu^\ast = \max_{i \in [K]} \mu_i \quad \text{(optimal mean reward)}$$
 
-$$\Delta_i \stackrel{\text{def}}{=} \mu^* - \mu_i \quad \text{(sub-optimality gap of arm } i\text{)}$$
+$$\Delta_i \stackrel{\text{def}}{=} \mu^\ast - \mu_i \quad \text{(sub-optimality gap of arm } i\text{)}$$
 
 The **regret** of policy $\pi$ against instance $\nu$ over horizon $n$:
 
-$$R_n(\pi, \nu) = n\mu^* - \mathbb{E}\!\left[\sum_{t=1}^n X_t\right]$$
+$$R_n(\pi, \nu) = n\mu^\ast - \mathbb{E}\!\left[\sum_{t=1}^n X_t\right]$$
 
 Let $T_i(n) = \sum_{t=1}^n \mathbf{1}[A_t = i]$ be the number of pulls of arm $i$ by time $n$.
 
@@ -48,7 +48,7 @@ $$R_n(\pi, \nu) = \sum_{i \in [K]} \Delta_i \cdot \mathbb{E}[T_i(n)]$$
 
 **Proof.** Starting from the definition:
 
-$$R_n = \sum_{t=1}^n \mathbb{E}[\mu^* - \mu_{A_t}] = \sum_{t=1}^n \mathbb{E}[\Delta_{A_t}]$$
+$$R_n = \sum_{t=1}^n \mathbb{E}[\mu^\ast - \mu_{A_t}] = \sum_{t=1}^n \mathbb{E}[\Delta_{A_t}]$$
 
 Now $\Delta_{A_t} = \sum_{i=1}^K \mathbf{1}[A_t = i] \cdot \Delta_i$, so:
 
@@ -56,7 +56,7 @@ $$R_n = \sum_{t=1}^n \mathbb{E}\!\left[\sum_{i=1}^K \mathbf{1}[A_t = i] \cdot \D
 
 **Interpretation:** Regret is the weighted count of sub-optimal arm pulls, weighted by how sub-optimal each arm is. To minimize regret, pull sub-optimal arms as few times as possible.
 
-Note: the optimal arm $i^*$ may not be unique. All arms with $\Delta_i = 0$ are optimal and the framework still works.
+Note: the optimal arm $i^\ast$ may not be unique. All arms with $\Delta_i = 0$ are optimal and the framework still works.
 
 ---
 

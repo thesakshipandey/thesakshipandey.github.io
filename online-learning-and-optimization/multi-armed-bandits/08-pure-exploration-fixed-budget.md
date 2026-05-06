@@ -18,8 +18,8 @@ All previous MAB algorithms aimed to maximize cumulative reward (minimize regret
 
 In the **fixed budget** variant:
 - You are given a total budget of $n$ arm pulls.
-- After exhausting the budget, you must output an estimate $\hat{a}$ of the best arm $a^* = \arg\max_i \mu_i$.
-- The metric is the **error probability** $p_e = \mathbb{P}\{\hat{a} \neq a^*\}$.
+- After exhausting the budget, you must output an estimate $\hat{a}$ of the best arm $a^\ast = \arg\max_i \mu_i$.
+- The metric is the **error probability** $p_e = \mathbb{P}\{\hat{a} \neq a^\ast\}$.
 
 The aim is to minimize $p_e$ within the budget.
 
