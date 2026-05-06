@@ -507,38 +507,13 @@
 
 <p><strong>Claim 1.1.</strong> <em>The loss under the Majority Algorithm is at most $\log_2 K$.</em></p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-<strong>Proof.</strong> Every time the agent makes a mistake, it means the majority voted incorrectly, which implies at least half of the experts in $S$ voted wrong. Those experts are eliminated, so $</td>
-      <td>S</td>
-      <td>$ drops by at least a factor of $2$ on each mistake.</td>
-    </tr>
-  </tbody>
-</table>
+<p><strong>Proof.</strong> Every time the agent makes a mistake, it means the majority voted incorrectly, which implies at least half of the experts in $S$ voted wrong. Those experts are eliminated, so $\lvert S\rvert $ drops by at least a factor of $2$ on each mistake.</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>Starting from $</td>
-      <td>S_0</td>
-      <td>= K$, after $L_n$ mistakes we have:</td>
-    </tr>
-  </tbody>
-</table>
+<p>Starting from $\lvert S_0\rvert  = K$, after $L_n$ mistakes we have:</p>
 
 \[|S_{L_n}| \leq \frac{K}{2^{L_n}}\]
 
-<table>
-  <tbody>
-    <tr>
-      <td>Since $</td>
-      <td>S</td>
-      <td>\geq 1$ as long as the perfect expert survives (by Assumption 1), we need:</td>
-    </tr>
-  </tbody>
-</table>
+<p>Since $\lvert S\rvert  \geq 1$ as long as the perfect expert survives (by Assumption 1), we need:</p>
 
 \[\frac{K}{2^{L_n}} \geq 1 \implies L_n \leq \log_2 K\]
 

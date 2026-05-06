@@ -531,18 +531,8 @@
   <li>Elimination set $E = {i \in A : \exists\, j \in A \text{ s.t. } \text{UCB}_i(t) \leq \text{LCB}_j(t)}$</li>
   <li>$A \leftarrow A \setminus E$</li>
   <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>
-<strong>If</strong> $</td>
-          <td>A</td>
-          <td>= 1$: <strong>return</strong> the sole arm and <strong>STOP</strong>
-</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+<strong>If</strong> $\lvert A\rvert  = 1$: <strong>return</strong> the sole arm and <strong>STOP</strong>
+</li>
   <li>
 <strong>Else</strong> $t \leftarrow t + 1$</li>
 </ul>
@@ -553,16 +543,7 @@
 
 <p><strong>Claim 4.6.</strong> <em>Algorithm 13 is $\delta$-PC.</em></p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-<strong>Proof.</strong> Define the bad event $B_i(t) = {</td>
-      <td>\hat{\mu}_i(t) - \mu_i</td>
-      <td>&gt; \alpha_t}$ where $\alpha_t = \sqrt{\frac{2}{t}\ln\frac{2Kt^2C}{\delta}}$.</td>
-    </tr>
-  </tbody>
-</table>
+<p><strong>Proof.</strong> Define the bad event $B_i(t) = {\lvert \hat{\mu}_i(t) - \mu_i\rvert  &gt; \alpha_t}$ where $\alpha_t = \sqrt{\frac{2}{t}\ln\frac{2Kt^2C}{\delta}}$.</p>
 
 \[\mathbb{P}(B_i(t)) \leq 2\exp\!\left\{\frac{-t\alpha_t^2}{2}\right\} = \frac{\delta}{Kt^2C}\]
 

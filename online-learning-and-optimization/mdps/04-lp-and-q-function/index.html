@@ -492,32 +492,9 @@
 
 \[\boxed{V^\ast = \max \sum_{i \in S} V(i) \quad \text{s.t.} \quad V(i) \leq c_i(a) + \alpha \sum_{j \in S} p_{ij}(a) V(j) \quad \forall i \in S, a \in A}\]
 
-<table>
-  <tbody>
-    <tr>
-      <td>This is a <strong>linear program</strong>: linear objective, linear constraints. It has $</td>
-      <td>S</td>
-      <td>$ variables and $</td>
-      <td>S</td>
-      <td>\cdot</td>
-      <td>A</td>
-      <td>$ constraints.</td>
-    </tr>
-  </tbody>
-</table>
+<p>This is a <strong>linear program</strong>: linear objective, linear constraints. It has $\lvert S\rvert $ variables and $\lvert S\rvert  \cdot \lvert A\rvert $ constraints.</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-<strong>Complexity:</strong> LP can be solved in polynomial time. For small MDPs, this gives an exact $V^\ast$ in one shot (no iteration needed). For large state spaces, the $</td>
-      <td>S</td>
-      <td>\cdot</td>
-      <td>A</td>
-      <td>$ constraint count becomes the bottleneck.</td>
-    </tr>
-  </tbody>
-</table>
+<p><strong>Complexity:</strong> LP can be solved in polynomial time. For small MDPs, this gives an exact $V^\ast$ in one shot (no iteration needed). For large state spaces, the $\lvert S\rvert  \cdot \lvert A\rvert $ constraint count becomes the bottleneck.</p>
 
 <hr>
 

@@ -539,43 +539,17 @@
 
 <p>If this limit exists, the ETA Bellman equation is satisfied, guaranteeing a stationary optimal policy.</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-<strong>Theorem 5.11.</strong> *If $\exists N &lt; \infty$ such that $</td>
-      <td>V_\alpha(i) - V_\alpha(0)</td>
-      <td>&lt; N$ for all $\alpha, i$, then there exist $g \in \mathbb{R}$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.*</td>
-    </tr>
-  </tbody>
-</table>
+<p><strong>Theorem 5.11.</strong> <em>If $\exists N &lt; \infty$ such that $\lvert V_\alpha(i) - V_\alpha(0)\rvert  &lt; N$ for all $\alpha, i$, then there exist $g \in \mathbb{R}$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.</em></p>
 
 <hr>
 
 <h2 id="when-is-h-bounded-expected-hitting-times">When is $h$ Bounded? Expected Hitting Times</h2>
 
-<table>
-  <tbody>
-    <tr>
-      <td>The boundedness condition $</td>
-      <td>V_\alpha(i) - V_\alpha(0)</td>
-      <td>&lt; N$ is related to how quickly the MDP can return to state 0.</td>
-    </tr>
-  </tbody>
-</table>
+<p>The boundedness condition $\lvert V_\alpha(i) - V_\alpha(0)\rvert  &lt; N$ is related to how quickly the MDP can return to state 0.</p>
 
 <p><strong>Definition.</strong> The <strong>expected hitting time</strong> $M_{i,0}(\pi^\ast_\alpha)$ is the expected time to reach state 0 from state $i$ under the optimal discounted policy $\pi^\ast_\alpha$.</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-<strong>Theorem 5.12.</strong> *If $\exists N &lt; \infty$ such that the expected hitting time $M_{i,0}(\pi^\ast_\alpha) &lt; N$ for all $i, \alpha$, then $</td>
-      <td>V_\alpha(i) - V_\alpha(0)</td>
-      <td>&lt; N$ for all $\alpha, i$.*</td>
-    </tr>
-  </tbody>
-</table>
+<p><strong>Theorem 5.12.</strong> <em>If $\exists N &lt; \infty$ such that the expected hitting time $M_{i,0}(\pi^\ast_\alpha) &lt; N$ for all $i, \alpha$, then $\lvert V_\alpha(i) - V_\alpha(0)\rvert  &lt; N$ for all $\alpha, i$.</em></p>
 
 <p><strong>Proof sketch.</strong> The value function from state $i$ can be split into the cost of reaching state 0 (bounded by $CN$) and the cost from state 0 onwards ($V_\alpha(0)$). The difference is bounded by $CN$. The reverse bound follows from Jensen’s inequality. $\square$</p>
 

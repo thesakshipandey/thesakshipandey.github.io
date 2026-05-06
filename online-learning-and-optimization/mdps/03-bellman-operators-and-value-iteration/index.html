@@ -566,29 +566,9 @@
 
 <h2 id="value-iteration-vs-solving-bellman-equations-directly">Value Iteration vs. Solving Bellman Equations Directly</h2>
 
-<table>
-  <tbody>
-    <tr>
-      <td>For a fixed policy $\pi$, the Bellman equations are linear and can be solved exactly as $(I - \alpha P_\pi) V_\pi = C_\pi$. This requires $O(</td>
-      <td>S</td>
-      <td>^3)$ time (matrix inversion).</td>
-    </tr>
-  </tbody>
-</table>
+<p>For a fixed policy $\pi$, the Bellman equations are linear and can be solved exactly as $(I - \alpha P_\pi) V_\pi = C_\pi$. This requires $O(\lvert S\rvert ^3)$ time (matrix inversion).</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>Value Iteration instead applies the nonlinear $B^\ast$ iteratively. Each iteration costs $O(</td>
-      <td>S</td>
-      <td>^2</td>
-      <td>A</td>
-      <td>)$ (one Bellman backup per state). For large state spaces where $</td>
-      <td>S</td>
-      <td>^3$ is prohibitive, Value Iteration is more practical.</td>
-    </tr>
-  </tbody>
-</table>
+<p>Value Iteration instead applies the nonlinear $B^\ast$ iteratively. Each iteration costs $O(\lvert S\rvert ^2\lvert A\rvert )$ (one Bellman backup per state). For large state spaces where $\lvert S\rvert ^3$ is prohibitive, Value Iteration is more practical.</p>
 
     </div>
   </article>
