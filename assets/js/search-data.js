@@ -51,7 +51,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/books/";
           },
-        },{id: "post-a-post-with-plotly-js",
+        },{id: "post-online-learning-and-optimization-ee6106",
+        
+          title: "Online Learning and Optimization (EE6106)",
+        
+        description: "Course notes covering Prediction via Expert Advice, Multi-Armed Bandits, and Markov Decision Processes.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/online-learning-optimization/";
+          
+        },
+      },{id: "post-a-post-with-plotly-js",
         
           title: "a post with plotly.js",
         

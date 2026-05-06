@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Epsilon-Greedy | Sakshi
+    
+  
+</title>
+<meta name="author" content="Sakshi S. Pandey">
+<meta name="description" content="Explicit random exploration with decaying epsilon and comparison to UCB.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://sakshipandey.github.io/online-learning-and-optimization/multi-armed-bandits/06-epsilon-greedy/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          Sakshi
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">Home
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/notes/">Notes
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/repositories/">Repositories
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/books/">Bookshelf
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Epsilon-Greedy</h1>
+    <p class="post-meta">
+      Created on February 06, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <i class="fa-solid fa-calendar fa-sm"></i> 2026
+      
+      
+          ·  
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> bandits
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> stochastic
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> exploration
+          
+          
+        
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h1 id="epsilon-greedy">Epsilon-Greedy</h1>
+
+<h2 id="the-simplest-adaptive-exploration-strategy">The Simplest Adaptive Exploration Strategy</h2>
+
+<p>UCB achieves adaptive exploration through optimistic indices. Epsilon-Greedy takes a more direct approach: with probability $\epsilon_t$, explore uniformly at random; with probability $1 - \epsilon_t$, exploit the current best arm.</p>
+
+<hr>
+
+<h2 id="algorithm-10-epsilon-greedy">Algorithm 10: Epsilon-Greedy</h2>
+
+<p><strong>Require:</strong> Number of arms $K$, horizon $n$, bias $\epsilon_0$</p>
+
+<p><strong>Initialize:</strong> Empirical mean of each arm $= 0$.</p>
+
+<p><strong>For</strong> $t = 1$ to $n$ <strong>do:</strong></p>
+
+\[A_t = \begin{cases} \text{Uniform}([K]) &amp; \text{w.p. } \epsilon_t \\ \arg\max_{i} \hat{\mu}_i &amp; \text{w.p. } 1 - \epsilon_t \end{cases}\]
+
+<p>Decay $\epsilon_t = \frac{1}{t}$</p>
+
+<p><strong>End for</strong></p>
+
+<p>The exploration probability $\epsilon_t = 1/t$ decays over time. Early on, the agent explores frequently. As estimates sharpen, exploitation dominates. The $1/t$ decay ensures each arm is explored infinitely often (almost surely), which is necessary for consistent estimation.</p>
+
+<hr>
+
+<h2 id="intuition-and-trade-offs">Intuition and Trade-offs</h2>
+
+<p><strong>Why decay $\epsilon_t$?</strong> A fixed $\epsilon$ means the agent always wastes a constant fraction of pulls on random arms, giving linear regret. Decaying $\epsilon_t$ ensures the exploration cost is eventually negligible.</p>
+
+<p><strong>Why $1/t$ specifically?</strong> It is the boundary rate: slow enough to explore each arm infinitely often, but fast enough that the exploration cost ($\sum_t \epsilon_t$) diverges slowly (as $\ln n$).</p>
+
+<p><strong>Compared to UCB:</strong></p>
+<ul>
+  <li>UCB explores implicitly through uncertainty estimates; high-uncertainty arms get high indices automatically.</li>
+  <li>$\epsilon$-greedy explores explicitly and uniformly among all arms, wasting pulls on clearly sub-optimal arms.</li>
+  <li>UCB has provably logarithmic regret with matching constants. $\epsilon$-greedy requires more careful tuning to match UCB’s guarantees.</li>
+</ul>
+
+<hr>
+
+<h2 id="regret-analysis-sketch">Regret Analysis (Sketch)</h2>
+
+<p>Performing a full regret analysis for $\epsilon$-greedy with $\epsilon_t = \epsilon_0/t$ (a more general form) involves:</p>
+
+<ol>
+  <li>
+    <p><strong>Exploration cost:</strong> At each step $t$, with probability $\epsilon_t$ a random arm is pulled. The expected cost of random pulls is $\epsilon_t \cdot \bar{\Delta}$ where $\bar{\Delta}$ is the average sub-optimality gap. Total: $\sum_{t=1}^n \epsilon_t \cdot \bar{\Delta}$.</p>
+  </li>
+  <li>
+    <p><strong>Exploitation cost:</strong> With probability $1 - \epsilon_t$, the empirically best arm is pulled. If estimates are good, this is the right arm. The probability of picking the wrong arm decays as $t$ grows.</p>
+  </li>
+</ol>
+
+<p>The optimal $\epsilon_0$ depends on the instance ($\Delta$ values) and horizon $n$, making $\epsilon$-greedy harder to tune in practice.</p>
+
+<hr>
+
+<h2 id="practical-considerations">Practical Considerations</h2>
+
+<p><strong>$\epsilon$-greedy is simple to implement:</strong> no confidence interval computation, just a coin flip. This makes it popular in practice despite its weaker theoretical guarantees.</p>
+
+<p><strong>It handles non-stationarity better than UCB</strong> in some empirical settings, since the uniform exploration prevents the algorithm from getting stuck.</p>
+
+<p><strong>The decay schedule matters:</strong> $\epsilon_t = c/t$ for well-chosen $c$ can achieve logarithmic regret. The regret analysis parallels the ETC analysis but with the exploration interleaved throughout.</p>
+
+<hr>
+
+<h2 id="relationship-to-other-algorithms">Relationship to Other Algorithms</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Exploration mechanism</th>
+      <th>Exploitation</th>
+      <th>Regret</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ETC</td>
+      <td>Fixed upfront (first $mK$ steps)</td>
+      <td>Pure (last $n - mK$ steps)</td>
+      <td>$O(\ln n / \Delta)$ with known $\Delta$</td>
+    </tr>
+    <tr>
+      <td>UCB</td>
+      <td>Implicit (high UCB $=$ high uncertainty)</td>
+      <td>Greedy on UCB index</td>
+      <td>$O(\ln n / \Delta)$ instance-independent</td>
+    </tr>
+    <tr>
+      <td>$\epsilon$-Greedy</td>
+      <td>Explicit random (w.p. $\epsilon_t$)</td>
+      <td>Greedy on empirical mean</td>
+      <td>$O(\ln n / \Delta)$ with tuned $\epsilon_0$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All three achieve logarithmic regret in the stochastic setting, but UCB does so with the weakest assumptions and no tuning on the instance parameters.</p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+    
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Sakshi
+  S.
+  Pandey. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

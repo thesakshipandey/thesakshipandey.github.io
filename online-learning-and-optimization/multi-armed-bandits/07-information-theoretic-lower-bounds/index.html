@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Information-Theoretic Lower Bounds for MABs | Sakshi
+    
+  
+</title>
+<meta name="author" content="Sakshi S. Pandey">
+<meta name="description" content="BH inequality, divergence decomposition, minimax and instance-dependent lower bounds.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://sakshipandey.github.io/online-learning-and-optimization/multi-armed-bandits/07-information-theoretic-lower-bounds/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          Sakshi
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">Home
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/notes/">Notes
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/repositories/">Repositories
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/books/">Bookshelf
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Information-Theoretic Lower Bounds for MABs</h1>
+    <p class="post-meta">
+      Created on February 11, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <i class="fa-solid fa-calendar fa-sm"></i> 2026
+      
+      
+          ·  
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> bandits
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> lower-bounds
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> information-theory
+          
+          
+        
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h1 id="information-theoretic-lower-bounds-for-mabs">Information-Theoretic Lower Bounds for MABs</h1>
+
+<h2 id="why-lower-bounds-matter">Why Lower Bounds Matter</h2>
+
+<p>Upper bounds tell us what algorithms can achieve. Lower bounds tell us what no algorithm can do. When the two match (up to constants), we have a complete picture of the problem’s difficulty.</p>
+
+<p>For stochastic MABs, we want to know: is logarithmic regret truly optimal, or can clever algorithms do better?</p>
+
+<hr>
+
+<h2 id="the-b-h-inequality">The B-H Inequality</h2>
+
+<p>The central tool for proving bandit lower bounds is the Bretagnolle-Huber (B-H) inequality, which relates how distinguishable two probability measures are to how different events can look under them.</p>
+
+<p><strong>Theorem 4.1 (B-H Inequality).</strong> <em>Let $\mathbb{P}$ and $\mathbb{Q}$ be probability measures on $(\Omega, \mathcal{F})$, absolutely continuous with respect to each other. For any event $A \in \mathcal{F}$:</em></p>
+
+\[\mathbb{P}(A) + \mathbb{Q}(A^C) \geq \frac{1}{2}\exp\!\left\{-\min[\text{KL}(\mathbb{P}, \mathbb{Q}), \text{KL}(\mathbb{Q}, \mathbb{P})]\right\}\]
+
+<p><strong>Intuition:</strong> If two measures are close (small KL divergence), then for any event $A$, it cannot simultaneously be rare under $\mathbb{P}$ and rare under $\mathbb{Q}$. One of $\mathbb{P}(A)$ or $\mathbb{Q}(A^C)$ must be non-negligible.</p>
+
+<p><strong>Why useful:</strong> In lower bound proofs, we construct two instances $\mu$ and $\mu’$ such that: a good algorithm must behave differently on them, but the instances are hard to distinguish. BH formalizes this tension.</p>
+
+<p><strong>Proof sketch (3 steps):</strong></p>
+
+<p><strong>Step 1:</strong> Show $\mathbb{P}(A) + \mathbb{Q}(A^C) \geq \sum_i \min(p_i, q_i)$ (for finite $\Omega$ with $p_i = \mathbb{P}({x_i}), q_i = \mathbb{Q}({x_i})$).</p>
+
+<p><strong>Step 2:</strong> Show $\left(\sum_i \sqrt{p_i q_i}\right)^2 \leq 2\sum_i \min(p_i, q_i)$ via Cauchy-Schwarz.</p>
+
+<p><strong>Step 3:</strong> Show $\left(\sum_i \sqrt{p_i q_i}\right)^2 \geq \exp{-\text{KL}(\mathbb{P}, \mathbb{Q})}$ via Jensen’s inequality applied to $\log$. $\square$</p>
+
+<hr>
+
+<h2 id="divergence-decomposition-lemma">Divergence-Decomposition Lemma</h2>
+
+<p><strong>Lemma 4.2.</strong> <em>Let $\mathbb{P}_\mu$ and $\mathbb{P}_{\mu’}$ be the distributions induced by running a fixed policy $\Pi$ on instances $\mu$ and $\mu’$. Then:</em></p>
+
+\[\text{KL}(\mathbb{P}_\mu, \mathbb{P}_{\mu'}) = \sum_{i=1}^K \mathbb{E}_\mu[T_i(n)] \cdot \text{KL}(\mu_i, \mu'_i)\]
+
+<p><strong>Intuition:</strong> The total information divergence between two instances, as seen by the policy, decomposes into the divergences of each arm weighted by how often that arm is pulled. Arms that are pulled rarely contribute little to the KL divergence, making the two instances harder to distinguish.</p>
+
+<hr>
+
+<h2 id="minimax-lower-bound">Minimax Lower Bound</h2>
+
+<p><strong>Theorem 4.3.</strong> <em>Let $K &gt; 1$ and $n &gt; K - 1$. For any policy $\Pi$, there exists an instance $\mu \in \mathcal{E}_{\mathcal{N}}(1)$ (unit-variance Gaussian arms with means in $[0,1]$) such that:</em></p>
+
+\[R_n(\Pi, \mu) \geq \frac{1}{27}\sqrt{n(K-1)}\]
+
+<p><strong>Proof.</strong> Fix any policy $\Pi$. Construct two instances:</p>
+
+\[\mu = [\Delta, 0, 0, \ldots, 0] \quad \text{(arm 1 is optimal)}\]
+
+\[\mu' = [\Delta, 0, \ldots, 0, 2\Delta, 0, \ldots, 0] \quad \text{(arm }i\text{ has mean }2\Delta\text{, making it optimal)}\]
+
+<p>where $i = \arg\min_{j \neq 1} \mathbb{E}_\mu[T_j(n)]$ is the arm pulled least often under $\mu$. Choose $\Delta \in (0, 1/2)$.</p>
+
+<p>Define the event $A = {T_1(n) \leq n/2}$.</p>
+
+<ul>
+  <li>Under $\mu$: $A^C$ means $T_1(n) &gt; n/2$, which is bad since arm 1 is optimal under $\mu$. So $R_n(\Pi, \mu) \geq \mathbb{P}_\mu(A) \cdot n\Delta/2$.</li>
+  <li>Under $\mu’$: arm 1 is sub-optimal (mean $\Delta$, vs arm $i$ with mean $2\Delta$). $A$ means $T_1(n) \leq n/2$, which is bad. So $R_n(\Pi, \mu’) \geq \mathbb{P}_{\mu’}(A^C) \cdot n\Delta/2$.</li>
+</ul>
+
+<p>Therefore:</p>
+
+\[R_n(\Pi, \mu) + R_n(\Pi, \mu') \geq \frac{n\Delta}{2}\left(\mathbb{P}_\mu(A) + \mathbb{P}_{\mu'}(A^C)\right) \geq \frac{n\Delta}{4}\exp\{-\text{KL}(\mathbb{P}_\mu, \mathbb{P}_{\mu'})\}\]
+
+<p>By divergence decomposition:</p>
+
+\[\text{KL}(\mathbb{P}_\mu, \mathbb{P}_{\mu'}) = \mathbb{E}_\mu[T_i(n)] \cdot \text{KL}(\mu_i, \mu'_i) = \mathbb{E}_\mu[T_i(n)] \cdot \frac{(2\Delta)^2}{2} = 2\Delta^2 \mathbb{E}_\mu[T_i(n)]\]
+
+<p>Since $i$ is the least-pulled arm under $\mu$, and all $K-1$ sub-optimal arms together sum to at most $n$:</p>
+
+\[\mathbb{E}_\mu[T_i(n)] \leq \frac{n}{K-1}\]
+
+<p>Substituting:</p>
+
+\[R_n(\Pi, \mu) + R_n(\Pi, \mu') \geq \frac{n\Delta}{4}\exp\!\left\{\frac{-2n\Delta^2}{K-1}\right\}\]
+
+<p>Taking $\max$ and optimizing over $\Delta$ by setting $\Delta = \sqrt{(K-1)/(4n)}$:</p>
+
+\[\max\{R_n(\Pi, \mu), R_n(\Pi, \mu')\} \geq \frac{\sqrt{n(K-1)}}{8\sqrt{e}} \geq \frac{\sqrt{n(K-1)}}{27} \quad \square\]
+
+<hr>
+
+<h2 id="instance-dependent-lower-bound">Instance-Dependent Lower Bound</h2>
+
+<p>The minimax bound applies to the worst case. What about a specific instance?</p>
+
+<p><strong>Consistent policy:</strong> A policy $\Pi$ is consistent on family $\mathcal{E}^K$ if for all $\nu \in \mathcal{E}^K$, the regret $R_n(\Pi, \nu) = o(n^a)$ for all $a &gt; 0$. UCB is consistent (it has logarithmic regret).</p>
+
+<p><strong>Definition:</strong> For arm $i$ with distribution $\nu_i$ and optimal mean $\mu^*$:</p>
+
+\[d_{\inf}(\nu_i, \mu^*, \mathcal{E}) = \inf\!\left\{\text{KL}(\nu_i, \nu'_i) : \nu'_i \in \mathcal{E}, \mu(\nu'_i) &gt; \mu^*\right\}\]
+
+<p>This is the smallest KL-divergence perturbation needed to make arm $i$ optimal.</p>
+
+<p><strong>Theorem 4.4 (Lai-Robbins Lower Bound).</strong> <em>For any consistent policy $\Pi$ over $\mathcal{E}^K$ and any instance $\nu \in \mathcal{E}^K$:</em></p>
+
+\[\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i: \Delta_i &gt; 0} \frac{\Delta_i}{d_{\inf}(\nu_i, \mu^*, \mathcal{E})}\]
+
+<p><strong>For Gaussian arms</strong> ($\mathcal{E} = \mathcal{E}<em>{\mathcal{N}}(1)$): $d</em>{\inf}(\nu_i, \mu^*, \mathcal{E}) = \Delta_i^2/2$, giving:</p>
+
+\[\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i:\Delta_i&gt;0} \frac{2}{\Delta_i}\]
+
+<p>The UCB upper bound (Theorem 3.3) gives $16\ln n / \Delta_i$ per arm, matching the lower bound’s $2/\Delta_i$ up to a constant factor of 8. UCB is nearly optimal.</p>
+
+<hr>
+
+<h2 id="when-logarithmic-regret-is-impossible">When Logarithmic Regret is Impossible</h2>
+
+<p>For some distribution families $\mathcal{E}$, $d_{\inf} = 0$ for all sub-optimal arms. This means:</p>
+
+\[\liminf_{n \to \infty} \frac{R_n}{\ln n} \geq \infty\]
+
+<p>implying logarithmic regret is <strong>impossible</strong>. This occurs for families like $\mathcal{E} = \bigcup_{\sigma &gt; 0} \sigma\text{-subGaussian}$ where the sub-Gaussian parameter is not fixed. In such cases, UCB-type algorithms cannot be consistent.</p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+    
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Sakshi
+  S.
+  Pandey. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>
