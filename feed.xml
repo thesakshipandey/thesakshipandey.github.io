@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-06T00:17:04+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
-</subtitle><entry><title type="html">Online Learning and Optimization (EE6106)</title><link href="https://sakshipandey.github.io/blog/2026/online-learning-optimization/" rel="alternate" type="text/html" title="Online Learning and Optimization (EE6106)" /><published>2026-01-07T10:00:00+00:00</published><updated>2026-01-07T10:00:00+00:00</updated><id>https://sakshipandey.github.io/blog/2026/online-learning-optimization</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2026/online-learning-optimization/"><![CDATA[<p>Notes from EE6106 by Sarvesh Shashidhar. The course ran every Wednesday and Friday from January to April 2026.</p>
-
-<p>The central question throughout: can a learning agent compete with the best fixed strategy in hindsight, and how quickly? The answer depends on what the agent observes and what the adversary knows.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-06T08:56:05+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
+</subtitle><entry><title type="html">Online Learning and Optimization (EE6106)</title><link href="https://sakshipandey.github.io/blog/2026/online-learning-optimization/" rel="alternate" type="text/html" title="Online Learning and Optimization (EE6106)" /><published>2026-01-07T10:00:00+00:00</published><updated>2026-01-07T10:00:00+00:00</updated><id>https://sakshipandey.github.io/blog/2026/online-learning-optimization</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2026/online-learning-optimization/"><![CDATA[<p>The central question throughout: can a learning agent compete with the best fixed strategy in hindsight, and how quickly? The answer depends on what the agent observes and what the adversary knows.</p>
 
 <hr />
 
@@ -102,7 +100,7 @@
     <tr>
       <td>10</td>
       <td><a href="/online-learning-and-optimization/multi-armed-bandits/06-epsilon-greedy/">Epsilon-Greedy</a></td>
-      <td>6 Feb 2026</td>
+      <td>11 Feb 2026</td>
     </tr>
   </tbody>
 </table>
@@ -121,17 +119,17 @@
     <tr>
       <td>11</td>
       <td><a href="/online-learning-and-optimization/multi-armed-bandits/07-information-theoretic-lower-bounds/">Information-Theoretic Lower Bounds</a></td>
-      <td>11 Feb 2026</td>
+      <td>13, 18 Feb 2026</td>
     </tr>
     <tr>
       <td>12</td>
       <td><a href="/online-learning-and-optimization/multi-armed-bandits/08-pure-exploration-fixed-budget/">Pure Exploration: Fixed Budget</a></td>
-      <td>13 Feb 2026</td>
+      <td>11 Mar 2026</td>
     </tr>
     <tr>
       <td>13</td>
       <td><a href="/online-learning-and-optimization/multi-armed-bandits/09-pure-exploration-fixed-confidence/">Pure Exploration: Fixed Confidence</a></td>
-      <td>18 Feb 2026</td>
+      <td>13 Mar 2026</td>
     </tr>
   </tbody>
 </table>
@@ -156,37 +154,37 @@
     <tr>
       <td>14</td>
       <td><a href="/online-learning-and-optimization/mdps/01-mdp-basics-and-value-functions/">MDP Basics and Value Functions</a></td>
-      <td>20 Feb 2026</td>
+      <td>20 Mar 2026</td>
     </tr>
     <tr>
       <td>15</td>
       <td><a href="/online-learning-and-optimization/mdps/02-bellman-equations/">Bellman Equations</a></td>
-      <td>25 Feb 2026</td>
+      <td>25 Mar 2026</td>
     </tr>
     <tr>
       <td>16</td>
       <td><a href="/online-learning-and-optimization/mdps/03-bellman-operators-and-value-iteration/">Bellman Operators and Value Iteration</a></td>
-      <td>27 Feb 2026</td>
+      <td>27 Mar 2026</td>
     </tr>
     <tr>
       <td>17</td>
       <td><a href="/online-learning-and-optimization/mdps/04-lp-and-q-function/">LP Approach and Q-Functions</a></td>
-      <td>4 Mar 2026</td>
+      <td>1 Apr 2026</td>
     </tr>
     <tr>
       <td>18</td>
       <td><a href="/online-learning-and-optimization/mdps/05-policy-iteration/">Policy Iteration</a></td>
-      <td>6 Mar 2026</td>
+      <td>3 Apr 2026</td>
     </tr>
     <tr>
       <td>19</td>
       <td><a href="/online-learning-and-optimization/mdps/06-expected-time-average-mdps/">Expected Time-Average MDPs</a></td>
-      <td>11 Mar 2026</td>
+      <td>8 Apr 2026</td>
     </tr>
     <tr>
       <td>20</td>
       <td><a href="/online-learning-and-optimization/mdps/07-reinforcement-learning/">Reinforcement Learning</a></td>
-      <td>13 Mar 2026</td>
+      <td>10 Apr 2026</td>
     </tr>
   </tbody>
 </table>
@@ -424,7 +422,7 @@ Content 2
 
 <p>With this you can generate visualizations like:</p>
 
-<ul id="log" class="tab" data-tab="e70ee099-a3e5-44e1-b025-d288950e02f6" data-name="log">
+<ul id="log" class="tab" data-tab="c753ae97-274c-4375-b3e0-86205773d8cd" data-name="log">
   
       <li class="active" id="log-php">
           <a href="#">php </a>
@@ -439,7 +437,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="e70ee099-a3e5-44e1-b025-d288950e02f6" data-name="log">
+<ul class="tab-content" id="c753ae97-274c-4375-b3e0-86205773d8cd" data-name="log">
   
       <li class="active">
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
@@ -463,7 +461,7 @@ Content 2
 
 <h2 id="another-example">Another example</h2>
 
-<ul id="data-struct" class="tab" data-tab="ab67301b-1718-4bf8-9c76-ddf107b79c03" data-name="data-struct">
+<ul id="data-struct" class="tab" data-tab="0cb2319c-8759-49d6-bd4a-72be9da1538f" data-name="data-struct">
   
       <li class="active" id="data-struct-yaml">
           <a href="#">yaml </a>
@@ -474,7 +472,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="ab67301b-1718-4bf8-9c76-ddf107b79c03" data-name="data-struct">
+<ul class="tab-content" id="0cb2319c-8759-49d6-bd4a-72be9da1538f" data-name="data-struct">
   
       <li class="active">
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
@@ -496,7 +494,7 @@ Content 2
 
 <h2 id="tabs-for-something-else">Tabs for something else</h2>
 
-<ul id="something-else" class="tab" data-tab="b29f759d-038b-4844-b166-365302857f14" data-name="something-else">
+<ul id="something-else" class="tab" data-tab="5b69c0e0-fbeb-42eb-822b-27de7c2e5add" data-name="something-else">
   
       <li class="active" id="something-else-text">
           <a href="#">text </a>
@@ -511,7 +509,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="b29f759d-038b-4844-b166-365302857f14" data-name="something-else">
+<ul class="tab-content" id="5b69c0e0-fbeb-42eb-822b-27de7c2e5add" data-name="something-else">
   
       <li class="active">
 <p>Regular text</p>
