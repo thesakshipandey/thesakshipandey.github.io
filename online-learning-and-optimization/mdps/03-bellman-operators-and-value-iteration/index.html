@@ -474,19 +474,19 @@
 
 <p><strong>Definition (Bellman Optimality Operator).</strong> The policy-free version minimizes over all actions:</p>
 
-\[B^*(F(i)) \stackrel{\text{def}}{=} \min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) \cdot F(j)\right]\]
+\[B^\ast(F(i)) \stackrel{\text{def}}{=} \min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) \cdot F(j)\right]\]
 
 <p>By the Bellman equations:</p>
 <ul>
   <li>$V_\pi$ is the unique fixed point of $B_\pi$: $B_\pi(V_\pi) = V_\pi$</li>
-  <li>$V^<em>$ is the unique fixed point of $B^</em>$: $B^<em>(V^</em>) = V^*$</li>
+  <li>$V^\ast$ is the unique fixed point of $B^\ast$: $B^\ast(V^\ast) = V^\ast$</li>
 </ul>
 
 <hr>
 
 <h2 id="contraction-property">Contraction Property</h2>
 
-<p><strong>Lemma 5.4.</strong> <em>Both $B_\pi$ and $B^</em>$ are contraction maps in the Banach space $(\mathbb{R}^S, |\cdot|_\infty)$ with contraction factor $\alpha$.*</p>
+<p><strong>Lemma 5.4.</strong> <em>Both $B_\pi$ and $B^\ast$ are contraction maps in the Banach space $(\mathbb{R}^S, |\cdot|_\infty)$ with contraction factor $\alpha$.</em></p>
 
 <p><strong>Proof for $B_\pi$.</strong></p>
 
@@ -496,25 +496,25 @@
 
 <p>So $B_\pi$ is a contraction with factor $\alpha &lt; 1$. $\square$</p>
 
-<p><strong>Proof for $B^*$.</strong> The difficulty is the $\min$: the minimizing action may differ for $F$ and $G$.</p>
+<p><strong>Proof for $B^\ast$.</strong> The difficulty is the $\min$: the minimizing action may differ for $F$ and $G$.</p>
 
 <p>Let $a’$ be the minimizer for $G$ at state $i$. Then:</p>
 
-\[B^*(F(i)) - B^*(G(i)) \leq \left[c_i(a') + \alpha\sum_j p_{i,j}(a') F(j)\right] - \left[c_i(a') + \alpha\sum_j p_{i,j}(a') G(j)\right]\]
+\[B^\ast(F(i)) - B^\ast(G(i)) \leq \left[c_i(a') + \alpha\sum_j p_{i,j}(a') F(j)\right] - \left[c_i(a') + \alpha\sum_j p_{i,j}(a') G(j)\right]\]
 
 \[= \alpha \sum_j p_{i,j}(a')[F(j) - G(j)] \leq \alpha \|F - G\|_\infty\]
 
 <p>By symmetry (swapping $F$ and $G$), the bound holds in both directions:</p>
 
-\[\|B^*(F) - B^*(G)\|_\infty \leq \alpha \|F - G\|_\infty \quad \square\]
+\[\|B^\ast(F) - B^\ast(G)\|_\infty \leq \alpha \|F - G\|_\infty \quad \square\]
 
 <hr>
 
 <h2 id="value-iteration">Value Iteration</h2>
 
-<p>Since $B^<em>$ is a contraction map, by <strong>Banach’s Fixed Point Theorem</strong> (see Appendix C), starting from any initial value function $V_0$, iterating $B^</em>$ converges to the unique fixed point $V^*$:</p>
+<p>Since $B^\ast$ is a contraction map, by <strong>Banach’s Fixed Point Theorem</strong> (see Appendix C), starting from any initial value function $V_0$, iterating $B^\ast$ converges to the unique fixed point $V^\ast$:</p>
 
-\[V_t \to V^* \quad \text{as } t \to \infty, \quad \text{at rate } \alpha^t\]
+\[V_t \to V^\ast \quad \text{as } t \to \infty, \quad \text{at rate } \alpha^t\]
 
 <p><strong>Algorithm 15: Value Iteration</strong></p>
 
@@ -537,15 +537,15 @@
 
 <p>From the contraction property:</p>
 
-\[\|V_t - V^*\|_\infty \leq \alpha^t \|V_0 - V^*\|_\infty\]
+\[\|V_t - V^\ast\|_\infty \leq \alpha^t \|V_0 - V^\ast\|_\infty\]
 
-<p>To achieve $\epsilon$-accuracy, we need $t \geq \frac{\ln(1/\epsilon) + \ln|V_0 - V^*|_\infty}{\ln(1/\alpha)}$ iterations. For small $\alpha$ (heavy discounting), convergence is fast. For $\alpha$ close to 1, convergence slows significantly.</p>
+<p>To achieve $\epsilon$-accuracy, we need $t \geq \frac{\ln(1/\epsilon) + \ln|V_0 - V^\ast|_\infty}{\ln(1/\alpha)}$ iterations. For small $\alpha$ (heavy discounting), convergence is fast. For $\alpha$ close to 1, convergence slows significantly.</p>
 
 <h3 id="extracting-the-optimal-policy">Extracting the Optimal Policy</h3>
 
-<p>Once $V^*$ is known (approximately), the optimal policy is:</p>
+<p>Once $V^\ast$ is known (approximately), the optimal policy is:</p>
 
-\[\pi^*(s) = \arg\min_{a \in A}\!\left[c_s(a) + \alpha \sum_{s'} p_{s,s'}(a) V^*(s')\right]\]
+\[\pi^\ast(s) = \arg\min_{a \in A}\!\left[c_s(a) + \alpha \sum_{s'} p_{s,s'}(a) V^\ast(s')\right]\]
 
 <hr>
 
@@ -556,11 +556,11 @@
 <p><strong>Theorem C.1 (Banach’s Fixed Point Theorem).</strong> <em>Let $(X, |\cdot|)$ be a Banach space and $Z: X \to X$ be a contraction map with factor $l \in [0, 1)$. Then:</em></p>
 
 <ul>
-  <li>$Z$ has a unique fixed point $x^* \in X$.</li>
-  <li>For all $x \in X$ and $m \geq 0$: $|Z^m(x) - x^<em>| \leq l^m |x - x^</em>|$.</li>
+  <li>$Z$ has a unique fixed point $x^\ast \in X$.</li>
+  <li>For all $x \in X$ and $m \geq 0$: $|Z^m(x) - x^\ast| \leq l^m |x - x^\ast|$.</li>
 </ul>
 
-<p>Applying to $Z = B^<em>$ and $X = \mathbb{R}^S$ with $l = \alpha$: Value Iteration converges to the unique $V^</em>$ at a geometric rate.</p>
+<p>Applying to $Z = B^\ast$ and $X = \mathbb{R}^S$ with $l = \alpha$: Value Iteration converges to the unique $V^\ast$ at a geometric rate.</p>
 
 <hr>
 
@@ -579,7 +579,7 @@
 <table>
   <tbody>
     <tr>
-      <td>Value Iteration instead applies the nonlinear $B^*$ iteratively. Each iteration costs $O(</td>
+      <td>Value Iteration instead applies the nonlinear $B^\ast$ iteratively. Each iteration costs $O(</td>
       <td>S</td>
       <td>^2</td>
       <td>A</td>

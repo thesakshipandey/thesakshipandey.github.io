@@ -472,7 +472,7 @@
 
 <p><strong>Definition.</strong> An algorithm is $\delta$-<strong>probably correct</strong> ($\delta$-PC) if:</p>
 
-\[\mathbb{P}\{\tau &lt; \infty, \hat{a} \neq a^*\} \leq \delta\]
+\[\mathbb{P}\{\tau &lt; \infty, \hat{a} \neq a^\ast\} \leq \delta\]
 
 <p>That is, if the algorithm ever stops, the probability it returns the wrong arm is at most $\delta$.</p>
 
@@ -492,7 +492,7 @@
 
 \[\mu_i^{[1]} = \begin{cases} \mu_2 - \epsilon &amp; i = 1 \\ \mu_i &amp; i \neq 1 \end{cases} \quad \mu_i^{[a]} = \begin{cases} \mu_a + \Delta_a + \epsilon &amp; i = a \\ \mu_i &amp; i \neq a \end{cases}\]
 
-<p>For each $a$, define event $A = {\tau &lt; \infty, \hat{a} \neq a^*_{\mu^{[a]}}}$.</p>
+<p>For each $a$, define event $A = {\tau &lt; \infty, \hat{a} \neq a^\ast_{\mu^{[a]}}}$.</p>
 
 <p>Since the algorithm is $\delta$-PC, $\mathbb{P}_{\mu^{[a]}}(A) \leq \delta$.</p>
 

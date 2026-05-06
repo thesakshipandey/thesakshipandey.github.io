@@ -468,25 +468,25 @@
 
 <h2 id="greedy-policy-improvement">Greedy Policy Improvement</h2>
 
-<p>Given a stationary policy $f$, define the <strong>one-step improvement</strong> $f^*$:</p>
+<p>Given a stationary policy $f$, define the <strong>one-step improvement</strong> $f^\ast$:</p>
 
-\[f^*(x) = \begin{cases} \arg\min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) V_f(j)\right] &amp; \text{if } x = i \\ f(x) &amp; \text{otherwise} \end{cases}\]
+\[f^\ast(x) = \begin{cases} \arg\min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) V_f(j)\right] &amp; \text{if } x = i \\ f(x) &amp; \text{otherwise} \end{cases}\]
 
-<p>The policy $f^*$ applies the optimal action at state $i$ (for a single chosen state) and follows $f$ everywhere else.</p>
+<p>The policy $f^\ast$ applies the optimal action at state $i$ (for a single chosen state) and follows $f$ everywhere else.</p>
 
-<p><strong>Lemma 5.6.</strong> $V_{f^*} \leq V_f$ (component-wise).</p>
+<p><strong>Lemma 5.6.</strong> $V_{f^\ast} \leq V_f$ (component-wise).</p>
 
-<p><strong>Proof.</strong> Apply the Bellman operator $B_{f^*}$:</p>
+<p><strong>Proof.</strong> Apply the Bellman operator $B_{f^\ast}$:</p>
 
-\[(B_{f^*}(V_f))(i) = c_i(f^*(i)) + \alpha \sum_j p_{ij}(f^*(i)) V_f(j)\]
+\[(B_{f^\ast}(V_f))(i) = c_i(f^\ast(i)) + \alpha \sum_j p_{ij}(f^\ast(i)) V_f(j)\]
 
-<p>By definition of $f^<em>$, the action $f^</em>(i)$ minimizes $[c_i(a) + \alpha\sum_j p_{ij}(a) V_f(j)]$, so:</p>
+<p>By definition of $f^\ast$, the action $f^\ast(i)$ minimizes $[c_i(a) + \alpha\sum_j p_{ij}(a) V_f(j)]$, so:</p>
 
 \[\leq c_i(f(i)) + \alpha\sum_j p_{ij}(f(i)) V_f(j) = (B_f(V_f))(i) = V_f(i)\]
 
-<p>So $B_{f^<em>}(V_f) \leq V_f$. Since $B_{f^</em>}$ is a contraction:</p>
+<p>So $B_{f^\ast}(V_f) \leq V_f$. Since $B_{f^\ast}$ is a contraction:</p>
 
-\[V_{f^*} = \lim_{n \to \infty} B_{f^*}^n(V_f) \leq V_f \quad \square\]
+\[V_{f^\ast} = \lim_{n \to \infty} B_{f^\ast}^n(V_f) \leq V_f \quad \square\]
 
 <p>The core insight: improving the policy myopically at a single state always results in a globally better policy.</p>
 
@@ -602,19 +602,19 @@
 
 <p>The Bellman equation is:</p>
 
-\[V^*(i) = \min\!\left\{L(i) + \alpha \sum_j P_{ij} V^*(j), \; R + L(0) + \sum_j P_{0j} V^*(j)\right\}\]
+\[V^\ast(i) = \min\!\left\{L(i) + \alpha \sum_j P_{ij} V^\ast(j), \; R + L(0) + \sum_j P_{0j} V^\ast(j)\right\}\]
 
 <p><strong>Claim 5.8.</strong> <em>For an increasing function $h(\cdot)$, $\sum_{j=k}^\infty P_{ij} h(j)$ is increasing in $i$.</em></p>
 
-<p><strong>Lemma 5.9.</strong> <em>The optimal value function $V^</em>(i)$ is increasing in $i$.*</p>
+<p><strong>Lemma 5.9.</strong> <em>The optimal value function $V^\ast(i)$ is increasing in $i$.</em></p>
 
-<p>Proof by induction using Value Iteration: $V_1(i) = \min(R + L(0), L(i))$ is increasing (since $L$ is increasing). The Bellman update preserves monotonicity at each step, so $V^*$ is increasing.</p>
+<p>Proof by induction using Value Iteration: $V_1(i) = \min(R + L(0), L(i))$ is increasing (since $L$ is increasing). The Bellman update preserves monotonicity at each step, so $V^\ast$ is increasing.</p>
 
-<p><strong>Optimal policy structure:</strong> Since $L(i)$ increases and $R + L(0) + \sum_j P_{0j} V^<em>(j)$ is constant in $i$, there exists a threshold $i^</em>$ such that:</p>
+<p><strong>Optimal policy structure:</strong> Since $L(i)$ increases and $R + L(0) + \sum_j P_{0j} V^\ast(j)$ is constant in $i$, there exists a threshold $i^\ast$ such that:</p>
 
-\[i^* = \max\!\left\{i : L(i) + \alpha \sum_j P_{ij} V^*(j) \leq R + L(0) + \sum_j P_{0j} V^*(j)\right\}\]
+\[i^\ast = \max\!\left\{i : L(i) + \alpha \sum_j P_{ij} V^\ast(j) \leq R + L(0) + \sum_j P_{0j} V^\ast(j)\right\}\]
 
-<p>The optimal policy is: keep if $i \leq i^<em>$, replace if $i &gt; i^</em>$. This is a <strong>threshold policy</strong>: once degradation crosses the threshold, replacement is optimal.</p>
+<p>The optimal policy is: keep if $i \leq i^\ast$, replace if $i &gt; i^\ast$. This is a <strong>threshold policy</strong>: once degradation crosses the threshold, replacement is optimal.</p>
 
     </div>
   </article>

@@ -528,9 +528,9 @@
 
 <p><strong>Optimal value function:</strong></p>
 
-\[V^*(i) = \inf_\pi V_\pi(i)\]
+\[V^\ast(i) = \inf_\pi V_\pi(i)\]
 
-<p>A policy $\pi^<em>$ is <strong>optimal</strong> if $V_{\pi^</em>}(i) = V^*(i)$ for all $i \in S$.</p>
+<p>A policy $\pi^\ast$ is <strong>optimal</strong> if $V_{\pi^\ast}(i) = V^\ast(i)$ for all $i \in S$.</p>
 
 <p>Note: the optimal value function is unique, but there may be multiple optimal policies.</p>
 
@@ -538,7 +538,7 @@
 
 <h2 id="existence-of-an-optimal-policy">Existence of an Optimal Policy</h2>
 
-<p>One might worry that the infimum is not achieved (no policy attains $V^*$). The following theorem resolves this.</p>
+<p>One might worry that the infimum is not achieved (no policy attains $V^\ast$). The following theorem resolves this.</p>
 
 <p><strong>Theorem 5.1.</strong> <em>Consider an MDP $M = (S, A, T, R, \gamma)$ and the set of policies $\Pi$ such that every $\pi \in \Pi$ is:</em></p>
 
@@ -551,7 +551,7 @@
 <strong>Stationary:</strong> the policy does not change with time.</li>
 </ul>
 
-<p><em>Then $M$ is guaranteed to have an optimal policy $\pi^</em> \in \Pi$ such that $V^<em>(s) \geq V_\pi(s)$ for all $s \in S$ and $\pi \in \Pi$.</em></p>
+<p><em>Then $M$ is guaranteed to have an optimal policy $\pi^\ast \in \Pi$ such that $V^\ast(s) \geq V_\pi(s)$ for all $s \in S$ and $\pi \in \Pi$.</em></p>
 
 <p>This is a powerful result: we never need to consider history-dependent, randomized, or time-varying policies for discounted MDPs. The best stationary deterministic Markovian policy is globally optimal.</p>
 

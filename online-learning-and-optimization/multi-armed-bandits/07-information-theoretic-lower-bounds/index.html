@@ -549,17 +549,17 @@
 
 <p><strong>Consistent policy:</strong> A policy $\Pi$ is consistent on family $\mathcal{E}^K$ if for all $\nu \in \mathcal{E}^K$, the regret $R_n(\Pi, \nu) = o(n^a)$ for all $a &gt; 0$. UCB is consistent (it has logarithmic regret).</p>
 
-<p><strong>Definition:</strong> For arm $i$ with distribution $\nu_i$ and optimal mean $\mu^*$:</p>
+<p><strong>Definition:</strong> For arm $i$ with distribution $\nu_i$ and optimal mean $\mu^\ast$:</p>
 
-\[d_{\inf}(\nu_i, \mu^*, \mathcal{E}) = \inf\!\left\{\text{KL}(\nu_i, \nu'_i) : \nu'_i \in \mathcal{E}, \mu(\nu'_i) &gt; \mu^*\right\}\]
+\[d_{\inf}(\nu_i, \mu^\ast, \mathcal{E}) = \inf\!\left\{\text{KL}(\nu_i, \nu'_i) : \nu'_i \in \mathcal{E}, \mu(\nu'_i) &gt; \mu^\ast\right\}\]
 
 <p>This is the smallest KL-divergence perturbation needed to make arm $i$ optimal.</p>
 
 <p><strong>Theorem 4.4 (Lai-Robbins Lower Bound).</strong> <em>For any consistent policy $\Pi$ over $\mathcal{E}^K$ and any instance $\nu \in \mathcal{E}^K$:</em></p>
 
-\[\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i: \Delta_i &gt; 0} \frac{\Delta_i}{d_{\inf}(\nu_i, \mu^*, \mathcal{E})}\]
+\[\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i: \Delta_i &gt; 0} \frac{\Delta_i}{d_{\inf}(\nu_i, \mu^\ast, \mathcal{E})}\]
 
-<p><strong>For Gaussian arms</strong> ($\mathcal{E} = \mathcal{E}<em>{\mathcal{N}}(1)$): $d</em>{\inf}(\nu_i, \mu^*, \mathcal{E}) = \Delta_i^2/2$, giving:</p>
+<p><strong>For Gaussian arms</strong> ($\mathcal{E} = \mathcal{E}<em>{\mathcal{N}}(1)$): $d</em>{\inf}(\nu_i, \mu^\ast, \mathcal{E}) = \Delta_i^2/2$, giving:</p>
 
 \[\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i:\Delta_i&gt;0} \frac{2}{\Delta_i}\]
 

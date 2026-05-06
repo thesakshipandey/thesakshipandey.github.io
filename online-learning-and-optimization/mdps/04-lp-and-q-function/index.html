@@ -462,35 +462,35 @@
 
 <h2 id="the-lp-formulation-of-mdps">The LP Formulation of MDPs</h2>
 
-<p>The Bellman optimality equations characterize $V^<em>$ as the fixed point of $B^</em>$. There is an equivalent view: $V^*$ is the solution to a linear program.</p>
+<p>The Bellman optimality equations characterize $V^\ast$ as the fixed point of $B^\ast$. There is an equivalent view: $V^\ast$ is the solution to a linear program.</p>
 
 <hr>
 
 <h2 id="key-lemma">Key Lemma</h2>
 
-<p><strong>Lemma 5.5.</strong> <em>Consider the Bellman optimality operator $B^</em>$ with:*</p>
+<p><strong>Lemma 5.5.</strong> <em>Consider the Bellman optimality operator $B^\ast$ with:</em></p>
 
-\[B^*(V(i)) = \min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) \cdot F(j)\right]\]
+\[B^\ast(V(i)) = \min_{a \in A}\!\left[c_i(a) + \alpha \sum_{j \in S} p_{i,j}(a) \cdot F(j)\right]\]
 
-<p><em>If $(B^</em>(V))(i) \geq V(i)$ for all $i \in S$, then $V^* \geq V$ component-wise.*</p>
+<p><em>If $(B^\ast(V))(i) \geq V(i)$ for all $i \in S$, then $V^\ast \geq V$ component-wise.</em></p>
 
-<p><strong>Proof.</strong> Suppose $B^<em>(V) \geq V$. Then applying $B^</em>$ repeatedly (which preserves the inequality since $B^*$ is monotone):</p>
+<p><strong>Proof.</strong> Suppose $B^\ast(V) \geq V$. Then applying $B^\ast$ repeatedly (which preserves the inequality since $B^\ast$ is monotone):</p>
 
-\[V \leq B^*(V) \leq (B^*)^2(V) \leq \ldots \leq \lim_{n \to \infty} (B^*)^n(V) = V^*\]
+\[V \leq B^\ast(V) \leq (B^\ast)^2(V) \leq \ldots \leq \lim_{n \to \infty} (B^\ast)^n(V) = V^\ast\]
 
-<p>The limit is $V^<em>$ because $B^</em>$ is a contraction converging to the unique fixed point $V^*$. $\square$</p>
+<p>The limit is $V^\ast$ because $B^\ast$ is a contraction converging to the unique fixed point $V^\ast$. $\square$</p>
 
 <hr>
 
 <h2 id="the-linear-program">The Linear Program</h2>
 
-<p>From Lemma 5.5, $V^<em>$ is the <strong>largest</strong> function $V$ satisfying $B^</em>(V) \geq V$ component-wise. That is:</p>
+<p>From Lemma 5.5, $V^\ast$ is the <strong>largest</strong> function $V$ satisfying $B^\ast(V) \geq V$ component-wise. That is:</p>
 
-\[V^* = \max \sum_{i \in S} V(i) \quad \text{s.t.} \quad V(i) \leq (B^*(V))(i) \quad \forall i \in S\]
+\[V^\ast = \max \sum_{i \in S} V(i) \quad \text{s.t.} \quad V(i) \leq (B^\ast(V))(i) \quad \forall i \in S\]
 
-<p>Expanding $(B^*(V))(i) = \min_{a \in A}[\ldots]$: the constraint $V(i) \leq \min_a [\ldots]$ is equivalent to $V(i) \leq c_i(a) + \alpha \sum_j p_{ij}(a) V(j)$ for all $a \in A$.</p>
+<p>Expanding $(B^\ast(V))(i) = \min_{a \in A}[\ldots]$: the constraint $V(i) \leq \min_a [\ldots]$ is equivalent to $V(i) \leq c_i(a) + \alpha \sum_j p_{ij}(a) V(j)$ for all $a \in A$.</p>
 
-\[\boxed{V^* = \max \sum_{i \in S} V(i) \quad \text{s.t.} \quad V(i) \leq c_i(a) + \alpha \sum_{j \in S} p_{ij}(a) V(j) \quad \forall i \in S, a \in A}\]
+\[\boxed{V^\ast = \max \sum_{i \in S} V(i) \quad \text{s.t.} \quad V(i) \leq c_i(a) + \alpha \sum_{j \in S} p_{ij}(a) V(j) \quad \forall i \in S, a \in A}\]
 
 <table>
   <tbody>
@@ -510,7 +510,7 @@
   <tbody>
     <tr>
       <td>
-<strong>Complexity:</strong> LP can be solved in polynomial time. For small MDPs, this gives an exact $V^*$ in one shot (no iteration needed). For large state spaces, the $</td>
+<strong>Complexity:</strong> LP can be solved in polynomial time. For small MDPs, this gives an exact $V^\ast$ in one shot (no iteration needed). For large state spaces, the $</td>
       <td>S</td>
       <td>\cdot</td>
       <td>A</td>
@@ -543,28 +543,28 @@
 
 <p>For the optimal policy:</p>
 
-\[Q^*(i, a) = c_i(a) + \alpha \sum_j p_{ij}(a) V^*(j)\]
+\[Q^\ast(i, a) = c_i(a) + \alpha \sum_j p_{ij}(a) V^\ast(j)\]
 
 <p>The optimal value function satisfies:</p>
 
-\[V^*(i) = \min_a Q^*(i, a)\]
+\[V^\ast(i) = \min_a Q^\ast(i, a)\]
 
 <p>And the optimal policy can be read off directly:</p>
 
-\[\pi^*(i) = \arg\min_{a \in A} Q^*(i, a)\]
+\[\pi^\ast(i) = \arg\min_{a \in A} Q^\ast(i, a)\]
 
 <hr>
 
 <h2 id="why-the-q-function-matters">Why the Q-Function Matters</h2>
 
-<p>In reinforcement learning (where $P$ and $C$ are unknown), the Q-function is more directly useful than $V^*$:</p>
+<p>In reinforcement learning (where $P$ and $C$ are unknown), the Q-function is more directly useful than $V^\ast$:</p>
 
 <ul>
-  <li>To use $V^<em>$, you need to know $P$ to compute $\arg\min_a [c(i,a) + \alpha \sum_j p_{ij}(a) V^</em>(j)]$.</li>
-  <li>To use $Q^<em>$, you simply look up $\arg\min_a Q^</em>(i, a)$, with no model required.</li>
+  <li>To use $V^\ast$, you need to know $P$ to compute $\arg\min_a [c(i,a) + \alpha \sum_j p_{ij}(a) V^\ast(j)]$.</li>
+  <li>To use $Q^\ast$, you simply look up $\arg\min_a Q^\ast(i, a)$, with no model required.</li>
 </ul>
 
-<p>This is why Q-learning (covered in the RL post) learns $Q^*$ directly without learning $P$ or $C$ explicitly.</p>
+<p>This is why Q-learning (covered in the RL post) learns $Q^\ast$ directly without learning $P$ or $C$ explicitly.</p>
 
 <hr>
 

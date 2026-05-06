@@ -518,7 +518,7 @@
 
 <p>Differentiating with respect to $m$ and setting to zero:</p>
 
-\[m^* = \frac{4}{\Delta^2} \ln\!\left(\frac{n\Delta^2}{4}\right)\]
+\[m^\ast = \frac{4}{\Delta^2} \ln\!\left(\frac{n\Delta^2}{4}\right)\]
 
 <p>Substituting back:</p>
 
@@ -530,11 +530,11 @@
 
 <p><strong>Logarithmic regret:</strong> Even in the best case (optimal $m$), regret scales as $O(\ln n / \Delta)$. This is the fundamental scale for stochastic bandit problems.</p>
 
-<p><strong>Instance-dependent bound:</strong> The bound depends on $\Delta$. As $\Delta \to 0$, the optimal $m^*$ explodes: arms that are very close in distribution require far more exploration to distinguish. This makes intuitive sense.</p>
+<p><strong>Instance-dependent bound:</strong> The bound depends on $\Delta$. As $\Delta \to 0$, the optimal $m^\ast$ explodes: arms that are very close in distribution require far more exploration to distinguish. This makes intuitive sense.</p>
 
-<p><strong>You need to know $\Delta$ to set $m^*$:</strong> In practice, $\Delta$ is unknown. ETC requires knowing the sub-optimality gap to tune $m$, which it does not have access to.</p>
+<p><strong>You need to know $\Delta$ to set $m^\ast$:</strong> In practice, $\Delta$ is unknown. ETC requires knowing the sub-optimality gap to tune $m$, which it does not have access to.</p>
 
-<p><strong>ETC is anytime:</strong> Algorithm 7 itself does not depend on $n$ (it just commits after $mK$ pulls). However, finding $m^*$ requires $n$. A doubling trick can make this fully anytime.</p>
+<p><strong>ETC is anytime:</strong> Algorithm 7 itself does not depend on $n$ (it just commits after $mK$ pulls). However, finding $m^\ast$ requires $n$. A doubling trick can make this fully anytime.</p>
 
 <p><strong>Lower bound:</strong> Even with optimal $m$, the regret is $\Omega(\ln n)$. Logarithmic regret is both achievable and optimal for stochastic bandits. The question is whether we can achieve it without knowing $\Delta$.</p>
 
