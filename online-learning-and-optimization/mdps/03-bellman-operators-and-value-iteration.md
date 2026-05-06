@@ -110,6 +110,6 @@ Applying to $Z = B^\ast$ and $X = \mathbb{R}^S$ with $l = \alpha$: Value Iterati
 
 ## Value Iteration vs. Solving Bellman Equations Directly
 
-For a fixed policy $\pi$, the Bellman equations are linear and can be solved exactly as $(I - \alpha P_\pi) V_\pi = C_\pi$. This requires $O(|S|^3)$ time (matrix inversion).
+For a fixed policy $\pi$, the Bellman equations are linear and can be solved exactly as $(I - \alpha P_\pi) V_\pi = C_\pi$. This requires $O(\lvert S\rvert ^3)$ time (matrix inversion).
 
-Value Iteration instead applies the nonlinear $B^\ast$ iteratively. Each iteration costs $O(|S|^2|A|)$ (one Bellman backup per state). For large state spaces where $|S|^3$ is prohibitive, Value Iteration is more practical.
+Value Iteration instead applies the nonlinear $B^\ast$ iteratively. Each iteration costs $O(\lvert S\rvert ^2\lvert A\rvert )$ (one Bellman backup per state). For large state spaces where $\lvert S\rvert ^3$ is prohibitive, Value Iteration is more practical.

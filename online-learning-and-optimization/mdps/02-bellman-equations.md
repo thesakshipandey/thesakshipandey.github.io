@@ -54,7 +54,7 @@ $$V_\pi(s) = C(s, \pi(s)) + \alpha \sum_{s'} P(s, \pi(s), s') V_\pi(s') \quad \s
 
 ## Structure of the Bellman Equations
 
-For a state space $S$ with $|S| = N$ states, the Bellman equations give us $N$ equations with $N$ unknowns $V_\pi(1), \ldots, V_\pi(N)$:
+For a state space $S$ with $\lvert S\rvert  = N$ states, the Bellman equations give us $N$ equations with $N$ unknowns $V_\pi(1), \ldots, V_\pi(N)$:
 
 $$V_\pi(s) = C(s, \pi(s)) + \alpha \sum_{s'} P(s, \pi(s), s') V_\pi(s'), \quad \forall s \in S$$
 

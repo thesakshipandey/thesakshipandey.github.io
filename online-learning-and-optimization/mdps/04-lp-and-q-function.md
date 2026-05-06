@@ -44,9 +44,9 @@ Expanding $(B^\ast(V))(i) = \min_{a \in A}[\ldots]$: the constraint $V(i) \leq \
 
 $$\boxed{V^\ast = \max \sum_{i \in S} V(i) \quad \text{s.t.} \quad V(i) \leq c_i(a) + \alpha \sum_{j \in S} p_{ij}(a) V(j) \quad \forall i \in S, a \in A}$$
 
-This is a **linear program**: linear objective, linear constraints. It has $|S|$ variables and $|S| \cdot |A|$ constraints.
+This is a **linear program**: linear objective, linear constraints. It has $\lvert S\rvert $ variables and $\lvert S\rvert  \cdot \lvert A\rvert $ constraints.
 
-**Complexity:** LP can be solved in polynomial time. For small MDPs, this gives an exact $V^\ast$ in one shot (no iteration needed). For large state spaces, the $|S| \cdot |A|$ constraint count becomes the bottleneck.
+**Complexity:** LP can be solved in polynomial time. For small MDPs, this gives an exact $V^\ast$ in one shot (no iteration needed). For large state spaces, the $\lvert S\rvert  \cdot \lvert A\rvert $ constraint count becomes the bottleneck.
 
 ---
 

@@ -85,17 +85,17 @@ $$h_\alpha(i) + g \to \min_a\!\left[c_i(a) + \sum_j p_{ij}(a) h(j)\right]$$
 
 If this limit exists, the ETA Bellman equation is satisfied, guaranteeing a stationary optimal policy.
 
-**Theorem 5.11.** *If $\exists N < \infty$ such that $|V_\alpha(i) - V_\alpha(0)| < N$ for all $\alpha, i$, then there exist $g \in \mathbb{R}$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.*
+**Theorem 5.11.** *If $\exists N < \infty$ such that $\lvert V_\alpha(i) - V_\alpha(0)\rvert  < N$ for all $\alpha, i$, then there exist $g \in \mathbb{R}$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.*
 
 ---
 
 ## When is $h$ Bounded? Expected Hitting Times
 
-The boundedness condition $|V_\alpha(i) - V_\alpha(0)| < N$ is related to how quickly the MDP can return to state 0.
+The boundedness condition $\lvert V_\alpha(i) - V_\alpha(0)\rvert  < N$ is related to how quickly the MDP can return to state 0.
 
 **Definition.** The **expected hitting time** $M_{i,0}(\pi^\ast_\alpha)$ is the expected time to reach state 0 from state $i$ under the optimal discounted policy $\pi^\ast_\alpha$.
 
-**Theorem 5.12.** *If $\exists N < \infty$ such that the expected hitting time $M_{i,0}(\pi^\ast_\alpha) < N$ for all $i, \alpha$, then $|V_\alpha(i) - V_\alpha(0)| < N$ for all $\alpha, i$.*
+**Theorem 5.12.** *If $\exists N < \infty$ such that the expected hitting time $M_{i,0}(\pi^\ast_\alpha) < N$ for all $i, \alpha$, then $\lvert V_\alpha(i) - V_\alpha(0)\rvert  < N$ for all $\alpha, i$.*
 
 **Proof sketch.** The value function from state $i$ can be split into the cost of reaching state 0 (bounded by $CN$) and the cost from state 0 onwards ($V_\alpha(0)$). The difference is bounded by $CN$. The reverse bound follows from Jensen's inequality. $\square$
 

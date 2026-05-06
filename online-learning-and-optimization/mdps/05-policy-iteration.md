@@ -91,9 +91,9 @@ $$V^{\pi'} = \lim_{l \to \infty} (B^{\pi'})^l[V^\pi] \preceq V^\pi \quad \square
 
 ## Convergence of Policy Iteration
 
-Since the state space $S$ and action space $A$ are finite, there are finitely many deterministic stationary policies ($|A|^{|S|}$ total). Each PI round produces a strictly better policy (unless we have already reached the optimum). Therefore, PI terminates in at most $|A|^{|S|}$ steps.
+Since the state space $S$ and action space $A$ are finite, there are finitely many deterministic stationary policies ($\lvert A\rvert ^{\lvert S\rvert }$ total). Each PI round produces a strictly better policy (unless we have already reached the optimum). Therefore, PI terminates in at most $\lvert A\rvert ^{\lvert S\rvert }$ steps.
 
-In practice, PI converges much faster: often in $O(|S|)$ iterations.
+In practice, PI converges much faster: often in $O(\lvert S\rvert )$ iterations.
 
 ---
 

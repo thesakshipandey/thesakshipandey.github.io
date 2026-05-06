@@ -57,13 +57,13 @@ At each step we take the majority vote of the still-surviving experts and then e
 
 **Claim 1.1.** *The loss under the Majority Algorithm is at most $\log_2 K$.*
 
-**Proof.** Every time the agent makes a mistake, it means the majority voted incorrectly, which implies at least half of the experts in $S$ voted wrong. Those experts are eliminated, so $|S|$ drops by at least a factor of $2$ on each mistake.
+**Proof.** Every time the agent makes a mistake, it means the majority voted incorrectly, which implies at least half of the experts in $S$ voted wrong. Those experts are eliminated, so $\lvert S\rvert $ drops by at least a factor of $2$ on each mistake.
 
-Starting from $|S_0| = K$, after $L_n$ mistakes we have:
+Starting from $\lvert S_0\rvert  = K$, after $L_n$ mistakes we have:
 
 $$|S_{L_n}| \leq \frac{K}{2^{L_n}}$$
 
-Since $|S| \geq 1$ as long as the perfect expert survives (by Assumption 1), we need:
+Since $\lvert S\rvert  \geq 1$ as long as the perfect expert survives (by Assumption 1), we need:
 
 $$\frac{K}{2^{L_n}} \geq 1 \implies L_n \leq \log_2 K$$
 

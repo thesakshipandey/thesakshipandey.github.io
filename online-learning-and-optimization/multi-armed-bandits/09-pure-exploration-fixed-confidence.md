@@ -77,7 +77,7 @@ Action Elimination samples arms in round-robin and eliminates arms whose UCB fal
   - $\text{LCB}_a(t) = \hat{\mu}_a^t - \sqrt{\dfrac{2}{t}\ln\!\left(\dfrac{2Kt^2C}{\delta}\right)}$
 - Elimination set $E = \{i \in A : \exists\, j \in A \text{ s.t. } \text{UCB}_i(t) \leq \text{LCB}_j(t)\}$
 - $A \leftarrow A \setminus E$
-- **If** $|A| = 1$: **return** the sole arm and **STOP**
+- **If** $\lvert A\rvert  = 1$: **return** the sole arm and **STOP**
 - **Else** $t \leftarrow t + 1$
 
 **End for**
@@ -86,7 +86,7 @@ Action Elimination samples arms in round-robin and eliminates arms whose UCB fal
 
 **Claim 4.6.** *Algorithm 13 is $\delta$-PC.*
 
-**Proof.** Define the bad event $B_i(t) = \{|\hat{\mu}_i(t) - \mu_i| > \alpha_t\}$ where $\alpha_t = \sqrt{\frac{2}{t}\ln\frac{2Kt^2C}{\delta}}$.
+**Proof.** Define the bad event $B_i(t) = \{\lvert \hat{\mu}_i(t) - \mu_i\rvert  > \alpha_t\}$ where $\alpha_t = \sqrt{\frac{2}{t}\ln\frac{2Kt^2C}{\delta}}$.
 
 $$\mathbb{P}(B_i(t)) \leq 2\exp\!\left\{\frac{-t\alpha_t^2}{2}\right\} = \frac{\delta}{Kt^2C}$$
 
