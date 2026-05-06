@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Bellman Equations"
-date: 2026-02-25
+date: 2026-03-25
 description: "Self-consistency of value functions, the linear system for fixed policies, and Bellman optimality."
 tags: [mdp, bellman, dynamic-programming]
 giscus_comments: false

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jekyll",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8 && cd /Users/thesakshipandey/Desktop/thesakshipandey.github.io && bundle exec jekyll serve --port 4001 --host 0.0.0.0"],
+      "port": 4001
+    }
+  ]
+}

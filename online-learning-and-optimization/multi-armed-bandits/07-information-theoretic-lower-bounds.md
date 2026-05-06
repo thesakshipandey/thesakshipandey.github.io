@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Information-Theoretic Lower Bounds for MABs"
-date: 2026-02-11
+date: 2026-02-13
 description: "BH inequality, divergence decomposition, minimax and instance-dependent lower bounds."
 tags: [bandits, lower-bounds, information-theory]
 giscus_comments: false

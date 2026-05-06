@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Pure Exploration: Fixed Budget"
-date: 2026-02-13
+date: 2026-03-11
 description: "Best-arm identification with uniform exploration and successive rejects."
 tags: [bandits, pure-exploration, best-arm]
 giscus_comments: false

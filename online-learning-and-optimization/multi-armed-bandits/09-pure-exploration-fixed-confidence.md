@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Pure Exploration: Fixed Confidence"
-date: 2026-02-18
+date: 2026-03-13
 description: "Delta-PC algorithms, lower bounds on stopping time, Action Elimination and LUCB."
 tags: [bandits, pure-exploration, best-arm]
 giscus_comments: false

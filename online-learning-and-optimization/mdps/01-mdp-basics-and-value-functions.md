@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MDP Basics and Value Functions"
-date: 2026-02-20
+date: 2026-03-20
 description: "Markov chains, controlled Markov property, the MDP tuple, and existence of optimal stationary policies."
 tags: [mdp, reinforcement-learning, value-function]
 giscus_comments: false

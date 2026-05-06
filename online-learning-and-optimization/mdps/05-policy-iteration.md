@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Policy Iteration"
-date: 2026-03-06
+date: 2026-04-03
 description: "Greedy policy improvement, the Policy Improvement Theorem, and the machine replacement example."
 tags: [mdp, policy-iteration, dynamic-programming]
 giscus_comments: false

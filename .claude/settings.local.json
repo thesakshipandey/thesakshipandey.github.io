@@ -5,7 +5,10 @@
       "Bash(python3 -c ' *)",
       "WebFetch(domain:api.github.com)",
       "Bash(curl -s \"https://api.github.com/users/thesakshipandey/repos?sort=updated&per_page=30\")",
-      "Bash(sips -s format png /Users/thesakshipandey/Desktop/thesakshipandey.github.io/assets/img/projects/thesis.svg --out /tmp/test_thumb.png)"
+      "Bash(sips -s format png /Users/thesakshipandey/Desktop/thesakshipandey.github.io/assets/img/projects/thesis.svg --out /tmp/test_thumb.png)",
+      "Bash(xargs cat *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git fetch *)"
     ]
   }
 }

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Epsilon-Greedy"
-date: 2026-02-06
+date: 2026-02-11
 description: "Explicit random exploration with decaying epsilon and comparison to UCB."
 tags: [bandits, stochastic, exploration]
 giscus_comments: false

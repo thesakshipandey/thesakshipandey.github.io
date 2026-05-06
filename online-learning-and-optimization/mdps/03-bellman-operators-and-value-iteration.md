@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Bellman Operators and Value Iteration"
-date: 2026-02-27
+date: 2026-03-27
 description: "Contraction maps, Banach's fixed point theorem, and convergence of Value Iteration."
 tags: [mdp, bellman, value-iteration]
 giscus_comments: false

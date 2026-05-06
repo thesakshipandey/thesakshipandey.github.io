@@ -2,7 +2,7 @@
 layout: about
 title: "Home"
 permalink: /
-subtitle: "<a href='https://www.cse.iitb.ac.in/~sakshipandey/'>Student at IIT Bombay</a>. Mumbai, India."
+subtitle: "<a href='https://www.cse.iitb.ac.in/~sakshipandey/'>Student at IIT Bombay</a>."
 
 profile:
   align: right

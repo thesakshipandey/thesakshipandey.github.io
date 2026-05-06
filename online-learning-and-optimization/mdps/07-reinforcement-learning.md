@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Reinforcement Learning"
-date: 2026-03-13
+date: 2026-04-10
 description: "Monte Carlo, Q-learning, SARSA, Deep Q-learning, and TD learning when P and C are unknown."
 tags: [reinforcement-learning, q-learning, model-free]
 giscus_comments: false

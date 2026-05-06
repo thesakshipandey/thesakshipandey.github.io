@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Expected Time-Average MDPs"
-date: 2026-03-11
+date: 2026-04-08
 description: "Long-run average cost, the ETA Bellman equation, and conditions for stationary optimal policies."
 tags: [mdp, average-cost, ergodic]
 giscus_comments: false

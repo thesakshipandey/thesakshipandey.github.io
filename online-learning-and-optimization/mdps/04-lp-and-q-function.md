@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linear Programming Approach and Q-Functions"
-date: 2026-03-04
+date: 2026-04-01
 description: "The LP formulation of MDPs, the state-action value function, and model-free implications."
 tags: [mdp, linear-programming, q-function]
 giscus_comments: false

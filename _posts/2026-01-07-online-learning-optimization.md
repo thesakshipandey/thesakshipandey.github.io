@@ -11,8 +11,6 @@ toc:
   sidebar: left
 ---
 
-Notes from EE6106 by Sarvesh Shashidhar. The course ran every Wednesday and Friday from January to April 2026.
-
 The central question throughout: can a learning agent compete with the best fixed strategy in hindsight, and how quickly? The answer depends on what the agent observes and what the adversary knows.
 
 ---
@@ -50,15 +48,15 @@ The agent pulls one arm per step and observes only its reward. Partial feedback 
 | 7 | [Explore-then-Commit (ETC)](/online-learning-and-optimization/multi-armed-bandits/03-explore-then-commit/) | 28 Jan 2026 |
 | 8 | [Upper Confidence Bound (UCB)](/online-learning-and-optimization/multi-armed-bandits/04-upper-confidence-bound/) | 30 Jan 2026 |
 | 9 | [Anytime UCB](/online-learning-and-optimization/multi-armed-bandits/05-anytime-ucb/) | 4 Feb 2026 |
-| 10 | [Epsilon-Greedy](/online-learning-and-optimization/multi-armed-bandits/06-epsilon-greedy/) | 6 Feb 2026 |
+| 10 | [Epsilon-Greedy](/online-learning-and-optimization/multi-armed-bandits/06-epsilon-greedy/) | 11 Feb 2026 |
 
 ### Lower Bounds and Pure Exploration
 
 | Lecture | Topic | Date |
 |---|---|---|
-| 11 | [Information-Theoretic Lower Bounds](/online-learning-and-optimization/multi-armed-bandits/07-information-theoretic-lower-bounds/) | 11 Feb 2026 |
-| 12 | [Pure Exploration: Fixed Budget](/online-learning-and-optimization/multi-armed-bandits/08-pure-exploration-fixed-budget/) | 13 Feb 2026 |
-| 13 | [Pure Exploration: Fixed Confidence](/online-learning-and-optimization/multi-armed-bandits/09-pure-exploration-fixed-confidence/) | 18 Feb 2026 |
+| 11 | [Information-Theoretic Lower Bounds](/online-learning-and-optimization/multi-armed-bandits/07-information-theoretic-lower-bounds/) | 13, 18 Feb 2026 |
+| 12 | [Pure Exploration: Fixed Budget](/online-learning-and-optimization/multi-armed-bandits/08-pure-exploration-fixed-budget/) | 11 Mar 2026 |
+| 13 | [Pure Exploration: Fixed Confidence](/online-learning-and-optimization/multi-armed-bandits/09-pure-exploration-fixed-confidence/) | 13 Mar 2026 |
 
 **Key results:** Logarithmic regret $O(\ln n / \Delta)$ is achievable and optimal for stochastic MABs. Adversarial bandits pay an extra $\sqrt{K}$ factor. Minimax regret is $\Omega(\sqrt{nK})$.
 
@@ -70,13 +68,13 @@ Actions affect future states. The agent must plan, not just react. When the mode
 
 | Lecture | Topic | Date |
 |---|---|---|
-| 14 | [MDP Basics and Value Functions](/online-learning-and-optimization/mdps/01-mdp-basics-and-value-functions/) | 20 Feb 2026 |
-| 15 | [Bellman Equations](/online-learning-and-optimization/mdps/02-bellman-equations/) | 25 Feb 2026 |
-| 16 | [Bellman Operators and Value Iteration](/online-learning-and-optimization/mdps/03-bellman-operators-and-value-iteration/) | 27 Feb 2026 |
-| 17 | [LP Approach and Q-Functions](/online-learning-and-optimization/mdps/04-lp-and-q-function/) | 4 Mar 2026 |
-| 18 | [Policy Iteration](/online-learning-and-optimization/mdps/05-policy-iteration/) | 6 Mar 2026 |
-| 19 | [Expected Time-Average MDPs](/online-learning-and-optimization/mdps/06-expected-time-average-mdps/) | 11 Mar 2026 |
-| 20 | [Reinforcement Learning](/online-learning-and-optimization/mdps/07-reinforcement-learning/) | 13 Mar 2026 |
+| 14 | [MDP Basics and Value Functions](/online-learning-and-optimization/mdps/01-mdp-basics-and-value-functions/) | 20 Mar 2026 |
+| 15 | [Bellman Equations](/online-learning-and-optimization/mdps/02-bellman-equations/) | 25 Mar 2026 |
+| 16 | [Bellman Operators and Value Iteration](/online-learning-and-optimization/mdps/03-bellman-operators-and-value-iteration/) | 27 Mar 2026 |
+| 17 | [LP Approach and Q-Functions](/online-learning-and-optimization/mdps/04-lp-and-q-function/) | 1 Apr 2026 |
+| 18 | [Policy Iteration](/online-learning-and-optimization/mdps/05-policy-iteration/) | 3 Apr 2026 |
+| 19 | [Expected Time-Average MDPs](/online-learning-and-optimization/mdps/06-expected-time-average-mdps/) | 8 Apr 2026 |
+| 20 | [Reinforcement Learning](/online-learning-and-optimization/mdps/07-reinforcement-learning/) | 10 Apr 2026 |
 
 **Key results:** Discounted MDPs always have an optimal stationary deterministic policy. Value Iteration and Policy Iteration converge via the Bellman contraction. The undiscounted (ETA) case requires additional structural conditions (irreducibility, bounded hitting times).
 
