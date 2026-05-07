@@ -472,11 +472,11 @@
 
 <p>The central tool for proving bandit lower bounds is the Bretagnolle-Huber (B-H) inequality, which relates how distinguishable two probability measures are to how different events can look under them.</p>
 
-<p><strong>Theorem 4.1 (B-H Inequality).</strong> <em>Let $\mathbb{P}$ and $\mathbb{Q}$ be probability measures on $(\Omega, \mathcal{F})$, absolutely continuous with respect to each other. For any event $A \in \mathcal{F}$:</em></p>
+<p><strong>Theorem 4.1 (B-H Inequality).</strong> <em>Let $\mathbb P$ and $\mathbb Q$ be probability measures on $(\Omega, \mathcal{F})$, absolutely continuous with respect to each other. For any event $A \in \mathcal{F}$:</em></p>
 
 \[\mathbb{P}(A) + \mathbb{Q}(A^C) \geq \frac{1}{2}\exp\!\left\{-\min[\text{KL}(\mathbb{P}, \mathbb{Q}), \text{KL}(\mathbb{Q}, \mathbb{P})]\right\}\]
 
-<p><strong>Intuition:</strong> If two measures are close (small KL divergence), then for any event $A$, it cannot simultaneously be rare under $\mathbb{P}$ and rare under $\mathbb{Q}$. One of $\mathbb{P}(A)$ or $\mathbb{Q}(A^C)$ must be non-negligible.</p>
+<p><strong>Intuition:</strong> If two measures are close (small KL divergence), then for any event $A$, it cannot simultaneously be rare under $\mathbb P$ and rare under $\mathbb Q$. One of $\mathbb{P}(A)$ or $\mathbb{Q}(A^C)$ must be non-negligible.</p>
 
 <p><strong>Why useful:</strong> In lower bound proofs, we construct two instances $\mu$ and $\mu’$ such that: a good algorithm must behave differently on them, but the instances are hard to distinguish. BH formalizes this tension.</p>
 
@@ -492,9 +492,9 @@
 
 <h2 id="divergence-decomposition-lemma">Divergence-Decomposition Lemma</h2>
 
-<p><strong>Lemma 4.2.</strong> <em>Let $\mathbb{P}_\mu$ and $\mathbb{P}_{\mu’}$ be the distributions induced by running a fixed policy $\Pi$ on instances $\mu$ and $\mu’$. Then:</em></p>
+<p><strong>Lemma 4.2.</strong> <em>Let $\mathbb P_\mu$ and $\mathbb P_{\mu’}$ be the distributions induced by running a fixed policy $\Pi$ on instances $\mu$ and $\mu’$. Then:</em></p>
 
-\[\text{KL}(\mathbb{P}_\mu, \mathbb{P}_{\mu'}) = \sum_{i=1}^K \mathbb{E}_\mu[T_i(n)] \cdot \text{KL}(\mu_i, \mu'_i)\]
+\[\text{KL}(\mathbb P_\mu, \mathbb P_{\mu'}) = \sum_{i=1}^K \mathbb E_\mu[T_i(n)] \cdot \text{KL}(\mu_i, \mu'_i)\]
 
 <p><strong>Intuition:</strong> The total information divergence between two instances, as seen by the policy, decomposes into the divergences of each arm weighted by how often that arm is pulled. Arms that are pulled rarely contribute little to the KL divergence, making the two instances harder to distinguish.</p>
 
@@ -502,7 +502,7 @@
 
 <h2 id="minimax-lower-bound">Minimax Lower Bound</h2>
 
-<p><strong>Theorem 4.3.</strong> <em>Let $K &gt; 1$ and $n &gt; K - 1$. For any policy $\Pi$, there exists an instance $\mu \in \mathcal{E}_{\mathcal{N}}(1)$ (unit-variance Gaussian arms with means in $[0,1]$) such that:</em></p>
+<p><strong>Theorem 4.3.</strong> <em>Let $K &gt; 1$ and $n &gt; K - 1$. For any policy $\Pi$, there exists an instance $\mu \in \mathcal E_{\mathcal{N}}(1)$ (unit-variance Gaussian arms with means in $[0,1]$) such that:</em></p>
 
 \[R_n(\Pi, \mu) \geq \frac{1}{27}\sqrt{n(K-1)}\]
 
@@ -512,26 +512,26 @@
 
 \[\mu' = [\Delta, 0, \ldots, 0, 2\Delta, 0, \ldots, 0] \quad \text{(arm }i\text{ has mean }2\Delta\text{, making it optimal)}\]
 
-<p>where $i = \arg\min_{j \neq 1} \mathbb{E}_\mu[T_j(n)]$ is the arm pulled least often under $\mu$. Choose $\Delta \in (0, 1/2)$.</p>
+<p>where $i = \arg\min_{j \neq 1} \mathbb E_\mu[T_j(n)]$ is the arm pulled least often under $\mu$. Choose $\Delta \in (0, 1/2)$.</p>
 
 <p>Define the event $A = {T_1(n) \leq n/2}$.</p>
 
 <ul>
-  <li>Under $\mu$: $A^C$ means $T_1(n) &gt; n/2$, which is bad since arm 1 is optimal under $\mu$. So $R_n(\Pi, \mu) \geq \mathbb{P}_\mu(A) \cdot n\Delta/2$.</li>
-  <li>Under $\mu’$: arm 1 is sub-optimal (mean $\Delta$, vs arm $i$ with mean $2\Delta$). $A$ means $T_1(n) \leq n/2$, which is bad. So $R_n(\Pi, \mu’) \geq \mathbb{P}_{\mu’}(A^C) \cdot n\Delta/2$.</li>
+  <li>Under $\mu$: $A^C$ means $T_1(n) &gt; n/2$, which is bad since arm 1 is optimal under $\mu$. So $R_n(\Pi, \mu) \geq \mathbb P_\mu(A) \cdot n\Delta/2$.</li>
+  <li>Under $\mu’$: arm 1 is sub-optimal (mean $\Delta$, vs arm $i$ with mean $2\Delta$). $A$ means $T_1(n) \leq n/2$, which is bad. So $R_n(\Pi, \mu’) \geq \mathbb P_{\mu’}(A^C) \cdot n\Delta/2$.</li>
 </ul>
 
 <p>Therefore:</p>
 
-\[R_n(\Pi, \mu) + R_n(\Pi, \mu') \geq \frac{n\Delta}{2}\left(\mathbb{P}_\mu(A) + \mathbb{P}_{\mu'}(A^C)\right) \geq \frac{n\Delta}{4}\exp\{-\text{KL}(\mathbb{P}_\mu, \mathbb{P}_{\mu'})\}\]
+\[R_n(\Pi, \mu) + R_n(\Pi, \mu') \geq \frac{n\Delta}{2}\left(\mathbb P_\mu(A) + \mathbb P_{\mu'}(A^C)\right) \geq \frac{n\Delta}{4}\exp\{-\text{KL}(\mathbb P_\mu, \mathbb P_{\mu'})\}\]
 
 <p>By divergence decomposition:</p>
 
-\[\text{KL}(\mathbb{P}_\mu, \mathbb{P}_{\mu'}) = \mathbb{E}_\mu[T_i(n)] \cdot \text{KL}(\mu_i, \mu'_i) = \mathbb{E}_\mu[T_i(n)] \cdot \frac{(2\Delta)^2}{2} = 2\Delta^2 \mathbb{E}_\mu[T_i(n)]\]
+\[\text{KL}(\mathbb P_\mu, \mathbb P_{\mu'}) = \mathbb E_\mu[T_i(n)] \cdot \text{KL}(\mu_i, \mu'_i) = \mathbb E_\mu[T_i(n)] \cdot \frac{(2\Delta)^2}{2} = 2\Delta^2 \mathbb E_\mu[T_i(n)]\]
 
 <p>Since $i$ is the least-pulled arm under $\mu$, and all $K-1$ sub-optimal arms together sum to at most $n$:</p>
 
-\[\mathbb{E}_\mu[T_i(n)] \leq \frac{n}{K-1}\]
+\[\mathbb E_\mu[T_i(n)] \leq \frac{n}{K-1}\]
 
 <p>Substituting:</p>
 
@@ -559,7 +559,7 @@
 
 \[\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i: \Delta_i &gt; 0} \frac{\Delta_i}{d_{\inf}(\nu_i, \mu^\ast, \mathcal{E})}\]
 
-<p><strong>For Gaussian arms</strong> ($\mathcal{E} = \mathcal{E}<em>{\mathcal{N}}(1)$): $d</em>{\inf}(\nu_i, \mu^\ast, \mathcal{E}) = \Delta_i^2/2$, giving:</p>
+<p><strong>For Gaussian arms</strong> where $\mathcal E = \mathcal E_{\mathcal N}(1)$, we have $d_{\inf}(\nu_i, \mu^\ast, \mathcal E) = \Delta_i^2/2$, giving:</p>
 
 \[\liminf_{n \to \infty} \frac{R_n(\Pi, \nu)}{\ln n} \geq \sum_{i:\Delta_i&gt;0} \frac{2}{\Delta_i}\]
 

@@ -477,7 +477,12 @@
 <p><strong>For</strong> $t = K+1$ to $\infty$ <strong>do:</strong></p>
 <ul>
   <li>
-<strong>For</strong> $j = 1$ to $K$: $\text{UCB}<em>j(t) = \hat{\mu}</em>{j,t-1} + \sqrt{\dfrac{8\ln t}{T_j(t-1)}}$</li>
+<strong>For</strong> $j = 1$ to $K$: update</li>
+</ul>
+
+\[\text{UCB}_j(t) = \hat\mu_{j,t-1} + \sqrt{\frac{8\ln t}{T_j(t-1)}}\]
+
+<ul>
   <li>Pick arm $A \in \arg\max_{i \in [K]} \text{UCB}_i(t-1)$</li>
 </ul>
 
@@ -528,7 +533,7 @@
 
 <p>Taking expectation:</p>
 
-\[\mathbb{E}[T_i(n)] \leq 1 + \frac{32\ln n}{\Delta_i^2} + \sum_{t=1}^n t^{-3} + \sum_{t=1}^n t^{-3} \leq 1 + \frac{32\ln n}{\Delta_i^2} + 2\sum_{t=1}^\infty t^{-3} = 1 + \frac{32\ln n}{\Delta_i^2} + 2\zeta(3)\]
+\[\mathbb E[T_i(n)] \leq 1 + \frac{32\ln n}{\Delta_i^2} + \sum_{t=1}^n t^{-3} + \sum_{t=1}^n t^{-3} \leq 1 + \frac{32\ln n}{\Delta_i^2} + 2\sum_{t=1}^\infty t^{-3} = 1 + \frac{32\ln n}{\Delta_i^2} + 2\zeta(3)\]
 
 <p>Multiplying by $\Delta_i$ and summing:</p>
 
@@ -580,7 +585,7 @@
 
 <ul>
   <li>$\alpha = 4$ (used above): $\mathbb{P}(\text{bad event}) \leq t^{-3}$, constant $= 1 + 2\zeta(3)$</li>
-  <li>$\alpha = 3$: $\delta_t = 1/t^3$, gives $\mathbb{P} \leq t^{-2}$, constant involves $\pi^2/6$ (Basel problem)</li>
+  <li>$\alpha = 3$: $\delta_t = 1/t^3$, gives $\mathbb P \leq t^{-2}$, constant involves $\pi^2/6$ (Basel problem)</li>
 </ul>
 
 <p>Using $\delta_t = 1/t^3$ (i.e., $\alpha = 3$) gives:</p>

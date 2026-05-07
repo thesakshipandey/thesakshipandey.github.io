@@ -497,7 +497,12 @@
 <p>To analyze REWMA, reframe it as EWMA on an extended space. Define:</p>
 
 <ul>
-  <li>$D’ = {p \in \mathbb{R}<em>+^K : \sum</em>{i=1}^K p_i = 1}$ (the $K$-dimensional simplex, representing distributions over experts)</li>
+  <li>$D’$ is the $K$-dimensional simplex (distributions over experts):</li>
+</ul>
+
+\[D' = \left\{p \in \mathbb R_+^K : \sum_{i=1}^K p_i = 1\right\}\]
+
+<ul>
   <li>$E’ = E \times D^K$ where $E$ is the space of $X_t$</li>
 </ul>
 
@@ -511,7 +516,7 @@
 
 <p>and the expected loss equals:</p>
 
-\[\ell'(X'_t, A'_t) = \sum_{i=1}^K \frac{w_{i,t}}{\sum_j w_{j,t}} \ell(X_t, Y_{i,t}) = \mathbb{E}[\ell(X_t, A_t)]\]
+\[\ell'(X'_t, A'_t) = \sum_{i=1}^K \frac{w_{i,t}}{\sum_j w_{j,t}} \ell(X_t, Y_{i,t}) = \mathbb E[\ell(X_t, A_t)]\]
 
 <p><strong>The loss of REWMA equals the expected loss of EWMA.</strong> Therefore the expected regret of REWMA inherits the same bound:</p>
 

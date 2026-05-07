@@ -464,7 +464,7 @@
 
 <p>Discounted MDPs are mathematically convenient but artificially downweight long-term costs. The <strong>expected time-average (ETA)</strong> formulation instead measures the long-run average cost per step:</p>
 
-\[\Phi_\pi(i) = \limsup_{n \to \infty} \frac{1}{n+1} \mathbb{E}_\pi\!\left[\sum_{t=0}^n C(X_t, A_t) \;\Big|\; X_0 = i\right]\]
+\[\Phi_\pi(i) = \limsup_{n \to \infty} \frac{1}{n+1} \mathbb E_\pi\!\left[\sum_{t=0}^n C(X_t, A_t) \;\Big|\; X_0 = i\right]\]
 
 <p>The MDP is now $\mathcal{M} = (S, A, P, C)$ with no discount factor. A policy $\pi^\ast$ is optimal if $\Phi_{\pi^\ast}(i) = \inf_\pi \Phi_\pi(i)$ for all $i \in S$.</p>
 
@@ -491,7 +491,7 @@
 
 <p><strong>Key result:</strong> There exists a <strong>non-stationary</strong> policy achieving ETA cost 0 for the following MDP:</p>
 <ul>
-  <li>$S = \mathbb{N}$, $A = {1, 2}$</li>
+  <li>$S = \mathbb N$, $A = {1, 2}$</li>
   <li>Action 1: go to $i+1$; Action 2: stay at $i$</li>
   <li>$C(i, 1) = 1$, $C(i, 2) = 1/i$</li>
   <li>Policy: at state $i$, take action 1 with probability $2^{-i}$, action 2 otherwise.</li>
@@ -517,7 +517,7 @@
 
 <p><strong>Proof sketch.</strong> Define the process $M_t = h(X_t) - g - h(X_{t-1}) + C(X_{t-1}, A_{t-1})$. Using the Bellman equation, this is a martingale difference sequence. Summing and dividing by $n$ gives:</p>
 
-\[g \leq \frac{\mathbb{E}[h(X_n)] - \mathbb{E}[h(X_0)]}{n} + \frac{1}{n}\mathbb{E}\!\left[\sum_{t=1}^n C(X_{t-1}, A_{t-1})\right]\]
+\[g \leq \frac{\mathbb E[h(X_n)] - \mathbb E[h(X_0)]}{n} + \frac{1}{n}\mathbb{E}\!\left[\sum_{t=1}^n C(X_{t-1}, A_{t-1})\right]\]
 
 <p>As $n \to \infty$, the first term vanishes (if $h$ is bounded), giving $g \leq \Phi_\pi$ for all policies $\pi$. The optimal policy achieves equality. $\square$</p>
 
@@ -539,7 +539,7 @@
 
 <p>If this limit exists, the ETA Bellman equation is satisfied, guaranteeing a stationary optimal policy.</p>
 
-<p><strong>Theorem 5.11.</strong> <em>If $\exists N &lt; \infty$ such that $\lvert V_\alpha(i) - V_\alpha(0)\rvert  &lt; N$ for all $\alpha, i$, then there exist $g \in \mathbb{R}$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.</em></p>
+<p><strong>Theorem 5.11.</strong> <em>If $\exists N &lt; \infty$ such that $\lvert V_\alpha(i) - V_\alpha(0)\rvert  &lt; N$ for all $\alpha, i$, then there exist $g \in \mathbb R$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.</em></p>
 
 <hr>
 
@@ -572,8 +572,8 @@
   <tbody>
     <tr>
       <td>Objective</td>
-      <td>$\inf_\pi \mathbb{E}[\sum_t \alpha^t C_t]$</td>
-      <td>$\inf_\pi \limsup \frac{1}{n}\mathbb{E}[\sum_t C_t]$</td>
+      <td>$\inf_\pi \mathbb E[\sum_t \alpha^t C_t]$</td>
+      <td>$\inf_\pi \limsup \frac{1}{n}\mathbb E[\sum_t C_t]$</td>
     </tr>
     <tr>
       <td>Optimal stationary policy?</td>

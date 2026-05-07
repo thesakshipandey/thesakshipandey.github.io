@@ -501,7 +501,12 @@
 <p><strong>For</strong> $t = K+1$ to $n$ <strong>do:</strong></p>
 <ul>
   <li>
-<strong>For</strong> $j = 1$ to $K$: $\text{UCB}<em>j(t) = \hat{\mu}</em>{j,t-1} + \sqrt{\dfrac{2\ln(1/\delta)}{T_j(t-1)}}$</li>
+<strong>For</strong> $j = 1$ to $K$: update</li>
+</ul>
+
+\[\text{UCB}_j(t) = \hat\mu_{j,t-1} + \sqrt{\frac{2\ln(1/\delta)}{T_j(t-1)}}\]
+
+<ul>
   <li>Pick arm $A \in \arg\max_{i \in [K]} \text{UCB}_i(t-1)$</li>
 </ul>
 
@@ -531,7 +536,7 @@
 
 <p>Using total expectation:</p>
 
-\[\mathbb{E}[T_i(n)] = \mathbb{E}[T_i(n) \cdot \mathbf{1}_{G_i}] + \mathbb{E}[T_i(n) \cdot \mathbf{1}_{G_i^C}] \leq u_i + \mathbb{P}(G_i^C) \cdot n\]
+\[\mathbb E[T_i(n)] = \mathbb E[T_i(n) \cdot \mathbf{1}_{G_i}] + \mathbb E[T_i(n) \cdot \mathbf{1}_{G_i^C}] \leq u_i + \mathbb{P}(G_i^C) \cdot n\]
 
 <p><strong>Bounding $\mathbb{P}(G_i^C)$.</strong> The complement $G_i^C = J_1 \cup J_2$ where:</p>
 
@@ -552,11 +557,11 @@
 
 <p>Setting $\delta = 1/n^2$:</p>
 
-\[\mathbb{E}[T_i(n)] \leq 1 + \frac{8\ln(1/\delta)}{\Delta_i^2} + n(n\delta + \delta) \leq 3 + \frac{16\ln n}{\Delta_i^2}\]
+\[\mathbb E[T_i(n)] \leq 1 + \frac{8\ln(1/\delta)}{\Delta_i^2} + n(n\delta + \delta) \leq 3 + \frac{16\ln n}{\Delta_i^2}\]
 
 <p>Therefore:</p>
 
-\[R_n = \sum_i \Delta_i \mathbb{E}[T_i(n)] \leq 3\sum_i \Delta_i + \sum_{i:\Delta_i&gt;0} \frac{16\ln n}{\Delta_i} \quad \square\]
+\[R_n = \sum_i \Delta_i \mathbb E[T_i(n)] \leq 3\sum_i \Delta_i + \sum_{i:\Delta_i&gt;0} \frac{16\ln n}{\Delta_i} \quad \square\]
 
 <hr>
 
@@ -570,13 +575,13 @@
 
 <p><strong>Proof.</strong> Split arms into two groups by threshold $\Delta &gt; 0$:</p>
 
-\[R_n = \sum_{i:\Delta_i \leq \Delta} \Delta_i \mathbb{E}[T_i(n)] + \sum_{i:\Delta_i &gt; \Delta} \Delta_i \mathbb{E}[T_i(n)]\]
+\[R_n = \sum_{i:\Delta_i \leq \Delta} \Delta_i \mathbb E[T_i(n)] + \sum_{i:\Delta_i &gt; \Delta} \Delta_i \mathbb E[T_i(n)]\]
 
 <p>For the first group: $\Delta_i \leq \Delta$, so their total contribution is at most $n\Delta$.</p>
 
 <p>For the second group: apply the instance-dependent bound:</p>
 
-\[\sum_{i:\Delta_i &gt; \Delta} \Delta_i \mathbb{E}[T_i(n)] \leq 3\sum_{i:\Delta_i&gt;\Delta} \Delta_i + \frac{16K\ln n}{\Delta}\]
+\[\sum_{i:\Delta_i &gt; \Delta} \Delta_i \mathbb E[T_i(n)] \leq 3\sum_{i:\Delta_i&gt;\Delta} \Delta_i + \frac{16K\ln n}{\Delta}\]
 
 <p>So:</p>
 

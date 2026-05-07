@@ -479,23 +479,23 @@
 
 <p>Since we only observe the chosen arm, we need to estimate the losses of unchosen arms. Define the <strong>importance-weighted estimator</strong>:</p>
 
-\[\hat{Y}_{j,t} = \frac{\mathbf{1}_{A_t = j} \cdot Y_t}{p_{j,t}}\]
+\[\hat Y_{j,t} = \frac{\mathbf{1}_{A_t = j} \cdot Y_t}{p_{j,t}}\]
 
-<p>where $p_{j,t} = \mathbb{P}[A_t = j \mid I_{t-1}]$ is the probability of choosing arm $j$ at time $t$.</p>
+<p>where $p_{j,t} = \mathbb P[A_t = j \mid I_{t-1}]$ is the probability of choosing arm $j$ at time $t$.</p>
 
 <p><strong>This estimator is unbiased:</strong></p>
 
-\[\mathbb{E}_t[\hat{Y}_{j,t} \mid I_{t-1}] = \frac{p_{j,t} \cdot Y_{j,t}}{p_{j,t}} + \sum_{i \neq j} \frac{p_{i,t} \cdot 0}{p_{j,t}} = Y_{j,t}\]
+\[\mathbb E_t[\hat Y_{j,t} \mid I_{t-1}] = \frac{p_{j,t} \cdot Y_{j,t}}{p_{j,t}} + \sum_{i \neq j} \frac{p_{i,t} \cdot 0}{p_{j,t}} = Y_{j,t}\]
 
 <p>The issue: the variance can be very large when $p_{j,t}$ is small (rarely explored arms get high-variance estimates).</p>
 
 <h3 id="loss-based-estimator">Loss-Based Estimator</h3>
 
-<p>Working with losses instead of rewards, define $Z_t = 1 - Y_t$ and $\hat{Z}_t = 1 - \hat{Y}_t$. The cumulative loss estimate for expert $i$ up to time $t$:</p>
+<p>Working with losses instead of rewards, define $Z_t = 1 - Y_t$ and $\hat Z_t = 1 - \hat Y_t$. The cumulative loss estimate for expert $i$ up to time $t$:</p>
 
-\[\hat{L}_{i,t} = \sum_{s=1}^t \hat{Z}_{i,s}\]
+\[\hat L_{i,t} = \sum_{s=1}^t \hat Z_{i,s}\]
 
-<p><strong>Unbiasedness:</strong> $\mathbb{E}[\hat{L}<em>{i,t}] = L</em>{i,t}$ (follows from linearity and the unbiased estimator above).</p>
+<p><strong>Unbiasedness:</strong> $\mathbb E[\hat L_{i,t}] = L_{i,t}$ (follows from linearity and the unbiased estimator above).</p>
 
 <hr>
 
@@ -505,16 +505,21 @@
 
 <p><strong>Require:</strong> Number of arms $K$, horizon $n$, learning rate $\eta \in (0, 1)$</p>
 
-<p><strong>Initialize:</strong> $\hat{L}_{j,0} = 0$ for all $j$</p>
+<p><strong>Initialize:</strong> $\hat L_{j,0} = 0$ for all $j$</p>
 
 <p><strong>For</strong> $t = 1$ to $n$ <strong>do:</strong></p>
 <ul>
   <li>
-<strong>For</strong> $j = 1$ to $K$: compute $p_{j,t} = \frac{\exp(\eta \cdot \hat{L}<em>{j,t-1})}{\sum</em>{i=1}^K \exp(\eta \cdot \hat{L}_{i,t-1})}$</li>
+<strong>For</strong> $j = 1$ to $K$: compute</li>
+</ul>
+
+\[p_{j,t} = \frac{\exp(\eta \cdot \hat L_{j,t-1})}{\sum_{i=1}^K \exp(\eta \cdot \hat L_{i,t-1})}\]
+
+<ul>
   <li>Sample $A_t \sim (p_{1,t}, \ldots, p_{K,t})$</li>
   <li>Observe $Y_{A_t, t}$</li>
   <li>
-<strong>For</strong> $j = 1$ to $K$: update $\hat{L}<em>{j,t} = \hat{L}</em>{j,t-1} + \hat{Y}_{j,t}$</li>
+<strong>For</strong> $j = 1$ to $K$: update $\hat L_{j,t} = \hat L_{j,t-1} + \hat Y_{j,t}$</li>
 </ul>
 
 <p><strong>End for</strong></p>
@@ -539,31 +544,31 @@
 
 <h2 id="proof">Proof</h2>
 
-<p>We track the weight potential $w_t = e^{\eta n} \sum_{i=1}^K e^{-\eta \hat{L}_{i,t}}$.</p>
+<p>We track the weight potential $w_t = e^{\eta n} \sum_{i=1}^K e^{-\eta \hat L_{i,t}}$.</p>
 
 <p><strong>Lower bound.</strong> For any expert $i$:</p>
 
-\[w_n \geq e^{\eta n} e^{-\eta \hat{L}_{i,n}}\]
+\[w_n \geq e^{\eta n} e^{-\eta \hat L_{i,n}}\]
 
 <p><strong>Upper bound.</strong> Analyze the ratio $w_t / w_{t-1}$:</p>
 
-\[\frac{w_t}{w_{t-1}} = e^{\eta} \sum_{j=1}^K p_{j,t} e^{\eta(1 - \hat{Y}_{j,t})}\]
+\[\frac{w_t}{w_{t-1}} = e^{\eta} \sum_{j=1}^K p_{j,t} e^{\eta(1 - \hat Y_{j,t})}\]
 
-<p>For $x \leq 1$, we have $1 + x \leq e^x \leq 1 + x + x^2$. Applying this with $x = \eta(1 - \hat{Y}_{j,t})$:</p>
+<p>For $x \leq 1$, we have $1 + x \leq e^x \leq 1 + x + x^2$. Applying this with $x = \eta(1 - \hat Y_{j,t})$:</p>
 
-\[\frac{w_t}{w_{t-1}} \leq \exp\!\left\{\eta \sum_{j=1}^K p_{j,t}(1 - \hat{Y}_{j,t}) + \eta^2 \sum_{j=1}^K p_{j,t}(1 - \hat{Y}_{j,t})^2\right\}\]
+\[\frac{w_t}{w_{t-1}} \leq \exp\!\left\{\eta \sum_{j=1}^K p_{j,t}(1 - \hat Y_{j,t}) + \eta^2 \sum_{j=1}^K p_{j,t}(1 - \hat Y_{j,t})^2\right\}\]
 
-<p>Telescoping over $n$ steps and applying Lemma A.1 (which bounds $\mathbb{E}\sum p_{j,t}(1-\hat{Y}_{j,t})^2 \leq Kn$):</p>
+<p>Telescoping over $n$ steps and applying Lemma A.1 (which bounds $\mathbb{E}\sum p_{j,t}(1-\hat Y_{j,t})^2 \leq Kn$):</p>
 
-\[\frac{w_n}{K} \leq \exp\!\left\{\eta \sum_{t,j} p_{j,t}(1-\hat{Y}_{j,t}) + \eta^2 Kn\right\}\]
+\[\frac{w_n}{K} \leq \exp\!\left\{\eta \sum_{t,j} p_{j,t}(1-\hat Y_{j,t}) + \eta^2 Kn\right\}\]
 
-<p>Combining with the lower bound and simplifying (using $\sum_j p_{j,t}(1-\hat{Y}<em>{j,t}) = n - \hat{L}_n$ and $n - \hat{L}</em>{i,n} \leq n - \hat{L}<em>n + \hat{L}_n - \hat{L}</em>{i,n}$):</p>
+<p>Combining with the lower bound and simplifying, using $\sum_j p_{j,t}(1-\hat Y_{j,t}) = n - \hat L_n$ and $n - \hat L_{i,n} \leq n - \hat L_n + \hat L_n - \hat L_{i,n}$:</p>
 
-\[\hat{L}_n - \hat{L}_{i,n} \leq \frac{\ln K}{\eta} + \eta Kn\]
+\[\hat L_n - \hat L_{i,n} \leq \frac{\ln K}{\eta} + \eta Kn\]
 
-<p>Taking expectation (using $\mathbb{E}[\hat{L}<em>{i,n}] = L</em>{i,n}$ and $\mathbb{E}[\hat{L}_n] = \mathbb{E}[L_n]$):</p>
+<p>Taking expectation (using $\mathbb E[\hat L_{i,n}] = L_{i,n}$ and $\mathbb E[\hat L_n] = \mathbb E[L_n]$):</p>
 
-\[\mathbb{E}\!\left[R_{i,n}^{\text{EXP3}}\right] = \hat{L}_n - \hat{L}_{i,n} \leq \frac{\ln K}{\eta} + \eta Kn \quad \square\]
+\[\mathbb{E}\!\left[R_{i,n}^{\text{EXP3}}\right] = \hat L_n - \hat L_{i,n} \leq \frac{\ln K}{\eta} + \eta Kn \quad \square\]
 
 <hr>
 
