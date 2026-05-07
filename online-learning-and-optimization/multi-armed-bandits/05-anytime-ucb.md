@@ -27,7 +27,10 @@ The fix is simple in principle: let $\delta$ decay with time rather than fixing 
 **Initialize:** UCB of each arm $= \infty$. Pull each arm once.
 
 **For** $t = K+1$ to $\infty$ **do:**
-- **For** $j = 1$ to $K$: $\text{UCB}_j(t) = \hat{\mu}_{j,t-1} + \sqrt{\dfrac{8\ln t}{T_j(t-1)}}$
+- **For** $j = 1$ to $K$: update
+
+$$\text{UCB}_j(t) = \hat\mu_{j,t-1} + \sqrt{\frac{8\ln t}{T_j(t-1)}}$$
+
 - Pick arm $A \in \arg\max_{i \in [K]} \text{UCB}_i(t-1)$
 
 **End for**
@@ -73,7 +76,7 @@ $$\mathbb{P}\{\text{UCB}_1(t) \leq \mu_1\} \leq \mathbb{P}\!\left(\bigcup_{s=1}^
 
 Taking expectation:
 
-$$\mathbb{E}[T_i(n)] \leq 1 + \frac{32\ln n}{\Delta_i^2} + \sum_{t=1}^n t^{-3} + \sum_{t=1}^n t^{-3} \leq 1 + \frac{32\ln n}{\Delta_i^2} + 2\sum_{t=1}^\infty t^{-3} = 1 + \frac{32\ln n}{\Delta_i^2} + 2\zeta(3)$$
+$$\mathbb E[T_i(n)] \leq 1 + \frac{32\ln n}{\Delta_i^2} + \sum_{t=1}^n t^{-3} + \sum_{t=1}^n t^{-3} \leq 1 + \frac{32\ln n}{\Delta_i^2} + 2\sum_{t=1}^\infty t^{-3} = 1 + \frac{32\ln n}{\Delta_i^2} + 2\zeta(3)$$
 
 Multiplying by $\Delta_i$ and summing:
 
@@ -99,7 +102,7 @@ The anytime version pays a factor of 2 in the logarithmic term and a larger cons
 With $\delta_t = t^{-\alpha}$ for $\alpha > 2$, the probability bound becomes $t^{1-\alpha}$, which is summable as long as $\alpha > 2$. This gives the $\alpha$-UCB family:
 
 - $\alpha = 4$ (used above): $\mathbb{P}(\text{bad event}) \leq t^{-3}$, constant $= 1 + 2\zeta(3)$
-- $\alpha = 3$: $\delta_t = 1/t^3$, gives $\mathbb{P} \leq t^{-2}$, constant involves $\pi^2/6$ (Basel problem)
+- $\alpha = 3$: $\delta_t = 1/t^3$, gives $\mathbb P \leq t^{-2}$, constant involves $\pi^2/6$ (Basel problem)
 
 Using $\delta_t = 1/t^3$ (i.e., $\alpha = 3$) gives:
 

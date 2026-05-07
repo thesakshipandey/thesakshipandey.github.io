@@ -54,7 +54,7 @@ This is a **linear program**: linear objective, linear constraints. It has $\lve
 
 The value function $V_\pi(i)$ gives the expected cost starting from state $i$ under policy $\pi$. The **Q-function** extends this to include the first action explicitly.
 
-**Definition (Q-Function).** For policy $\pi$, the Q-function $Q_\pi: S \times A \to \mathbb{R}$ is:
+**Definition (Q-Function).** For policy $\pi$, the Q-function $Q_\pi: S \times A \to \mathbb R$ is:
 
 $$Q_\pi(i, a) = c_i(a) + \alpha \sum_{j \in S} p_{ij}(a) V_\pi(j)$$
 

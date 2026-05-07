@@ -26,7 +26,7 @@ The goal is to **maximize expected cumulative reward** over horizon $n$. This is
 
 ## Key Quantities
 
-Let $\mu_i = \mathbb{E}_{X \sim \nu_i}[X]$ be the mean reward of arm $i$. Define:
+Let $\mu_i = \mathbb E_{X \sim \nu_i}[X]$ be the mean reward of arm $i$. Define:
 
 $$\mu^\ast = \max_{i \in [K]} \mu_i \quad \text{(optimal mean reward)}$$
 
@@ -44,15 +44,15 @@ Let $T_i(n) = \sum_{t=1}^n \mathbf{1}[A_t = i]$ be the number of pulls of arm $i
 
 **Lemma 3.1.** *The regret can be written as:*
 
-$$R_n(\pi, \nu) = \sum_{i \in [K]} \Delta_i \cdot \mathbb{E}[T_i(n)]$$
+$$R_n(\pi, \nu) = \sum_{i \in [K]} \Delta_i \cdot \mathbb E[T_i(n)]$$
 
 **Proof.** Starting from the definition:
 
-$$R_n = \sum_{t=1}^n \mathbb{E}[\mu^\ast - \mu_{A_t}] = \sum_{t=1}^n \mathbb{E}[\Delta_{A_t}]$$
+$$R_n = \sum_{t=1}^n \mathbb E[\mu^\ast - \mu_{A_t}] = \sum_{t=1}^n \mathbb E[\Delta_{A_t}]$$
 
 Now $\Delta_{A_t} = \sum_{i=1}^K \mathbf{1}[A_t = i] \cdot \Delta_i$, so:
 
-$$R_n = \sum_{t=1}^n \mathbb{E}\!\left[\sum_{i=1}^K \mathbf{1}[A_t = i] \cdot \Delta_i\right] = \sum_{i=1}^K \Delta_i \cdot \mathbb{E}\!\left[\sum_{t=1}^n \mathbf{1}[A_t = i]\right] = \sum_{i=1}^K \Delta_i \cdot \mathbb{E}[T_i(n)] \quad \square$$
+$$R_n = \sum_{t=1}^n \mathbb{E}\!\left[\sum_{i=1}^K \mathbf{1}[A_t = i] \cdot \Delta_i\right] = \sum_{i=1}^K \Delta_i \cdot \mathbb{E}\!\left[\sum_{t=1}^n \mathbf{1}[A_t = i]\right] = \sum_{i=1}^K \Delta_i \cdot \mathbb E[T_i(n)] \quad \square$$
 
 **Interpretation:** Regret is the weighted count of sub-optimal arm pulls, weighted by how sub-optimal each arm is. To minimize regret, pull sub-optimal arms as few times as possible.
 
@@ -92,19 +92,19 @@ We want to bound $\mathbb{P}(A_t = i)$ for a sub-optimal arm $i$ (with $\Delta_i
 
 **Proof.** Each $\hat{\mu}_j(t)$ is the average of $t$ i.i.d. 1-sub-Gaussian variables. By the sub-Gaussian scaling property, $\hat{\mu}_j(t) \sim \frac{1}{\sqrt{t}}$-subG. The difference of two independent sub-Gaussians with parameters $\sigma_1, \sigma_2$ is $\sqrt{\sigma_1^2 + \sigma_2^2}$-subG. With $\sigma_1 = \sigma_2 = 1$, we get $X \sim \sqrt{\frac{2}{t-1}}$-subG. $\square$
 
-Now, $\mathbb{E}[X] = \mu_1 - \mu_i = \Delta_i$. The agent picks arm $i$ when $X \leq 0$, i.e., $X - \mathbb{E}[X] \leq -\Delta_i$.
+Now, $\mathbb E[X] = \mu_1 - \mu_i = \Delta_i$. The agent picks arm $i$ when $X \leq 0$, i.e., $X - \mathbb E[X] \leq -\Delta_i$.
 
 Using sub-Gaussian concentration:
 
-$$\mathbb{P}(A_t = i) \leq \mathbb{P}(X - \mathbb{E}[X] \leq -\Delta_i) \leq e^{-\Delta_i^2(t-1)/4}$$
+$$\mathbb{P}(A_t = i) \leq \mathbb{P}(X - \mathbb E[X] \leq -\Delta_i) \leq e^{-\Delta_i^2(t-1)/4}$$
 
 Therefore:
 
-$$\mathbb{E}[T_i(n)] \leq 1 + \sum_{t=2}^n \mathbb{P}(A_t = i) \leq 1 + \sum_{t=2}^n e^{-\Delta_i^2(t-1)/4} \leq 1 + \sum_{t=0}^\infty e^{-\Delta_i^2 t/4} = O(1)$$
+$$\mathbb E[T_i(n)] \leq 1 + \sum_{t=2}^n \mathbb{P}(A_t = i) \leq 1 + \sum_{t=2}^n e^{-\Delta_i^2(t-1)/4} \leq 1 + \sum_{t=0}^\infty e^{-\Delta_i^2 t/4} = O(1)$$
 
 So for the Full-Info setting, the regret is:
 
-$$R_n = \sum_i \Delta_i \cdot \mathbb{E}[T_i(n)] = O(1)$$
+$$R_n = \sum_i \Delta_i \cdot \mathbb E[T_i(n)] = O(1)$$
 
 The regret is **constant** -- it does not grow with the horizon at all.
 

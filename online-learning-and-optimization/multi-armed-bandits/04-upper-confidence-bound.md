@@ -51,7 +51,10 @@ Arms that have never been pulled get UCB $= \infty$ to ensure they are explored 
 **Initialize:** UCB of each arm $= \infty$. Pull each arm once.
 
 **For** $t = K+1$ to $n$ **do:**
-- **For** $j = 1$ to $K$: $\text{UCB}_j(t) = \hat{\mu}_{j,t-1} + \sqrt{\dfrac{2\ln(1/\delta)}{T_j(t-1)}}$
+- **For** $j = 1$ to $K$: update
+
+$$\text{UCB}_j(t) = \hat\mu_{j,t-1} + \sqrt{\frac{2\ln(1/\delta)}{T_j(t-1)}}$$
+
 - Pick arm $A \in \arg\max_{i \in [K]} \text{UCB}_i(t-1)$
 
 **End for**
@@ -80,7 +83,7 @@ The good event $G_i$ says: (1) the UCB of arm 1 always covers its true mean, and
 
 Using total expectation:
 
-$$\mathbb{E}[T_i(n)] = \mathbb{E}[T_i(n) \cdot \mathbf{1}_{G_i}] + \mathbb{E}[T_i(n) \cdot \mathbf{1}_{G_i^C}] \leq u_i + \mathbb{P}(G_i^C) \cdot n$$
+$$\mathbb E[T_i(n)] = \mathbb E[T_i(n) \cdot \mathbf{1}_{G_i}] + \mathbb E[T_i(n) \cdot \mathbf{1}_{G_i^C}] \leq u_i + \mathbb{P}(G_i^C) \cdot n$$
 
 **Bounding $\mathbb{P}(G_i^C)$.** The complement $G_i^C = J_1 \cup J_2$ where:
 
@@ -99,11 +102,11 @@ So $\mathbb{P}(G_i^C) \leq n\delta + \delta$.
 
 Setting $\delta = 1/n^2$:
 
-$$\mathbb{E}[T_i(n)] \leq 1 + \frac{8\ln(1/\delta)}{\Delta_i^2} + n(n\delta + \delta) \leq 3 + \frac{16\ln n}{\Delta_i^2}$$
+$$\mathbb E[T_i(n)] \leq 1 + \frac{8\ln(1/\delta)}{\Delta_i^2} + n(n\delta + \delta) \leq 3 + \frac{16\ln n}{\Delta_i^2}$$
 
 Therefore:
 
-$$R_n = \sum_i \Delta_i \mathbb{E}[T_i(n)] \leq 3\sum_i \Delta_i + \sum_{i:\Delta_i>0} \frac{16\ln n}{\Delta_i} \quad \square$$
+$$R_n = \sum_i \Delta_i \mathbb E[T_i(n)] \leq 3\sum_i \Delta_i + \sum_{i:\Delta_i>0} \frac{16\ln n}{\Delta_i} \quad \square$$
 
 ---
 
@@ -117,13 +120,13 @@ $$R_n \leq 8\sqrt{nK\ln n} + 3\sum_{i=1}^K \Delta_i$$
 
 **Proof.** Split arms into two groups by threshold $\Delta > 0$:
 
-$$R_n = \sum_{i:\Delta_i \leq \Delta} \Delta_i \mathbb{E}[T_i(n)] + \sum_{i:\Delta_i > \Delta} \Delta_i \mathbb{E}[T_i(n)]$$
+$$R_n = \sum_{i:\Delta_i \leq \Delta} \Delta_i \mathbb E[T_i(n)] + \sum_{i:\Delta_i > \Delta} \Delta_i \mathbb E[T_i(n)]$$
 
 For the first group: $\Delta_i \leq \Delta$, so their total contribution is at most $n\Delta$.
 
 For the second group: apply the instance-dependent bound:
 
-$$\sum_{i:\Delta_i > \Delta} \Delta_i \mathbb{E}[T_i(n)] \leq 3\sum_{i:\Delta_i>\Delta} \Delta_i + \frac{16K\ln n}{\Delta}$$
+$$\sum_{i:\Delta_i > \Delta} \Delta_i \mathbb E[T_i(n)] \leq 3\sum_{i:\Delta_i>\Delta} \Delta_i + \frac{16K\ln n}{\Delta}$$
 
 So:
 

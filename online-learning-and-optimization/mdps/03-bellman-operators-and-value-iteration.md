@@ -14,13 +14,13 @@ toc:
 
 ## From Equations to Operators
 
-The Bellman equations describe the value function as a fixed point. The Bellman operator makes this formal: it maps any function $F: S \to \mathbb{R}$ to a new function, and the value function is the unique fixed point of this map.
+The Bellman equations describe the value function as a fixed point. The Bellman operator makes this formal: it maps any function $F: S \to \mathbb R$ to a new function, and the value function is the unique fixed point of this map.
 
 ---
 
 ## The Bellman Operator
 
-**Definition (Bellman Operator for Policy $\pi$).** For a function $F: S \to \mathbb{R}$:
+**Definition (Bellman Operator for Policy $\pi$).** For a function $F: S \to \mathbb R$:
 
 $$B_\pi(F(i)) \stackrel{\text{def}}{=} c_i(\pi(i)) + \alpha \sum_{j \in S} p_{i,j}(\pi(i)) \cdot F(j)$$
 
@@ -73,8 +73,11 @@ $$V_t \to V^\ast \quad \text{as } t \to \infty, \quad \text{at rate } \alpha^t$$
 $t = 0$
 
 **While** True **do:**
-- **For** $s \in S$: $V_{t+1}(s) \leftarrow \min_{a \in A} \sum_{s' \in S} p_{s,s'}(a)\!\left[c_{s,s'}(a) + \alpha V_t(s')\right]$
-- **If** $\|V_{t+1} - V_t\|_\infty \approx 0$: **return** $V_{t+1}$
+- **For** $s \in S$: update
+
+$$V_{t+1}(s) \leftarrow \min_{a \in A} \sum_{s' \in S} p_{s,s'}(a)\!\left[c_{s,s'}(a) + \alpha V_t(s')\right]$$
+
+- **If** $\Vert V_{t+1} - V_t \Vert_\infty \approx 0$: **return** $V_{t+1}$
 - $t \leftarrow t + 1$
 
 **End while**

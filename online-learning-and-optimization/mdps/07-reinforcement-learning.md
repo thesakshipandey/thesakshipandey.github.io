@@ -36,9 +36,9 @@ This is the hardest setting: the model itself must be discovered through explora
 
 Given historical trajectories, estimate $P$ and $C$ using the Law of Large Numbers:
 
-$$\hat{p}_{i,j}(a) = \frac{\sum \mathbf{1}\{X_t = i, A_t = a, X_{t+1} = j\}}{\sum \mathbf{1}\{X_t = i, A_t = a\}}$$
+$$\hat p_{i,j}(a) = \frac{\sum \mathbf{1}\{X_t = i, A_t = a, X_{t+1} = j\}}{\sum \mathbf{1}\{X_t = i, A_t = a\}}$$
 
-$$\hat{c}_{i,j}(a) = \frac{\sum C(X_t, A_t) \cdot \mathbf{1}\{X_t = i, A_t = a, X_{t+1} = j\}}{\sum \mathbf{1}\{X_t = i, A_t = a\}}$$
+$$\hat c_{i,j}(a) = \frac{\sum C(X_t, A_t) \cdot \mathbf{1}\{X_t = i, A_t = a, X_{t+1} = j\}}{\sum \mathbf{1}\{X_t = i, A_t = a\}}$$
 
 Then run Value Iteration or Policy Iteration on the estimated MDP $(\hat{P}, \hat{C})$.
 

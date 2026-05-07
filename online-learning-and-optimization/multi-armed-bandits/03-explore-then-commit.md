@@ -44,11 +44,11 @@ The algorithm has two hard phases: pure exploration ($mK$ steps) followed by pur
 
 Assume arm 1 is optimal (WLOG). For any sub-optimal arm $i$:
 
-$$\mathbb{E}[T_i(n)] = m + \mathbb{P}(\hat{\mu}_i(m) \in \arg\max_j \hat{\mu}_j(m)) \cdot (n - mK)$$
+$$\mathbb E[T_i(n)] = m + \mathbb{P}(\hat{\mu}_i(m) \in \arg\max_j \hat{\mu}_j(m)) \cdot (n - mK)$$
 
 The second term captures the probability that arm $i$ looks best after exploration, causing full commitment to it. Using the same sub-Gaussian analysis as the full-info setting:
 
-$$\mathbb{E}[T_i(n)] \leq m + (n - mK) \cdot e^{-m\Delta_i^2/4}$$
+$$\mathbb E[T_i(n)] \leq m + (n - mK) \cdot e^{-m\Delta_i^2/4}$$
 
 Summing over all arms (using the regret decomposition):
 

@@ -64,9 +64,9 @@ A **Markov Decision Process** is a tuple $M = (S, A, P, C, \alpha)$ where:
 
 A **policy** $\pi: S \to A$ (or $S \to \Delta(A)$ for randomized policies) specifies which action to take in each state.
 
-**Definition (Value Function).** For policy $\pi$, the value function $V_\pi: S \to \mathbb{R}$ is the expected infinite-horizon discounted cost starting from each state:
+**Definition (Value Function).** For policy $\pi$, the value function $V_\pi: S \to \mathbb R$ is the expected infinite-horizon discounted cost starting from each state:
 
-$$V_\pi(i) = \mathbb{E}_\pi\!\left[\sum_{t=0}^\infty \alpha^t C(X_t, A_t) \;\Big|\; X_0 = i\right]$$
+$$V_\pi(i) = \mathbb E_\pi\!\left[\sum_{t=0}^\infty \alpha^t C(X_t, A_t) \;\Big|\; X_0 = i\right]$$
 
 Collecting across all states: $V_\pi = [V_\pi(i)]_{i \in S}$.
 

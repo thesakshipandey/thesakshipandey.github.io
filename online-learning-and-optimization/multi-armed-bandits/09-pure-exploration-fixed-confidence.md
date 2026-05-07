@@ -14,7 +14,7 @@ toc:
 
 ## A Different Trade-off
 
-In the fixed budget setting, the metric was error probability given a fixed pull count. The **fixed confidence** setting flips this: given a target confidence level, the algorithm decides adaptively when to stop and what the metric is **expected stopping time** $\mathbb{E}[\tau]$.
+In the fixed budget setting, the metric was error probability given a fixed pull count. The **fixed confidence** setting flips this: given a target confidence level, the algorithm decides adaptively when to stop and what the metric is **expected stopping time** $\mathbb E[\tau]$.
 
 The algorithm outputs a triple: a sampling rule (which arm to pull), a stopping rule ($\tau$: when to stop), and a decision rule ($\hat{a}$: which arm to return at stopping).
 
@@ -28,7 +28,7 @@ $$\mathbb{P}\{\tau < \infty, \hat{a} \neq a^\ast\} \leq \delta$$
 
 That is, if the algorithm ever stops, the probability it returns the wrong arm is at most $\delta$.
 
-Note: an algorithm that never stops is trivially $\delta$-PC (the probability of stopping and being wrong is 0). So the goal is to find a $\delta$-PC algorithm with small $\mathbb{E}[\tau]$.
+Note: an algorithm that never stops is trivially $\delta$-PC (the probability of stopping and being wrong is 0). So the goal is to find a $\delta$-PC algorithm with small $\mathbb E[\tau]$.
 
 ---
 
@@ -36,7 +36,7 @@ Note: an algorithm that never stops is trivially $\delta$-PC (the probability of
 
 **Theorem 4.5.** *For a 1-Gaussian instance with means $\mu_1 \geq \mu_2 \geq \ldots \geq \mu_K$ (arm 1 optimal), any $\delta$-PC algorithm must satisfy:*
 
-$$\mathbb{E}[\tau] \geq 2\ln\!\left(\frac{1}{4\delta}\right) \sum_{i=1}^K \frac{1}{\Delta_i^2}$$
+$$\mathbb E[\tau] \geq 2\ln\!\left(\frac{1}{4\delta}\right) \sum_{i=1}^K \frac{1}{\Delta_i^2}$$
 
 where $\Delta_1 = \Delta_2 = \mu_1 - \mu_2$.
 
@@ -46,19 +46,19 @@ $$\mu_i^{[1]} = \begin{cases} \mu_2 - \epsilon & i = 1 \\ \mu_i & i \neq 1 \end{
 
 For each $a$, define event $A = \{\tau < \infty, \hat{a} \neq a^\ast_{\mu^{[a]}}\}$.
 
-Since the algorithm is $\delta$-PC, $\mathbb{P}_{\mu^{[a]}}(A) \leq \delta$.
+Since the algorithm is $\delta$-PC, $\mathbb P_{\mu^{[a]}}(A) \leq \delta$.
 
-Also, $\mathbb{P}_\mu(A^C) \leq \delta$ because in the original instance, returning arm $a$ as optimal would be wrong.
+Also, $\mathbb P_\mu(A^C) \leq \delta$ because in the original instance, returning arm $a$ as optimal would be wrong.
 
 Applying BH inequality:
 
-$$4\delta \geq \mathbb{P}_\mu(A^C) + \mathbb{P}_{\mu^{[a]}}(A) \geq \frac{1}{2}\exp\!\left\{-\mathbb{E}_\mu[N_a(\tau)] \cdot \text{KL}(\mu, \mu^{[a]})\right\}$$
+$$4\delta \geq \mathbb P_\mu(A^C) + \mathbb P_{\mu^{[a]}}(A) \geq \frac{1}{2}\exp\!\left\{-\mathbb E_\mu[N_a(\tau)] \cdot \text{KL}(\mu, \mu^{[a]})\right\}$$
 
 For 1-Gaussian arms with perturbation by $\epsilon \to 0$: $\text{KL}(\mu, \mu^{[a]}) \approx \Delta_a^2/2$.
 
-So $\mathbb{E}_\mu[N_a(\tau)] \geq \frac{2\ln(1/(4\delta))}{\Delta_a^2}$.
+So $\mathbb E_\mu[N_a(\tau)] \geq \frac{2\ln(1/(4\delta))}{\Delta_a^2}$.
 
-Summing over all arms: $\mathbb{E}[\tau] = \sum_a \mathbb{E}[N_a(\tau)] \geq 2\ln\!\left(\frac{1}{4\delta}\right)\sum_a \frac{1}{\Delta_a^2}$. $\square$
+Summing over all arms: $\mathbb E[\tau] = \sum_a \mathbb E[N_a(\tau)] \geq 2\ln\!\left(\frac{1}{4\delta}\right)\sum_a \frac{1}{\Delta_a^2}$. $\square$
 
 ---
 
@@ -73,8 +73,8 @@ Action Elimination samples arms in round-robin and eliminates arms whose UCB fal
 **For** $t = 1, 2, \ldots$ **do:**
 - Pull each arm in $A$ once
 - **For** arm $a = 1$ to $K$: compute
-  - $\text{UCB}_a(t) = \hat{\mu}_a^t + \sqrt{\dfrac{2}{t}\ln\!\left(\dfrac{2Kt^2C}{\delta}\right)}$
-  - $\text{LCB}_a(t) = \hat{\mu}_a^t - \sqrt{\dfrac{2}{t}\ln\!\left(\dfrac{2Kt^2C}{\delta}\right)}$
+
+$$\text{UCB}_a(t) = \hat\mu_a^t + \sqrt{\frac{2}{t}\ln\!\left(\frac{2Kt^2C}{\delta}\right)}, \quad \text{LCB}_a(t) = \hat\mu_a^t - \sqrt{\frac{2}{t}\ln\!\left(\frac{2Kt^2C}{\delta}\right)}$$
 - Elimination set $E = \{i \in A : \exists\, j \in A \text{ s.t. } \text{UCB}_i(t) \leq \text{LCB}_j(t)\}$
 - $A \leftarrow A \setminus E$
 - **If** $\lvert A\rvert  = 1$: **return** the sole arm and **STOP**
@@ -120,10 +120,10 @@ LUCB (Lower and Upper Confidence Bounds) addresses the termination problem by co
 
 **For** $t = 1, 2, \ldots$ **do:**
 - Pull each arm once
-- **Define** top arm: $a_{\text{top}} = \arg\max_{i \in [K]} \hat{\mu}_i(t)$
-- **Define** competitor: $a_{\text{comp}} = \arg\max_{i \in [K], i \neq a_{\text{top}}} \hat{\mu}_i(t) + \alpha_{i,t}$
-- Pull $a_{\text{top}}$ and $a_{\text{comp}}$ once each
-- **If** $\text{LCB}_{a_{\text{top}}} > \text{UCB}_{a_{\text{comp}}}$: **return** $a_{\text{top}}$ and **STOP**
+- **Define** top arm: $a_\text{top} = \arg\max_{i \in [K]} \hat\mu_i(t)$
+- **Define** competitor: $a_\text{comp} = \arg\max_{i \in [K],\, i \neq a_\text{top}} \hat\mu_i(t) + \alpha_{i,t}$
+- Pull $a_\text{top}$ and $a_\text{comp}$ once each
+- **If** $\text{LCB}_{a_\text{top}} > \text{UCB}_{a_\text{comp}}$: **return** $a_\text{top}$ and **STOP**
 
 **End for**
 
@@ -152,6 +152,6 @@ Each $\tilde{T}_i$ is bounded by the number of pulls needed for arm $i$'s confid
 | Action Elimination | May not terminate (duplicate sub-optimal arms) | Yes | $O(\sum_i \frac{1}{\Delta_i^2} \ln \frac{K}{\delta\Delta_i})$ |
 | LUCB | Always stops (w.p. 1) | Yes | Comparable to lower bound |
 
-**Lower bound:** $\mathbb{E}[\tau] \geq 2\ln(1/(4\delta)) \sum_i 1/\Delta_i^2$
+**Lower bound:** $\mathbb E[\tau] \geq 2\ln(1/(4\delta)) \sum_i 1/\Delta_i^2$
 
 LUCB is near-optimal (matching the lower bound up to log factors), terminates with probability 1, and avoids the degenerate cases that trap Action Elimination.

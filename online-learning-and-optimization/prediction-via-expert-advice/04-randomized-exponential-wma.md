@@ -40,7 +40,10 @@ The weight update is identical to EWMA. Only the action selection differs: we sa
 
 To analyze REWMA, reframe it as EWMA on an extended space. Define:
 
-- $D' = \{p \in \mathbb{R}_+^K : \sum_{i=1}^K p_i = 1\}$ (the $K$-dimensional simplex, representing distributions over experts)
+- $D'$ is the $K$-dimensional simplex (distributions over experts):
+
+$$D' = \left\{p \in \mathbb R_+^K : \sum_{i=1}^K p_i = 1\right\}$$
+
 - $E' = E \times D^K$ where $E$ is the space of $X_t$
 
 Let $Y'_{i,t}$ be the vector that is $0$ everywhere except position $i$ (indicating expert $i$ is chosen). Define the extended loss:
@@ -53,7 +56,7 @@ $$A'_t = \left(\frac{w_{1,t}}{\sum_j w_{j,t}}, \ldots, \frac{w_{K,t}}{\sum_j w_{
 
 and the expected loss equals:
 
-$$\ell'(X'_t, A'_t) = \sum_{i=1}^K \frac{w_{i,t}}{\sum_j w_{j,t}} \ell(X_t, Y_{i,t}) = \mathbb{E}[\ell(X_t, A_t)]$$
+$$\ell'(X'_t, A'_t) = \sum_{i=1}^K \frac{w_{i,t}}{\sum_j w_{j,t}} \ell(X_t, Y_{i,t}) = \mathbb E[\ell(X_t, A_t)]$$
 
 **The loss of REWMA equals the expected loss of EWMA.** Therefore the expected regret of REWMA inherits the same bound:
 

@@ -47,15 +47,15 @@ Before the regret analysis, we need a key tool for bounding the MGF of bounded r
 
 **Lemma 1.4 (Hoeffding's Lemma).** *For a bounded random variable $X \in [a, b]$:*
 
-$$\mathbb{E}[e^{SX}] \leq \exp\!\left\{S\mathbb{E}[X] + \frac{1}{8} S^2 (b-a)^2\right\}$$
+$$\mathbb E[e^{SX}] \leq \exp\!\left\{S\mathbb E[X] + \frac{1}{8} S^2 (b-a)^2\right\}$$
 
 *For $X \in [0,1]$ specifically:*
 
-$$\mathbb{E}[e^{SX}] \leq \exp\!\left\{S\mathbb{E}[X] + \frac{1}{8}S^2\right\}$$
+$$\mathbb E[e^{SX}] \leq \exp\!\left\{S\mathbb E[X] + \frac{1}{8}S^2\right\}$$
 
 **Proof sketch.** Introduce $X'$, an independent copy of $X$ with the same distribution. By convexity of $e^x$ and Jensen's inequality:
 
-$$\mathbb{E}_X[\exp\{S(X - \mathbb{E}_X[X])\}] \leq \mathbb{E}_X[\mathbb{E}_{X'}[\exp\{S(X - X')\}]]$$
+$$\mathbb E_X[\exp\{S(X - \mathbb E_X[X])\}] \leq \mathbb E_X[\mathbb E_{X'}[\exp\{S(X - X')\}]]$$
 
 This symmetrization reduces the problem to a symmetric random variable, and the rest follows from Taylor expansion. $\square$
 
@@ -73,17 +73,17 @@ $$W_{n+1} \geq e^{-\beta L_{i,n}}$$
 
 ### Upper Bound
 
-We track how total weight changes each step. Define a random variable $Z = Y_{I,t}$ where expert $I$ is chosen with probability proportional to its weight $\frac{W_{i,t}}{\sum_j W_{j,t}}$. Then $A_t = \mathbb{E}[Z]$.
+We track how total weight changes each step. Define a random variable $Z = Y_{I,t}$ where expert $I$ is chosen with probability proportional to its weight $\frac{W_{i,t}}{\sum_j W_{j,t}}$. Then $A_t = \mathbb E[Z]$.
 
 $$\frac{W_{t+1}}{W_t} = \mathbb{E}\left[e^{-\beta \cdot \ell(X_t, Z)}\right]$$
 
 Applying Hoeffding's Lemma with $S = -\beta$:
 
-$$\frac{W_{t+1}}{W_t} \leq e^{-\beta \cdot \mathbb{E}[\ell(X_t, Z)]} \cdot e^{\beta^2/8}$$
+$$\frac{W_{t+1}}{W_t} \leq e^{-\beta \cdot \mathbb E[\ell(X_t, Z)]} \cdot e^{\beta^2/8}$$
 
 By convexity of $\ell$ in its second argument and Jensen's inequality:
 
-$$\mathbb{E}[\ell(X_t, Z)] \geq \ell(X_t, \mathbb{E}[Z]) = \ell(X_t, A_t)$$
+$$\mathbb E[\ell(X_t, Z)] \geq \ell(X_t, \mathbb E[Z]) = \ell(X_t, A_t)$$
 
 Therefore:
 

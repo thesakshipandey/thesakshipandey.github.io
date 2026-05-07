@@ -32,17 +32,17 @@ $$V_\pi(s) = C(s, \pi(s)) + \alpha \sum_{s' \in S} P(s, \pi(s), s') \cdot V_\pi(
 
 **Proof.** By definition:
 
-$$V_\pi(s) = \mathbb{E}_\pi\!\left[c_0 + \alpha c_1 + \alpha^2 c_2 + \ldots \mid s_0 = s\right]$$
+$$V_\pi(s) = \mathbb E_\pi\!\left[c_0 + \alpha c_1 + \alpha^2 c_2 + \ldots \mid s_0 = s\right]$$
 
 Expanding over the first transition (summing over possible next states $s'$):
 
-$$V_\pi(s) = \sum_{s'} P(s, \pi(s), s') \mathbb{E}_\pi\!\left[c_0 + \alpha c_1 + \alpha^2 c_2 + \ldots \mid s_0 = s, s_1 = s'\right]$$
+$$V_\pi(s) = \sum_{s'} P(s, \pi(s), s') \mathbb E_\pi\!\left[c_0 + \alpha c_1 + \alpha^2 c_2 + \ldots \mid s_0 = s, s_1 = s'\right]$$
 
 Split into $c_0$ and the tail:
 
-$$= \sum_{s'} P(s, \pi(s), s') \mathbb{E}_\pi[c_0 \mid s_0 = s, s_1 = s'] + \alpha \sum_{s'} P(s, \pi(s), s') \mathbb{E}_\pi\!\left[c_1 + \alpha c_2 + \ldots \mid s_0 = s, s_1 = s'\right]$$
+$$= \sum_{s'} P(s, \pi(s), s') \mathbb E_\pi[c_0 \mid s_0 = s, s_1 = s'] + \alpha \sum_{s'} P(s, \pi(s), s') \mathbb E_\pi\!\left[c_1 + \alpha c_2 + \ldots \mid s_0 = s, s_1 = s'\right]$$
 
-The first term: $\mathbb{E}_\pi[c_0 \mid s_0 = s, s_1 = s'] = C(s, \pi(s), s')$. Since cost is state-action dependent (not $s'$ dependent), $\sum_{s'} P(\cdot) C(s, \pi(s), s') = C(s, \pi(s))$.
+The first term: $\mathbb E_\pi[c_0 \mid s_0 = s, s_1 = s'] = C(s, \pi(s), s')$. Since cost is state-action dependent (not $s'$ dependent), $\sum_{s'} P(\cdot) C(s, \pi(s), s') = C(s, \pi(s))$.
 
 The second term: the sum $c_1 + \alpha c_2 + \ldots$ starting from $s_1 = s'$ is exactly $V_\pi(s')$ (by the Markov property, the future depends only on $s'$, not on $s_0 = s$).
 

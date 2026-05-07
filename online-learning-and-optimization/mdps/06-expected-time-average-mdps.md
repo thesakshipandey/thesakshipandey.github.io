@@ -16,7 +16,7 @@ toc:
 
 Discounted MDPs are mathematically convenient but artificially downweight long-term costs. The **expected time-average (ETA)** formulation instead measures the long-run average cost per step:
 
-$$\Phi_\pi(i) = \limsup_{n \to \infty} \frac{1}{n+1} \mathbb{E}_\pi\!\left[\sum_{t=0}^n C(X_t, A_t) \;\Big|\; X_0 = i\right]$$
+$$\Phi_\pi(i) = \limsup_{n \to \infty} \frac{1}{n+1} \mathbb E_\pi\!\left[\sum_{t=0}^n C(X_t, A_t) \;\Big|\; X_0 = i\right]$$
 
 The MDP is now $\mathcal{M} = (S, A, P, C)$ with no discount factor. A policy $\pi^\ast$ is optimal if $\Phi_{\pi^\ast}(i) = \inf_\pi \Phi_\pi(i)$ for all $i \in S$.
 
@@ -40,7 +40,7 @@ Any policy that takes action 2 at some state $\bar{n}$ traps the agent at $\bar{
 Even restricting to stationary policies, optimality may fail. The optimal ETA cost approaches 0 but is never achieved by any fixed stationary policy.
 
 **Key result:** There exists a **non-stationary** policy achieving ETA cost 0 for the following MDP:
-- $S = \mathbb{N}$, $A = \{1, 2\}$
+- $S = \mathbb N$, $A = \{1, 2\}$
 - Action 1: go to $i+1$; Action 2: stay at $i$
 - $C(i, 1) = 1$, $C(i, 2) = 1/i$
 - Policy: at state $i$, take action 1 with probability $2^{-i}$, action 2 otherwise.
@@ -63,7 +63,7 @@ This equation is the **ETA Bellman equation**. It looks like the discounted Bell
 
 **Proof sketch.** Define the process $M_t = h(X_t) - g - h(X_{t-1}) + C(X_{t-1}, A_{t-1})$. Using the Bellman equation, this is a martingale difference sequence. Summing and dividing by $n$ gives:
 
-$$g \leq \frac{\mathbb{E}[h(X_n)] - \mathbb{E}[h(X_0)]}{n} + \frac{1}{n}\mathbb{E}\!\left[\sum_{t=1}^n C(X_{t-1}, A_{t-1})\right]$$
+$$g \leq \frac{\mathbb E[h(X_n)] - \mathbb E[h(X_0)]}{n} + \frac{1}{n}\mathbb{E}\!\left[\sum_{t=1}^n C(X_{t-1}, A_{t-1})\right]$$
 
 As $n \to \infty$, the first term vanishes (if $h$ is bounded), giving $g \leq \Phi_\pi$ for all policies $\pi$. The optimal policy achieves equality. $\square$
 
@@ -85,7 +85,7 @@ $$h_\alpha(i) + g \to \min_a\!\left[c_i(a) + \sum_j p_{ij}(a) h(j)\right]$$
 
 If this limit exists, the ETA Bellman equation is satisfied, guaranteeing a stationary optimal policy.
 
-**Theorem 5.11.** *If $\exists N < \infty$ such that $\lvert V_\alpha(i) - V_\alpha(0)\rvert  < N$ for all $\alpha, i$, then there exist $g \in \mathbb{R}$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.*
+**Theorem 5.11.** *If $\exists N < \infty$ such that $\lvert V_\alpha(i) - V_\alpha(0)\rvert  < N$ for all $\alpha, i$, then there exist $g \in \mathbb R$ and $h \in \mathcal{B}(S)$ satisfying the ETA Bellman equations.*
 
 ---
 
@@ -109,7 +109,7 @@ This is the practical condition most finite-state MDPs satisfy.
 
 | | Discounted MDP | ETA MDP |
 |---|---|---|
-| Objective | $\inf_\pi \mathbb{E}[\sum_t \alpha^t C_t]$ | $\inf_\pi \limsup \frac{1}{n}\mathbb{E}[\sum_t C_t]$ |
+| Objective | $\inf_\pi \mathbb E[\sum_t \alpha^t C_t]$ | $\inf_\pi \limsup \frac{1}{n}\mathbb E[\sum_t C_t]$ |
 | Optimal stationary policy? | Always (Theorem 5.1) | Not always |
 | Bellman equation | $V^\ast(i) = \min_a[c + \alpha \sum p V^\ast]$ | $g + h(i) = \min_a[c + \sum p h]$ |
 | Key algorithm | Value Iteration / Policy Iteration | Same, when $g, h$ exist |
