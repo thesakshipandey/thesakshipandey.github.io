@@ -53,7 +53,7 @@ ninja.data = [{
           },
         },{id: "post-decision-making-under-uncertainity",
         
-          title: "Decision making under uncertainity",
+          title: "Decision Making under Uncertainity",
         
         description: "Course notes on stochastic control, communication, risk, information, and collaborative decision making under uncertainty.",
         section: "Posts",
