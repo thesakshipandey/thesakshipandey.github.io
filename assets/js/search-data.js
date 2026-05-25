@@ -51,11 +51,11 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/books/";
           },
-        },{id: "post-1-decision-making-under-uncertainity",
+        },{id: "post-decision-making-under-uncertainity",
         
-          title: "1. Decision making under uncertainity",
+          title: "Decision making under uncertainity",
         
-        description: "Introductory notes on decisions, uncertainty, risk, and information gathering.",
+        description: "Course notes on stochastic control, communication, risk, information, and collaborative decision making under uncertainty.",
         section: "Posts",
         handler: () => {
           
