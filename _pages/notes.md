@@ -140,32 +140,6 @@ nav_order: 2
     {% endif %}
   </div>
 
-  <!-- ── Decision Making Under Uncertainity ─────────────────────────────── -->
-  <div class="sp-section">
-    <div class="sp-section-header">
-      <h2>🧭 Decision Making Under Uncertainity</h2>
-    </div>
-    <p class="sp-section-desc">
-      Notes on stochastic control, communication, team decision theory, and economics through the common lens of uncertainty.
-    </p>
-    <hr class="sp-divider">
-    {% assign decision_notes = site.posts | where: "category", "decision-making-under-uncertainity" %}
-    {% if decision_notes.size > 0 %}
-      <ul class="sp-note-list">
-        {% for note in decision_notes %}
-          <li>
-            <a class="sp-note-item" href="{{ note.url | relative_url }}">
-              <span class="sp-note-date">{{ note.date | date: "%b %Y" }}</span>
-              <span class="sp-note-title">{{ note.title }}</span>
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <div class="sp-empty">Coming soon — risk, information, stochastic control, communication, and collaborative decision making.</div>
-    {% endif %}
-  </div>
-
   <!-- ── Famous Papers ─────────────────────────────── -->
   <div class="sp-section">
     <div class="sp-section-header">
