@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "1. Decision making under uncertainity"
+title: "1. Decision Making under Uncertainity"
 date: 2026-05-25
 description: "Introductory notes on decisions, uncertainty, risk, and information gathering."
 tags: [decision-making, uncertainty, stochastic-control, communication, risk]
@@ -10,7 +10,7 @@ toc:
   sidebar: left
 ---
 
-# 1. Decision making under uncertainity
+# 1. Decision Making under Uncertainity
 
 Source: [YouTube lecture](https://youtu.be/EL1URMIIhLg?si=XN7s8xQ05DuqJeSI)
 

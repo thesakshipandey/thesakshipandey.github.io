@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Decision making under uncertainity"
+title: "Decision Making under Uncertainity"
 date: 2026-05-25 10:00:00
 description: "Course notes on stochastic control, communication, risk, information, and collaborative decision making under uncertainty."
 tags: [decision-making, uncertainty, stochastic-control, communication, risk]
@@ -19,7 +19,7 @@ The course studies stochastic control and communication through one broader lens
 
 | Lecture | Topic | Source |
 |---|---|---|
-| 1 | [Decision making under uncertainity](/decision-making-under-uncertainity/01-decision-making-under-uncertainity/) | [YouTube](https://youtu.be/EL1URMIIhLg?si=XN7s8xQ05DuqJeSI) |
+| 1 | [Decision Making under Uncertainity](/decision-making-under-uncertainity/01-decision-making-under-uncertainity/) | [YouTube](https://youtu.be/EL1URMIIhLg?si=XN7s8xQ05DuqJeSI) |
 
 ---
 
