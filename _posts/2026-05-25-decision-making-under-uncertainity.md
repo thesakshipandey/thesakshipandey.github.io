@@ -20,6 +20,7 @@ The course studies stochastic control and communication through one broader lens
 | Lecture | Topic | Source |
 |---|---|---|
 | 1 | [Decision Making under Uncertainity](/decision-making-under-uncertainity/01-decision-making-under-uncertainity/) | [YouTube](https://youtu.be/EL1URMIIhLg?si=XN7s8xQ05DuqJeSI) |
+| 2 | [Expected Utility Theory](/decision-making-under-uncertainity/02-expected-utility-theory/) | [YouTube](https://youtu.be/Atw5zB1ZL2Q?si=Xihf0ZZlNrJyd8yJ) |
 
 ---
 
