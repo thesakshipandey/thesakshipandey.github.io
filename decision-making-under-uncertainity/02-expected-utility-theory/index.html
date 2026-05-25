@@ -17,12 +17,12 @@
   
   
     
-      1. Decision Making under Uncertainity | Sakshi
+      2. Expected Utility Theory | Sakshi
     
   
 </title>
 <meta name="author" content="Sakshi S. Pandey">
-<meta name="description" content="Introductory notes on decisions, uncertainty, risk, and information gathering.">
+<meta name="description" content="Formal models for comparing decisions under uncertainty using lotteries and expected utility.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -62,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/01-decision-making-under-uncertainity/">
+<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/02-expected-utility-theory/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
@@ -430,7 +430,7 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">1. Decision Making under Uncertainity</h1>
+    <h1 class="post-title">2. Expected Utility Theory</h1>
     <p class="post-meta">
       Created on May 25, 2026
       
@@ -459,14 +459,7 @@
           
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> stochastic-control
-          
-          
-             
-          
-        
-          
-            <i class="fa-solid fa-hashtag fa-sm"></i> communication
+            <i class="fa-solid fa-hashtag fa-sm"></i> expected-utility
           
           
              
@@ -474,6 +467,13 @@
         
           
             <i class="fa-solid fa-hashtag fa-sm"></i> risk
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> lotteries
           
           
         
@@ -486,231 +486,305 @@
   <article class="post-content">
     
     <div id="markdown-content">
-      <h1 id="1-decision-making-under-uncertainity">1. Decision Making under Uncertainity</h1>
+      <h1 id="2-expected-utility-theory">2. Expected Utility Theory</h1>
 
-<p>Source: <a href="https://youtu.be/EL1URMIIhLg?si=XN7s8xQ05DuqJeSI" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
+<p>Source: <a href="https://youtu.be/Atw5zB1ZL2Q?si=Xihf0ZZlNrJyd8yJ" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
 
-<h2 id="big-picture">Big Picture</h2>
+<h2 id="recap-why-average-outcomes-are-not-enough">Recap: Why Average Outcomes Are Not Enough</h2>
 
-<p>The course is called <strong>Stochastic Control and Communication</strong>, but the broader theme is <strong>decision making under uncertainty</strong>.</p>
-
-<p>The main claim is that several fields can be studied through one common framework:</p>
+<p>In the previous lecture, we compared two lotteries:</p>
 
 <ul>
-  <li>stochastic control</li>
-  <li>information theory and communication theory</li>
-  <li>team decision theory</li>
-  <li>collaborative decision making</li>
-  <li>economics and organization theory</li>
+  <li>a cake lottery where the loss is at most 100 rupees</li>
+  <li>a house lottery where the loss is at most 1 crore rupees</li>
 </ul>
 
-<p>These areas look different on the surface, but they share the same core structure: a decision maker must choose an action while some important part of the problem is unknown.</p>
+<p>Both lotteries had the same expected-value structure. With probability $2/3$, the reward was three times the original object, and with probability $1/3$, the reward was zero.</p>
+
+<p>So the average outcome in both cases was:</p>
+
+\[\frac{2}{3} \cdot 3 + \frac{1}{3} \cdot 0 = 2\]
+
+<p>Using only average outcome, both lotteries look attractive. But intuitively, the house lottery is much riskier because losing 1 crore rupees is far more serious than losing 100 rupees.</p>
+
+<p>The lesson is:</p>
+
+<blockquote>
+  <p>Looking only at average outcomes does not adequately capture our attitude toward decision making under uncertainty.</p>
+</blockquote>
+
+<p>Decision making under uncertainty needs a richer framework than simply comparing averages.</p>
 
 <hr>
 
-<h2 id="what-is-a-decision">What Is a Decision?</h2>
+<h2 id="the-need-for-a-formal-framework">The Need for a Formal Framework</h2>
 
-<p>A <strong>decision</strong> is a choice from a set of alternatives.</p>
+<p>The key question is: how should two lotteries be compared?</p>
 
-<p>It may be:</p>
+<p>A lottery is a probability distribution over possible outcomes. So the broader question is:</p>
+
+<blockquote>
+  <p>How do we compare probability distributions over outcomes?</p>
+</blockquote>
+
+<p>Possible candidates include:</p>
 
 <ul>
-  <li>the value assigned to a variable</li>
-  <li>one action selected from a feasible set</li>
-  <li>one policy chosen from many possible policies</li>
+  <li>comparing average outcomes</li>
+  <li>comparing worst-case outcomes</li>
+  <li>comparing best-case outcomes</li>
+  <li>using higher moments such as variance</li>
 </ul>
 
-<p>In mathematical models, the decision is usually represented by a variable whose value the decision maker controls.</p>
+<p>Expected utility theory provides a unified framework for this comparison.</p>
 
 <hr>
 
-<h2 id="what-is-uncertainty">What Is Uncertainty?</h2>
+<h2 id="formal-model-for-decision-making-under-uncertainty">Formal Model for Decision Making Under Uncertainty</h2>
 
-<p><strong>Uncertainty</strong> refers to a variable or aspect of the problem whose value is:</p>
+<p>A formal model consists of the following objects.</p>
+
+<h3 id="1-decision-alternatives">1. Decision Alternatives</h3>
+
+<p>Let $D$ be the set of possible decisions.</p>
+
+<p>A decision maker chooses one decision:</p>
+
+\[d \in D\]
+
+<h3 id="2-states-of-the-world">2. States of the World</h3>
+
+<p>Let $\Omega$ be the set of possible <strong>states of the world</strong> or <strong>states of nature</strong>.</p>
+
+<p>The realized state $\omega \in \Omega$ is chosen by nature, not by the decision maker. This is what captures the uncertainty in the problem.</p>
+
+<p>The decision maker controls $d$, but does not control $\omega$.</p>
+
+<h3 id="3-outcomes">3. Outcomes</h3>
+
+<p>Given a decision $d$ and a state of the world $\omega$, an outcome is produced:</p>
+
+\[f(d,\omega)\]
+
+<p>The outcome depends on both:</p>
 
 <ul>
-  <li>not fixed in advance, or</li>
-  <li>not known at the time the decision must be made</li>
+  <li>the decision chosen by the decision maker</li>
+  <li>the state of nature chosen exogenously</li>
 </ul>
 
-<p>So the key difficulty is timing: the decision has to be made before the uncertain variable reveals its actual value.</p>
-
-<p>For example, a decision maker may only know:</p>
-
-<ul>
-  <li>the range of possible values</li>
-  <li>a probability distribution</li>
-  <li>partial information about the variable</li>
-  <li>observations that are noisy or delayed</li>
-</ul>
-
-<p>The decision must be chosen using only this limited information.</p>
+<p>Let $O$ denote the set of all possible outcomes.</p>
 
 <hr>
 
-<h2 id="decision-making-without-uncertainty">Decision Making Without Uncertainty</h2>
+<h2 id="preferences-over-outcomes">Preferences over Outcomes</h2>
 
-<p>If there is no uncertainty, all elements of the problem are fully known and have definite values.</p>
+<p>The model also needs a way to compare outcomes.</p>
 
-<p>Then the problem is simpler:</p>
+<p>Let $\preceq$ denote a preference relation on $O$.</p>
+
+<p>If:</p>
+
+\[O_1 \preceq O_2\]
+
+<p>then outcome $O_2$ is preferred to outcome $O_1$.</p>
+
+<p>One way to represent such preferences is with a real-valued function:</p>
+
+\[G: O \to \mathbb{R}\]
+
+<p>If:</p>
+
+\[G(O_1) \leq G(O_2)\]
+
+<p>then $O_2$ is considered at least as good as $O_1$.</p>
+
+<p>The difficulty is that the final outcome is not determined by the decision alone. It is determined by both $d$ and $\omega$.</p>
+
+<hr>
+
+<h2 id="approach-1-average-outcome">Approach 1: Average Outcome</h2>
+
+<p>If there is a probability distribution over $\Omega$, one possible approach is to evaluate each decision by the value of its average outcome:</p>
+
+\[G\left(\mathbb{E}_{\omega}[f(d,\omega)]\right)\]
+
+<p>Then choose:</p>
+
+\[\arg\max_{d \in D} G\left(\mathbb{E}_{\omega}[f(d,\omega)]\right)\]
+
+<p>This is the logic used in the cake and house lottery examples.</p>
+
+<p>The problem is that it ignores risk. Two decisions can have the same average outcome but very different downside consequences.</p>
+
+<hr>
+
+<h2 id="approach-2-worst-case-outcome">Approach 2: Worst-Case Outcome</h2>
+
+<p>Another approach is to ignore probabilities and focus only on the worst thing nature can do.</p>
+
+<p>For each decision $d$, evaluate:</p>
+
+\[\min_{\omega \in \Omega} G(f(d,\omega))\]
+
+<p>Then choose:</p>
+
+\[\arg\max_{d \in D} \min_{\omega \in \Omega} G(f(d,\omega))\]
+
+<p>This is a conservative or robust decision rule.</p>
+
+<p>It has one advantage: it does not require knowing a probability distribution over states of nature.</p>
+
+<p>But it can be too pessimistic. It may reject good opportunities just because of a rare worst-case scenario.</p>
+
+<hr>
+
+<h2 id="approach-3-best-case-outcome">Approach 3: Best-Case Outcome</h2>
+
+<p>The opposite extreme is to be fully optimistic and focus on the best possible outcome.</p>
+
+<p>For each decision $d$, evaluate:</p>
+
+\[\max_{\omega \in \Omega} G(f(d,\omega))\]
+
+<p>Then choose:</p>
+
+\[\arg\max_{d \in D} \max_{\omega \in \Omega} G(f(d,\omega))\]
+
+<p>This approach can also fail because it ignores bad outcomes. It only asks what could go best, not what is likely or what could go wrong.</p>
+
+<hr>
+
+<h2 id="why-these-approaches-are-incomplete">Why These Approaches Are Incomplete</h2>
+
+<p>Average-case, worst-case, and best-case decision rules each capture one aspect of uncertainty, but none gives a complete model of risky choice.</p>
+
+<ul>
+  <li>Average outcome ignores risk and downside severity.</li>
+  <li>Worst-case outcome can be overly conservative.</li>
+  <li>Best-case outcome can be overly optimistic.</li>
+</ul>
+
+<p>Expected utility theory gives a better way to compare lotteries because it evaluates outcomes through a utility function before taking expectations.</p>
+
+<hr>
+
+<h2 id="from-decisions-to-lotteries">From Decisions to Lotteries</h2>
+
+<p>Expected utility theory assumes that there is a probability distribution $P$ on the set of states of nature $\Omega$.</p>
+
+<p>Each decision can lead to multiple outcomes depending on which state of the world is realized.</p>
+
+<p>For a fixed decision $d$, the uncertainty over $\omega$ induces a probability distribution over outcomes. This induced distribution is denoted by $P_d$.</p>
+
+<p>For an outcome $o \in O$:</p>
+
+\[P_d(o) = P(\{\omega \in \Omega : f(d,\omega) = o\})\]
+
+<p>So $P_d(o)$ is the probability of getting outcome $o$ after choosing decision $d$.</p>
+
+<p>This is important:</p>
+
+<blockquote>
+  <p>Each decision induces a lottery over outcomes.</p>
+</blockquote>
+
+<p>Therefore, if we can compare lotteries, we can compare decisions.</p>
+
+<hr>
+
+<h2 id="lotteries-as-probability-distributions">Lotteries as Probability Distributions</h2>
+
+<p>A lottery is simply a probability distribution on the set of outcomes.</p>
+
+<p>In the earlier examples:</p>
+
+<ul>
+  <li>outcome 1: receive 3 cakes, or receive a house with three times the area</li>
+  <li>outcome 2: receive nothing</li>
+  <li>probabilities: $2/3$ and $1/3$</li>
+</ul>
+
+<p>So comparing decisions under uncertainty is equivalent to comparing the lotteries that those decisions induce.</p>
+
+<p>This shift is powerful:</p>
 
 <ol>
-  <li>identify the fixed value of every relevant variable</li>
-  <li>evaluate the consequences of each possible decision</li>
-  <li>choose the best decision for that known scenario</li>
+  <li>decision $d$ combines with state $\omega$</li>
+  <li>this produces an outcome $f(d,\omega)$</li>
+  <li>uncertainty over $\omega$ produces a distribution $P_d$ over outcomes</li>
+  <li>comparing decisions becomes comparing probability distributions over outcomes</li>
 </ol>
 
-<p>In this setting, the best decision can be tuned exactly to the known state of the world.</p>
-
 <hr>
 
-<h2 id="decision-making-with-uncertainty">Decision Making With Uncertainty</h2>
+<h2 id="expected-utility-theory">Expected Utility Theory</h2>
 
-<p>Under uncertainty, the uncertain variable can take many possible values. Each value may create a different scenario, and the best decision may be different in each scenario.</p>
+<p>Expected utility theory says that there exists a utility function:</p>
 
-<p>The problem is that the decision maker usually cannot wait until the scenario is known. A single decision must be chosen before the uncertainty is resolved.</p>
+\[u: O \to \mathbb{R}\]
 
-<p>This creates the central tension:</p>
+<p>This function assigns a real number to each outcome.</p>
+
+<p>The expected utility of decision $d$ is:</p>
+
+\[\mathbb{E}_{\omega}[u(f(d,\omega))]\]
+
+<p>Decision $d_2$ is preferred to decision $d_1$ if and only if:</p>
+
+\[\mathbb{E}_{\omega}[u(f(d_1,\omega))]
+\leq
+\mathbb{E}_{\omega}[u(f(d_2,\omega))]\]
+
+<p>So the rule becomes:</p>
 
 <blockquote>
-  <p>The decision should work well across possible scenarios, even though the true scenario is not yet known.</p>
+  <p>Choose the decision that maximizes expected utility, not necessarily expected outcome.</p>
 </blockquote>
 
-<p>This is the common feature behind stochastic control, communication, team decision theory, and many economic models.</p>
+<p>Formally:</p>
+
+\[d^* \in \arg\max_{d \in D} \mathbb{E}_{\omega}[u(f(d,\omega))]\]
 
 <hr>
 
-<h2 id="two-key-aspects">Two Key Aspects</h2>
+<h2 id="why-utility-matters">Why Utility Matters</h2>
 
-<p>Whenever uncertainty enters a decision problem, two major issues appear.</p>
-
-<h3 id="1-risk">1. Risk</h3>
-
-<p>Risk is an unavoidable part of decision making under uncertainty.</p>
-
-<p>Here, risk should not be understood only in the everyday sense, such as “a slippery road is risky” or “betting is risky.” The lecture emphasizes that risk will later be defined more formally.</p>
-
-<p>For now, the important idea is:</p>
+<p>Expected utility theory separates two ideas:</p>
 
 <ul>
-  <li>uncertainty creates multiple possible outcomes</li>
-  <li>some outcomes may be much worse than others</li>
-  <li>the decision maker must account for this variation, not only the average outcome</li>
+  <li>the numerical outcome itself</li>
+  <li>the utility or value the decision maker assigns to that outcome</li>
 </ul>
 
-<p>Risk cannot simply be ignored because it is built into the structure of the problem.</p>
+<p>This matters because utility need not be linear. A loss of 1 crore rupees can hurt far more than 10,00,000 times the pain of losing 100 rupees in a simple linear scale.</p>
 
-<h3 id="2-information-gathering">2. Information Gathering</h3>
+<p>The shape of the utility function captures the decision maker’s attitude toward risk.</p>
 
-<p>Because the uncertain variable is not known, the decision maker naturally wants more information.</p>
-
-<p>This brings in questions such as:</p>
+<p>For example:</p>
 
 <ul>
-  <li>What information is available?</li>
-  <li>When is it revealed?</li>
-  <li>In what sequence is it revealed?</li>
-  <li>Who observes what?</li>
-  <li>Can information be transmitted?</li>
-  <li>Can information leak?</li>
+  <li>a linear utility function corresponds to risk-neutral behavior</li>
+  <li>a concave utility function corresponds to risk-averse behavior</li>
+  <li>a convex utility function corresponds to risk-seeking behavior</li>
 </ul>
 
-<p>The structure of information can completely change the problem. The same decision problem may become easy, hard, centralized, decentralized, or strategic depending on who knows what and when they know it.</p>
-
-<p>This is why communication and information theory are deeply connected to decision making under uncertainty.</p>
-
-<hr>
-
-<h2 id="example-the-cake-lottery">Example: The Cake Lottery</h2>
-
-<p>Suppose one cake is worth 100 rupees.</p>
-
-<p>You are offered a lottery:</p>
-
-<ul>
-  <li>pay 100 rupees to enter</li>
-  <li>with probability $2/3$, receive 3 cakes</li>
-  <li>with probability $1/3$, receive 0 cakes</li>
-</ul>
-
-<p>The expected number of cakes is:</p>
-
-\[\frac{2}{3} \cdot 3 + \frac{1}{3} \cdot 0 = 2\]
-
-<p>So the lottery gives 2 cakes on average.</p>
-
-<p>Since 100 rupees can buy only 1 cake, a simple expected-value argument says the lottery is attractive:</p>
-
-\[\text{average outcome} = 2 \text{ cakes} &gt; \text{cost} = 1 \text{ cake}\]
-
-<p>According to this logic, one should enter the lottery.</p>
-
-<hr>
-
-<h2 id="why-expected-value-alone-is-not-enough">Why Expected Value Alone Is Not Enough</h2>
-
-<p>Now scale the same structure up.</p>
-
-<p>Suppose one house costs 1 crore rupees. You are offered another lottery:</p>
-
-<ul>
-  <li>pay 1 crore rupees to enter</li>
-  <li>with probability $2/3$, receive a house three times as large</li>
-  <li>with probability $1/3$, receive no house</li>
-</ul>
-
-<p>The expected outcome is again favorable:</p>
-
-\[\frac{2}{3} \cdot 3 + \frac{1}{3} \cdot 0 = 2\]
-
-<p>On average, the lottery gives the value of a house twice as large as the original house.</p>
-
-<p>If we use the same expected-value logic as before, we should enter this lottery too.</p>
-
-<p>But most people would reject it. Losing 100 rupees in the cake example and losing 1 crore rupees in the house example are not psychologically or practically equivalent, even if the expected-value calculation has the same form.</p>
-
-<p>This reveals the flaw in pure expected-value reasoning:</p>
-
-<blockquote>
-  <p>Preferences under uncertainty do not necessarily scale linearly with the size of the outcome.</p>
-</blockquote>
-
-<p>The cost of a bad outcome matters, not just the average outcome.</p>
-
-<hr>
-
-<h2 id="lesson-from-the-lottery-examples">Lesson From the Lottery Examples</h2>
-
-<p>The cake and house lotteries have the same mathematical expected-value structure, but they feel very different.</p>
-
-<p>This difference is the first signal that risk must be modeled more carefully.</p>
-
-<p>Expected value compares average outcomes, but it does not capture:</p>
-
-<ul>
-  <li>downside severity</li>
-  <li>aversion to large losses</li>
-  <li>nonlinear preferences</li>
-  <li>the fact that stakes matter</li>
-  <li>how much the decision maker values security</li>
-</ul>
-
-<p>This motivates a more sophisticated model of risk, such as utility-based decision making, where outcomes are evaluated through preferences rather than raw numerical value alone.</p>
+<p>The lecture points out that expected utility theory does more than assume such a function exists. Under certain axioms on preferences over lotteries, one can prove that a utility function exists.</p>
 
 <hr>
 
 <h2 id="takeaways">Takeaways</h2>
 
 <ul>
-  <li>Decision making under uncertainty studies choices made before all relevant variables are known.</li>
-  <li>A decision is a choice from alternatives.</li>
-  <li>Uncertainty is a variable whose value is not fixed or not known at decision time.</li>
-  <li>Without uncertainty, the decision maker can optimize for a known scenario.</li>
-  <li>With uncertainty, one decision must work across many possible scenarios.</li>
-  <li>Two fundamental issues are risk and information.</li>
-  <li>Risk arises because uncertain outcomes can vary in value and severity.</li>
-  <li>Information matters because what is known, when it is known, and who knows it can change the entire problem.</li>
-  <li>Expected value is useful but incomplete; it can fail to capture how people evaluate risky decisions.</li>
+  <li>Average outcome is not enough to model decision making under uncertainty.</li>
+  <li>A formal model includes decisions $D$, states of nature $\Omega$, outcomes $O$, and an outcome map $f(d,\omega)$.</li>
+  <li>A decision and a state of nature together determine an outcome.</li>
+  <li>A probability distribution over states of nature induces a probability distribution over outcomes.</li>
+  <li>A probability distribution over outcomes is a lottery.</li>
+  <li>Comparing decisions can be reduced to comparing the lotteries they induce.</li>
+  <li>Expected utility theory uses a utility function $u: O \to \mathbb{R}$.</li>
+  <li>The best decision maximizes expected utility, not necessarily expected outcome.</li>
+  <li>The shape of the utility function encodes the decision maker’s attitude toward risk.</li>
 </ul>
 
     </div>
