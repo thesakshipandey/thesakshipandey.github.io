@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Decision making under uncertainity"
+title: "1. Decision making under uncertainity"
 date: 2026-05-25
 description: "Introductory notes on decisions, uncertainty, risk, and information gathering."
 tags: [decision-making, uncertainty, stochastic-control, communication, risk]
