@@ -51,7 +51,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/books/";
           },
-        },{id: "post-online-learning-and-optimization-ee6106",
+        },{id: "post-1-decision-making-under-uncertainity",
+        
+          title: "1. Decision making under uncertainity",
+        
+        description: "Introductory notes on decisions, uncertainty, risk, and information gathering.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/decision-making-under-uncertainity/";
+          
+        },
+      },{id: "post-online-learning-and-optimization-ee6106",
         
           title: "Online Learning and Optimization (EE6106)",
         

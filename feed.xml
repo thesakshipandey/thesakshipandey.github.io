@@ -1,5 +1,230 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-07T10:18:56+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
-</subtitle><entry><title type="html">Online Learning and Optimization (EE6106)</title><link href="https://sakshipandey.github.io/blog/2026/online-learning-optimization/" rel="alternate" type="text/html" title="Online Learning and Optimization (EE6106)" /><published>2026-01-07T10:00:00+00:00</published><updated>2026-01-07T10:00:00+00:00</updated><id>https://sakshipandey.github.io/blog/2026/online-learning-optimization</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2026/online-learning-optimization/"><![CDATA[<p>The central question throughout: can a learning agent compete with the best fixed strategy in hindsight, and how quickly? The answer depends on what the agent observes and what the adversary knows.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-25T17:01:19+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
+</subtitle><entry><title type="html">1. Decision making under uncertainity</title><link href="https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity/" rel="alternate" type="text/html" title="1. Decision making under uncertainity" /><published>2026-05-25T10:00:00+00:00</published><updated>2026-05-25T10:00:00+00:00</updated><id>https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity/"><![CDATA[<h1 id="1-decision-making-under-uncertainity">1. Decision making under uncertainity</h1>
+
+<p>Source: <a href="https://youtu.be/EL1URMIIhLg?si=XN7s8xQ05DuqJeSI">YouTube lecture</a></p>
+
+<h2 id="big-picture">Big Picture</h2>
+
+<p>The course is called <strong>Stochastic Control and Communication</strong>, but the broader theme is <strong>decision making under uncertainty</strong>.</p>
+
+<p>The main claim is that several fields can be studied through one common framework:</p>
+
+<ul>
+  <li>stochastic control</li>
+  <li>information theory and communication theory</li>
+  <li>team decision theory</li>
+  <li>collaborative decision making</li>
+  <li>economics and organization theory</li>
+</ul>
+
+<p>These areas look different on the surface, but they share the same core structure: a decision maker must choose an action while some important part of the problem is unknown.</p>
+
+<hr />
+
+<h2 id="what-is-a-decision">What Is a Decision?</h2>
+
+<p>A <strong>decision</strong> is a choice from a set of alternatives.</p>
+
+<p>It may be:</p>
+
+<ul>
+  <li>the value assigned to a variable</li>
+  <li>one action selected from a feasible set</li>
+  <li>one policy chosen from many possible policies</li>
+</ul>
+
+<p>In mathematical models, the decision is usually represented by a variable whose value the decision maker controls.</p>
+
+<hr />
+
+<h2 id="what-is-uncertainty">What Is Uncertainty?</h2>
+
+<p><strong>Uncertainty</strong> refers to a variable or aspect of the problem whose value is:</p>
+
+<ul>
+  <li>not fixed in advance, or</li>
+  <li>not known at the time the decision must be made</li>
+</ul>
+
+<p>So the key difficulty is timing: the decision has to be made before the uncertain variable reveals its actual value.</p>
+
+<p>For example, a decision maker may only know:</p>
+
+<ul>
+  <li>the range of possible values</li>
+  <li>a probability distribution</li>
+  <li>partial information about the variable</li>
+  <li>observations that are noisy or delayed</li>
+</ul>
+
+<p>The decision must be chosen using only this limited information.</p>
+
+<hr />
+
+<h2 id="decision-making-without-uncertainty">Decision Making Without Uncertainty</h2>
+
+<p>If there is no uncertainty, all elements of the problem are fully known and have definite values.</p>
+
+<p>Then the problem is simpler:</p>
+
+<ol>
+  <li>identify the fixed value of every relevant variable</li>
+  <li>evaluate the consequences of each possible decision</li>
+  <li>choose the best decision for that known scenario</li>
+</ol>
+
+<p>In this setting, the best decision can be tuned exactly to the known state of the world.</p>
+
+<hr />
+
+<h2 id="decision-making-with-uncertainty">Decision Making With Uncertainty</h2>
+
+<p>Under uncertainty, the uncertain variable can take many possible values. Each value may create a different scenario, and the best decision may be different in each scenario.</p>
+
+<p>The problem is that the decision maker usually cannot wait until the scenario is known. A single decision must be chosen before the uncertainty is resolved.</p>
+
+<p>This creates the central tension:</p>
+
+<blockquote>
+  <p>The decision should work well across possible scenarios, even though the true scenario is not yet known.</p>
+</blockquote>
+
+<p>This is the common feature behind stochastic control, communication, team decision theory, and many economic models.</p>
+
+<hr />
+
+<h2 id="two-key-aspects">Two Key Aspects</h2>
+
+<p>Whenever uncertainty enters a decision problem, two major issues appear.</p>
+
+<h3 id="1-risk">1. Risk</h3>
+
+<p>Risk is an unavoidable part of decision making under uncertainty.</p>
+
+<p>Here, risk should not be understood only in the everyday sense, such as “a slippery road is risky” or “betting is risky.” The lecture emphasizes that risk will later be defined more formally.</p>
+
+<p>For now, the important idea is:</p>
+
+<ul>
+  <li>uncertainty creates multiple possible outcomes</li>
+  <li>some outcomes may be much worse than others</li>
+  <li>the decision maker must account for this variation, not only the average outcome</li>
+</ul>
+
+<p>Risk cannot simply be ignored because it is built into the structure of the problem.</p>
+
+<h3 id="2-information-gathering">2. Information Gathering</h3>
+
+<p>Because the uncertain variable is not known, the decision maker naturally wants more information.</p>
+
+<p>This brings in questions such as:</p>
+
+<ul>
+  <li>What information is available?</li>
+  <li>When is it revealed?</li>
+  <li>In what sequence is it revealed?</li>
+  <li>Who observes what?</li>
+  <li>Can information be transmitted?</li>
+  <li>Can information leak?</li>
+</ul>
+
+<p>The structure of information can completely change the problem. The same decision problem may become easy, hard, centralized, decentralized, or strategic depending on who knows what and when they know it.</p>
+
+<p>This is why communication and information theory are deeply connected to decision making under uncertainty.</p>
+
+<hr />
+
+<h2 id="example-the-cake-lottery">Example: The Cake Lottery</h2>
+
+<p>Suppose one cake is worth 100 rupees.</p>
+
+<p>You are offered a lottery:</p>
+
+<ul>
+  <li>pay 100 rupees to enter</li>
+  <li>with probability $2/3$, receive 3 cakes</li>
+  <li>with probability $1/3$, receive 0 cakes</li>
+</ul>
+
+<p>The expected number of cakes is:</p>
+
+\[\frac{2}{3} \cdot 3 + \frac{1}{3} \cdot 0 = 2\]
+
+<p>So the lottery gives 2 cakes on average.</p>
+
+<p>Since 100 rupees can buy only 1 cake, a simple expected-value argument says the lottery is attractive:</p>
+
+\[\text{average outcome} = 2 \text{ cakes} &gt; \text{cost} = 1 \text{ cake}\]
+
+<p>According to this logic, one should enter the lottery.</p>
+
+<hr />
+
+<h2 id="why-expected-value-alone-is-not-enough">Why Expected Value Alone Is Not Enough</h2>
+
+<p>Now scale the same structure up.</p>
+
+<p>Suppose one house costs 1 crore rupees. You are offered another lottery:</p>
+
+<ul>
+  <li>pay 1 crore rupees to enter</li>
+  <li>with probability $2/3$, receive a house three times as large</li>
+  <li>with probability $1/3$, receive no house</li>
+</ul>
+
+<p>The expected outcome is again favorable:</p>
+
+\[\frac{2}{3} \cdot 3 + \frac{1}{3} \cdot 0 = 2\]
+
+<p>On average, the lottery gives the value of a house twice as large as the original house.</p>
+
+<p>If we use the same expected-value logic as before, we should enter this lottery too.</p>
+
+<p>But most people would reject it. Losing 100 rupees in the cake example and losing 1 crore rupees in the house example are not psychologically or practically equivalent, even if the expected-value calculation has the same form.</p>
+
+<p>This reveals the flaw in pure expected-value reasoning:</p>
+
+<blockquote>
+  <p>Preferences under uncertainty do not necessarily scale linearly with the size of the outcome.</p>
+</blockquote>
+
+<p>The cost of a bad outcome matters, not just the average outcome.</p>
+
+<hr />
+
+<h2 id="lesson-from-the-lottery-examples">Lesson From the Lottery Examples</h2>
+
+<p>The cake and house lotteries have the same mathematical expected-value structure, but they feel very different.</p>
+
+<p>This difference is the first signal that risk must be modeled more carefully.</p>
+
+<p>Expected value compares average outcomes, but it does not capture:</p>
+
+<ul>
+  <li>downside severity</li>
+  <li>aversion to large losses</li>
+  <li>nonlinear preferences</li>
+  <li>the fact that stakes matter</li>
+  <li>how much the decision maker values security</li>
+</ul>
+
+<p>This motivates a more sophisticated model of risk, such as utility-based decision making, where outcomes are evaluated through preferences rather than raw numerical value alone.</p>
+
+<hr />
+
+<h2 id="takeaways">Takeaways</h2>
+
+<ul>
+  <li>Decision making under uncertainty studies choices made before all relevant variables are known.</li>
+  <li>A decision is a choice from alternatives.</li>
+  <li>Uncertainty is a variable whose value is not fixed or not known at decision time.</li>
+  <li>Without uncertainty, the decision maker can optimize for a known scenario.</li>
+  <li>With uncertainty, one decision must work across many possible scenarios.</li>
+  <li>Two fundamental issues are risk and information.</li>
+  <li>Risk arises because uncertain outcomes can vary in value and severity.</li>
+  <li>Information matters because what is known, when it is known, and who knows it can change the entire problem.</li>
+  <li>Expected value is useful but incomplete; it can fail to capture how people evaluate risky decisions.</li>
+</ul>]]></content><author><name></name></author><category term="decision-making-under-uncertainity" /><category term="decision-making" /><category term="uncertainty" /><category term="stochastic-control" /><category term="communication" /><category term="risk" /><summary type="html"><![CDATA[Introductory notes on decisions, uncertainty, risk, and information gathering.]]></summary></entry><entry><title type="html">Online Learning and Optimization (EE6106)</title><link href="https://sakshipandey.github.io/blog/2026/online-learning-optimization/" rel="alternate" type="text/html" title="Online Learning and Optimization (EE6106)" /><published>2026-01-07T10:00:00+00:00</published><updated>2026-01-07T10:00:00+00:00</updated><id>https://sakshipandey.github.io/blog/2026/online-learning-optimization</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2026/online-learning-optimization/"><![CDATA[<p>The central question throughout: can a learning agent compete with the best fixed strategy in hindsight, and how quickly? The answer depends on what the agent observes and what the adversary knows.</p>
 
 <hr />
 
@@ -422,7 +647,7 @@ Content 2
 
 <p>With this you can generate visualizations like:</p>
 
-<ul id="log" class="tab" data-tab="d961ccc7-8c02-4b15-8099-690cbba4f440" data-name="log">
+<ul id="log" class="tab" data-tab="7c607b78-35ef-4706-9957-9c5a5e67e2fc" data-name="log">
   
       <li class="active" id="log-php">
           <a href="#">php </a>
@@ -437,7 +662,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="d961ccc7-8c02-4b15-8099-690cbba4f440" data-name="log">
+<ul class="tab-content" id="7c607b78-35ef-4706-9957-9c5a5e67e2fc" data-name="log">
   
       <li class="active">
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
@@ -461,7 +686,7 @@ Content 2
 
 <h2 id="another-example">Another example</h2>
 
-<ul id="data-struct" class="tab" data-tab="b8ea9e65-888f-4c3d-abe9-ffe18b2f0c84" data-name="data-struct">
+<ul id="data-struct" class="tab" data-tab="33ae451a-6670-4fd2-a478-fabc81ad95e4" data-name="data-struct">
   
       <li class="active" id="data-struct-yaml">
           <a href="#">yaml </a>
@@ -472,7 +697,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="b8ea9e65-888f-4c3d-abe9-ffe18b2f0c84" data-name="data-struct">
+<ul class="tab-content" id="33ae451a-6670-4fd2-a478-fabc81ad95e4" data-name="data-struct">
   
       <li class="active">
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
@@ -494,7 +719,7 @@ Content 2
 
 <h2 id="tabs-for-something-else">Tabs for something else</h2>
 
-<ul id="something-else" class="tab" data-tab="13d05cf5-0e12-47ac-ad64-8e116225dad3" data-name="something-else">
+<ul id="something-else" class="tab" data-tab="407b68f5-7c80-44b3-9ec3-ce849efe94b5" data-name="something-else">
   
       <li class="active" id="something-else-text">
           <a href="#">text </a>
@@ -509,7 +734,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="13d05cf5-0e12-47ac-ad64-8e116225dad3" data-name="something-else">
+<ul class="tab-content" id="407b68f5-7c80-44b3-9ec3-ce849efe94b5" data-name="something-else">
   
       <li class="active">
 <p>Regular text</p>
@@ -1289,94 +1514,4 @@ index 3bb754ac..a34839c0 100644
   
 </figure>
 
-</img-comparison-slider>]]></content><author><name></name></author><category term="sample-posts" /><category term="formatting" /><category term="images" /><summary type="html"><![CDATA[this is what advanced image components could look like]]></summary></entry><entry><title type="html">a post with vega lite</title><link href="https://sakshipandey.github.io/blog/2024/vega-lite/" rel="alternate" type="text/html" title="a post with vega lite" /><published>2024-01-27T00:20:00+00:00</published><updated>2024-01-27T00:20:00+00:00</updated><id>https://sakshipandey.github.io/blog/2024/vega-lite</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2024/vega-lite/"><![CDATA[<p>This is an example post with some <a href="https://vega.github.io/vega-lite/">vega lite</a> code.</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">vega_lite
-</span><span class="sb">{
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A dot plot showing each movie in the database, and the difference from the average movie rating. The display is sorted by year to visualize everything in sequential order. The graph is for all Movies before 2019.",
-  "data": {
-    "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/movies.json"
-  },
-  "transform": [
-    {"filter": "datum['IMDB Rating'] != null"},
-    {"filter": {"timeUnit": "year", "field": "Release Date", "range": [null, 2019]}},
-    {
-      "joinaggregate": [{
-        "op": "mean",
-        "field": "IMDB Rating",
-        "as": "AverageRating"
-      }]
-    },
-    {
-      "calculate": "datum['IMDB Rating'] - datum.AverageRating",
-      "as": "RatingDelta"
-    }
-  ],
-  "mark": "point",
-  "encoding": {
-    "x": {
-      "field": "Release Date",
-      "type": "temporal"
-    },
-    "y": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "title": "Rating Delta"
-    },
-    "color": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "scale": {"domainMid": 0},
-      "title": "Rating Delta"
-    }
-  }
-}</span>
-<span class="p">```</span>
-</code></pre></div></div>
-
-<p>Which generates:</p>
-
-<pre><code class="language-vega_lite">{
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A dot plot showing each movie in the database, and the difference from the average movie rating. The display is sorted by year to visualize everything in sequential order. The graph is for all Movies before 2019.",
-  "data": {
-    "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/movies.json"
-  },
-  "transform": [
-    {"filter": "datum['IMDB Rating'] != null"},
-    {"filter": {"timeUnit": "year", "field": "Release Date", "range": [null, 2019]}},
-    {
-      "joinaggregate": [{
-        "op": "mean",
-        "field": "IMDB Rating",
-        "as": "AverageRating"
-      }]
-    },
-    {
-      "calculate": "datum['IMDB Rating'] - datum.AverageRating",
-      "as": "RatingDelta"
-    }
-  ],
-  "mark": "point",
-  "encoding": {
-    "x": {
-      "field": "Release Date",
-      "type": "temporal"
-    },
-    "y": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "title": "Rating Delta"
-    },
-    "color": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "scale": {"domainMid": 0},
-      "title": "Rating Delta"
-    }
-  }
-}
-</code></pre>
-
-<p>This plot supports both light and dark themes.</p>]]></content><author><name></name></author><category term="sample-posts" /><category term="formatting" /><category term="charts" /><summary type="html"><![CDATA[this is what included vega lite code could look like]]></summary></entry></feed>
+</img-comparison-slider>]]></content><author><name></name></author><category term="sample-posts" /><category term="formatting" /><category term="images" /><summary type="html"><![CDATA[this is what advanced image components could look like]]></summary></entry></feed>
