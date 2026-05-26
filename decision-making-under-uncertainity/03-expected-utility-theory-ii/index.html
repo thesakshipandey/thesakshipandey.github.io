@@ -17,12 +17,12 @@
   
   
     
-      Weighted Majority Algorithm | Sakshi
+      3. Expected Utility Theory II | Sakshi
     
   
 </title>
 <meta name="author" content="Sakshi S. Pandey">
-<meta name="description" content="Relaxing the perfect-expert assumption with exponential weight decay and regret analysis.">
+<meta name="description" content="Investment allocation example, utility maximization, risk attitude, and the expected utility theorem.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -62,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://sakshipandey.github.io/online-learning-and-optimization/prediction-via-expert-advice/02-weighted-majority-algorithm/">
+<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/03-expected-utility-theory-ii/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
@@ -432,9 +432,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Weighted Majority Algorithm</h1>
+    <h1 class="post-title">3. Expected Utility Theory II</h1>
     <p class="post-meta">
-      Created on January 09, 2026
+      Created on May 26, 2026
       
       
       
@@ -447,21 +447,35 @@
           ·  
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> online-learning
+            <i class="fa-solid fa-hashtag fa-sm"></i> decision-making
           
           
              
           
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> expert-advice
+            <i class="fa-solid fa-hashtag fa-sm"></i> uncertainty
           
           
              
           
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> regret
+            <i class="fa-solid fa-hashtag fa-sm"></i> expected-utility
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> risk
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> lotteries
           
           
         
@@ -474,123 +488,424 @@
   <article class="post-content">
     
     <div id="markdown-content">
-      <h1 id="weighted-majority-algorithm">Weighted Majority Algorithm</h1>
+      <h1 id="3-expected-utility-theory-ii">3. Expected Utility Theory II</h1>
 
-<h2 id="dropping-the-perfect-expert-assumption">Dropping the Perfect Expert Assumption</h2>
+<p>Source: <a href="https://youtu.be/NnIHpPb79ZY?si=EJHUMRoFFddu_c6N" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
 
-<p>The Majority Algorithm required a perfect expert. Now we drop that assumption entirely. The adversary has full knowledge of our algorithm and can ensure we make mistakes at every step. The question shifts: instead of bounding absolute loss, we bound <strong>regret</strong> relative to the best expert in hindsight.</p>
+<h2 id="recap">Recap</h2>
 
-<p>The key insight is that if the adversary forces us to err, it must also be forcing many experts to err. It is unreasonable to demand better performance than the best expert.</p>
+<p>Expected utility theory gives a way to compare lotteries, or probability distributions over outcomes.</p>
 
-<p><strong>Regret</strong> is defined as:</p>
+<p>The main idea is that a decision should be evaluated by the <strong>expected utility</strong> of the outcome it induces:</p>
 
-\[R_n = L_n - \min_i L_{i,n}\]
+\[\mathbb{E}_{\omega}[u(f(d,\omega))]\]
 
-<p>where $L_{i,n}$ is the cumulative loss of expert $i$ over the horizon.</p>
+<p>The decision maker then chooses the decision that maximizes expected utility.</p>
 
-<hr>
-
-<h2 id="algorithm-2-weighted-majority-algorithm-wma">Algorithm 2: Weighted Majority Algorithm (WMA)</h2>
-
-<p>Each expert $i$ starts with weight $W_0[i] = 1$. When an expert makes a mistake, its weight decays by a factor $(1 - \beta)$ for some learning rate $\beta \in (0, 1)$.</p>
-
-<p><strong>Require:</strong> Number of experts $K$, horizon $n$, learning rate $\beta \in (0, 1)$</p>
-
-<ol>
-  <li>
-<strong>Initialize:</strong> $W_0 = {1, 1, \ldots, 1}$</li>
-  <li>
-<strong>For</strong> $t = 1$ to $n$ <strong>do:</strong>
-    <ul>
-      <li>$w_1 = \sum_{k=1}^K W_t[k] \cdot \mathbf{1}[Y_{k,t} = 1]$</li>
-      <li>$w_0 = \sum_{k=1}^K W_t[k] \cdot \mathbf{1}[Y_{k,t} = 0]$</li>
-      <li>$A_t = \mathbf{1}{w_1 \geq w_0}$</li>
-      <li>Observe $X_t$</li>
-      <li>
-<strong>For</strong> $i = 1$ to $K$: $W_{t+1}[i] = \begin{cases} W_t[i] &amp; \text{if } Y_{i,t} = X_t \ (1-\beta) W_t[i] &amp; \text{otherwise} \end{cases}$</li>
-    </ul>
-  </li>
-  <li><strong>End for</strong></li>
-</ol>
-
-<p>Note: the Majority Algorithm is a special case of WMA with $\beta = 1$ (full elimination on mistake).</p>
-
-<p>Also note: the adversary knows Algorithm 2 and can force a mistake at every step. However, this means experts are also making mistakes, which decays their weights and limits how much we can suffer relative to them.</p>
+<p>This lecture makes the idea concrete through an investment example, then states the theorem that guarantees the existence of a utility function under suitable preference axioms.</p>
 
 <hr>
 
-<h2 id="regret-analysis">Regret Analysis</h2>
+<h2 id="investment-example">Investment Example</h2>
 
-<p>Define $W_t = \sum_{i=1}^K W_{i,t}$ as the total weight at time $t$, starting from $W_1 = K$.</p>
+<p>Suppose we have capital of one dollar and two investment alternatives: $A$ and $B$.</p>
 
-<h3 id="lower-bound">Lower Bound</h3>
+<h3 id="alternative-a">Alternative A</h3>
 
-<p><strong>Claim.</strong> $W_{n+1} \geq (1-\beta)^{L_{i,n}}$ for any expert $i$.</p>
+<p>Investment $A$ gives a guaranteed return:</p>
 
-<p><strong>Proof.</strong> Expert $i$’s individual weight after the horizon is $W_{i,n+1} = (1-\beta)^{L_{i,n}}$ since their weight decays exactly once for each of their $L_{i,n}$ mistakes. Since total weight is the sum of all individual weights, $W_{n+1} \geq W_{i,n+1} = (1-\beta)^{L_{i,n}}$. $\square$</p>
+\[1 \text{ dollar invested in A} \mapsto 1.5 \text{ dollars}\]
 
-<h3 id="upper-bound">Upper Bound</h3>
+<p>So $A$ gives 1.5 dollars with certainty.</p>
 
-<p>Decompose total weight into “good” weight $GW_t$ (experts who predicted correctly this round) and “bad” weight $BW_t$ (experts who made a mistake):</p>
+<h3 id="alternative-b">Alternative B</h3>
 
-<p>\(W_t = GW_t + BW_t\)
-\(W_{t+1} = GW_t + (1-\beta) BW_t = (1-\beta)W_t + \beta \cdot GW_t\)</p>
+<p>Investment $B$ is uncertain:</p>
 
-<p>Because the agent errs only when the majority is wrong, meaning $GW_t \leq \frac{1}{2} W_t$ whenever the agent makes a mistake. So on each agent mistake:</p>
+\[B =
+\begin{cases}
+3 \text{ dollars}, &amp; \text{with probability } 1/2,\\
+1 \text{ dollar}, &amp; \text{with probability } 1/2.
+\end{cases}\]
 
-\[W_{t+1} \leq (1-\beta)W_t + \frac{\beta}{2} W_t = \left(1 - \frac{\beta}{2}\right) W_t\]
-
-<p>Over $L_n$ agent mistakes:</p>
-
-\[W_{n+1} \leq \left(1 - \frac{\beta}{2}\right)^{L_n} \cdot K\]
-
-<h3 id="combining-the-bounds">Combining the Bounds</h3>
-
-<p>From the lower and upper bounds:</p>
-
-\[\left(1 - \frac{\beta}{2}\right)^{L_n} \cdot K \geq (1-\beta)^{L_{i,n}}\]
-
-<p>Taking logs and applying the inequality $1 - \frac{1}{x} \leq \ln x \leq x - 1$ with $x = 1 - \frac{\beta}{2}$:</p>
-
-\[\ln K + L_n \ln\!\left(1 - \frac{\beta}{2}\right) \geq L_{i,n} \ln(1-\beta)\]
-
-<p>Using $\ln(1 - \beta/2) \leq -\beta/2$ and $\ln(1-\beta) \geq -\beta/(1-\beta)$:</p>
-
-\[\ln K - \frac{\beta}{2} L_n \geq L_{i,n} \cdot \frac{-\beta}{1-\beta}\]
-
-<p>Rearranging:</p>
-
-\[\boxed{L_n \leq \frac{2}{1-\beta} L_{i,n} + \frac{2}{\beta} \ln K}\]
-
-<p>This holds for any expert $i$. Taking $i$ to be the best expert:</p>
-
-\[L_n \leq \frac{2}{1-\beta} \left[\min_i L_{i,n}\right] + \frac{2}{\beta} \ln K\]
-
-<h3 id="regret-bound">Regret Bound</h3>
-
-\[R_n^{\text{WMA}} = L_n - \min_i L_{i,n} \leq \frac{1+\beta}{1-\beta} \left[\min_i L_{i,n}\right] + \frac{2}{\beta} \ln K\]
-
-<p>For the regret to be <strong>sub-linear</strong> in $n$, we need $\min_i L_{i,n}$ to be sub-linear. If the best expert makes $O(\sqrt{n})$ mistakes, WMA will too.</p>
+<p>So $B$ either triples the investment or simply returns the original investment.</p>
 
 <hr>
 
-<h2 id="the-impossibility-of-deterministic-sub-linear-regret">The Impossibility of Deterministic Sub-linear Regret</h2>
+<h2 id="decision-variable">Decision Variable</h2>
 
-<p><strong>Claim 1.3.</strong> <em>For the $0$-$1$ loss formulation, no deterministic algorithm can achieve sub-linear regret.</em></p>
+<p>Let:</p>
 
-<p><strong>Proof.</strong> Suppose algorithm $A$ is deterministic. The adversary knows $A$ in advance. With $K = 2$ experts (one always predicts 1, one always predicts 0), the adversary simply reveals the ground truth to be whichever prediction $A$ did not make. So $A$ errs at every step:</p>
+\[d \in [0,1]\]
 
-\[R_n^{\text{best}} \geq \frac{n}{2} = \Theta(n)\]
+<p>be the fraction of the one dollar invested in $A$.</p>
 
-<p>The best expert makes at most $n/2$ mistakes, but $A$ makes $n$ mistakes, giving linear regret. $\square$</p>
+<p>Then:</p>
 
-<p>This tells us that to get sub-linear regret, we need either:</p>
-<ol>
-  <li>A <strong>softer loss</strong> (not $0$-$1$), or</li>
-  <li>A <strong>randomized algorithm</strong>.</li>
-</ol>
+<ul>
+  <li>$d$ is invested in $A$</li>
+  <li>$1-d$ is invested in $B$</li>
+</ul>
 
-<p>The Exponential WMA addresses point 1. The Randomized Exponential WMA addresses point 2.</p>
+<p>The decision set is:</p>
+
+\[D = [0,1]\]
+
+<hr>
+
+<h2 id="states-and-outcomes">States and Outcomes</h2>
+
+<p>There are two states of nature:</p>
+
+\[\Omega = \{\omega_1,\omega_2\}\]
+
+<p>where:</p>
+
+<ul>
+  <li>$\omega_1$: investment $B$ gives 3 dollars per dollar invested</li>
+  <li>$\omega_2$: investment $B$ gives 1 dollar per dollar invested</li>
+</ul>
+
+<p>Both states occur with probability $1/2$.</p>
+
+<p>The outcome depends on both the decision $d$ and the state $\omega$:</p>
+
+\[f(d,\omega) =
+\begin{cases}
+1.5d + 3(1-d), &amp; \omega = \omega_1,\\
+1.5d + (1-d), &amp; \omega = \omega_2.
+\end{cases}\]
+
+<p>The outcome space is:</p>
+
+\[O = [1,3]\]
+
+<hr>
+
+<h2 id="average-outcome-logic">Average Outcome Logic</h2>
+
+<p>Investment $A$ gives 1.5 dollars for sure.</p>
+
+<p>Investment $B$ gives:</p>
+
+\[\frac{1}{2}\cdot 3 + \frac{1}{2}\cdot 1 = 2\]
+
+<p>So if we look only at average outcome, $B$ looks better than $A$.</p>
+
+<p>This logic says:</p>
+
+<blockquote>
+  <p>Invest everything in $B$.</p>
+</blockquote>
+
+<p>In terms of the decision variable:</p>
+
+\[d^* = 0\]
+
+<p>But this ignores the risk of the lower outcome.</p>
+
+<hr>
+
+<h2 id="worst-case-logic">Worst-Case Logic</h2>
+
+<p>If we look only at the worst case, then for a fixed $d$ we evaluate:</p>
+
+\[\min_{\omega \in \Omega} f(d,\omega)\]
+
+<p>Here:</p>
+
+\[\min\{1.5d + 3(1-d),\; 1.5d + (1-d)\}
+= 1.5d + (1-d)\]
+
+<p>So the worst-case decision problem is:</p>
+
+\[\max_{d \in [0,1]} \left(1.5d + (1-d)\right)\]
+
+<p>This is maximized at:</p>
+
+\[d^* = 1\]
+
+<p>So worst-case logic says:</p>
+
+<blockquote>
+  <p>Invest everything in $A$.</p>
+</blockquote>
+
+<p>This is conservative, but it may miss the upside from $B$.</p>
+
+<hr>
+
+<h2 id="expected-utility-logic">Expected Utility Logic</h2>
+
+<p>Expected utility theory says we should not maximize the average outcome or the worst-case outcome directly.</p>
+
+<p>Instead, choose $d$ to maximize:</p>
+
+\[\mathbb{E}_{\omega}[u(f(d,\omega))]\]
+
+<p>Since the two states have probability $1/2$, this becomes:</p>
+
+\[\max_{d \in [0,1]}
+\left[
+\frac{1}{2}u(1.5d + 3(1-d))
++
+\frac{1}{2}u(1.5d + (1-d))
+\right]\]
+
+<p>This decision rule depends on the utility function $u$.</p>
+
+<p>The central contribution of expected utility theory is that if preferences over lotteries satisfy certain axioms, then such a utility function exists and represents those preferences.</p>
+
+<hr>
+
+<h2 id="example-utility-function">Example Utility Function</h2>
+
+<p>Consider the utility function:</p>
+
+\[u(o) = \alpha o - o^2\]
+
+<p>where $\alpha$ is a scalar.</p>
+
+<p>To ensure that utility is increasing on the outcome interval $[1,3]$, assume:</p>
+
+\[\alpha &gt; 6\]
+
+<p>This means that more money gives more utility throughout the relevant outcome range.</p>
+
+<hr>
+
+<h2 id="optimal-allocation">Optimal Allocation</h2>
+
+<p>Plugging this utility into the expected utility expression and maximizing over $d$ gives:</p>
+
+\[d^* =
+\begin{cases}
+0, &amp; \alpha \geq 8,\\
+\dfrac{8-\alpha}{5}, &amp; 6 &lt; \alpha &lt; 8.
+\end{cases}\]
+
+<p>Interpretation:</p>
+
+<ul>
+  <li>If $\alpha \geq 8$, invest everything in $B$.</li>
+  <li>If $6 &lt; \alpha &lt; 8$, split the investment between $A$ and $B$.</li>
+</ul>
+
+<p>For $6 &lt; \alpha &lt; 8$, the optimal decision is neither $d=0$ nor $d=1$. This matches the intuition that one may want some guaranteed return from $A$ and some possible upside from $B$.</p>
+
+<hr>
+
+<h2 id="risk-attitude-and-the-shape-of-utility">Risk Attitude and the Shape of Utility</h2>
+
+<p>The shape of the utility function encodes the decision maker’s attitude toward risk.</p>
+
+<p>For:</p>
+
+\[u(o) = \alpha o - o^2\]
+
+<p>larger $\alpha$ makes the utility function behave more like a linear function on $[1,3]$.</p>
+
+<p>When utility is close to linear, the decision maker behaves more like someone who only cares about the expected outcome. That is why for $\alpha \geq 8$, the optimal decision becomes $d^*=0$, meaning everything is invested in $B$.</p>
+
+<p>For smaller $\alpha$ in the range $(6,8)$, curvature matters more, and the decision maker chooses a mix of $A$ and $B$.</p>
+
+<hr>
+
+<h2 id="moments-of-the-outcome">Moments of the Outcome</h2>
+
+<p>Looking only at the average outcome corresponds to caring only about the first moment.</p>
+
+<p>This happens when utility is linear:</p>
+
+\[u(o) = ao + b\]
+
+<p>For nonlinear utility functions, other moments also matter.</p>
+
+<p>For the quadratic utility:</p>
+
+\[u(o) = \alpha o - o^2\]
+
+<p>both the first and second moments of the outcome affect expected utility.</p>
+
+<p>For a more general concave differentiable utility function, all moments of the outcome may matter.</p>
+
+<p>For example:</p>
+
+\[u(o) = 1 - e^{-\lambda o}\]
+
+<p>Expanding the exponential gives a power series involving powers of $o$:</p>
+
+\[e^{-\lambda o}
+= 1 - \lambda o + \frac{\lambda^2 o^2}{2!}
+- \frac{\lambda^3 o^3}{3!} + \cdots\]
+
+<p>So expected utility may depend on:</p>
+
+<ul>
+  <li>the mean</li>
+  <li>the second moment</li>
+  <li>the third moment</li>
+  <li>higher-order moments</li>
+</ul>
+
+<p>This explains why expected utility theory is richer than simply comparing averages.</p>
+
+<hr>
+
+<h2 id="lotteries-and-mixtures">Lotteries and Mixtures</h2>
+
+<p>Let $\mathcal{P}$ denote the set of all lotteries, equivalently the set of all probability distributions on outcomes.</p>
+
+<p>Suppose the finite outcome set is:</p>
+
+\[O = \{o_1,o_2,\ldots,o_n\}\]
+
+<p>For two lotteries $p_1,p_2 \in \mathcal{P}$ and $\alpha \in [0,1]$, the mixture:</p>
+
+\[\alpha p_1 + (1-\alpha)p_2\]
+
+<p>is also a lottery.</p>
+
+<p>For each outcome $o_j$, this mixed lottery assigns probability:</p>
+
+\[(\alpha p_1 + (1-\alpha)p_2)(o_j)
+= \alpha p_1(o_j) + (1-\alpha)p_2(o_j)\]
+
+<p>This can be interpreted in two equivalent ways:</p>
+
+<ul>
+  <li>first choose lottery $p_1$ with probability $\alpha$ and $p_2$ with probability $1-\alpha$</li>
+  <li>or directly form a new probability distribution by mixing the probabilities outcome-wise</li>
+</ul>
+
+<hr>
+
+<h2 id="preference-axioms">Preference Axioms</h2>
+
+<p>Expected utility theory relies on a preference relation over lotteries.</p>
+
+<p>Let $\preceq$ represent weak preference, where:</p>
+
+\[p_1 \preceq p_2\]
+
+<p>means lottery $p_2$ is at least as preferred as lottery $p_1$.</p>
+
+<p>Also define:</p>
+
+<ul>
+  <li>$p_1 \sim p_2$: $p_1$ and $p_2$ are equivalent</li>
+  <li>$p_1 \prec p_2$: $p_2$ is strictly preferred to $p_1$</li>
+</ul>
+
+<p>The theorem assumes four axioms.</p>
+
+<h3 id="axiom-1-completeness-and-transitivity">Axiom 1: Completeness and Transitivity</h3>
+
+<p>There exists a complete and transitive preference relation on $\mathcal{P}$.</p>
+
+<p>Completeness means that for any $p_1,p_2 \in \mathcal{P}$:</p>
+
+\[p_1 \preceq p_2
+\quad \text{or} \quad
+p_2 \preceq p_1\]
+
+<p>Transitivity means the preference ordering is logically consistent.</p>
+
+<h3 id="axiom-2-mixture-preserves-equivalence">Axiom 2: Mixture Preserves Equivalence</h3>
+
+<p>If:</p>
+
+\[p_1 \sim p_2\]
+
+<p>then for all $\alpha \in [0,1]$ and all $p \in \mathcal{P}$:</p>
+
+\[\alpha p_1 + (1-\alpha)p
+\sim
+\alpha p_2 + (1-\alpha)p\]
+
+<p>Equivalent lotteries remain equivalent when mixed in the same proportion with a third lottery.</p>
+
+<h3 id="axiom-3-mixture-preserves-strict-preference">Axiom 3: Mixture Preserves Strict Preference</h3>
+
+<p>If:</p>
+
+\[p_1 \prec p_2\]
+
+<p>then for all $\alpha \in [0,1]$ and all $p \in \mathcal{P}$:</p>
+
+\[\alpha p_1 + (1-\alpha)p
+\prec
+\alpha p_2 + (1-\alpha)p\]
+
+<p>Strict preference is preserved under common mixing.</p>
+
+<h3 id="axiom-4-continuity">Axiom 4: Continuity</h3>
+
+<p>If:</p>
+
+\[p_1 \prec p_2 \prec p_3\]
+
+<p>then there exists $\alpha \in [0,1]$ such that:</p>
+
+\[\alpha p_1 + (1-\alpha)p_3 \sim p_2\]
+
+<p>So an intermediate lottery can be matched by a suitable mixture of a worse and a better lottery.</p>
+
+<hr>
+
+<h2 id="expected-utility-theorem">Expected Utility Theorem</h2>
+
+<p>Under Axioms 1 to 4, there exists a real-valued utility function:</p>
+
+\[u: O \to \mathbb{R}\]
+
+<p>such that for all lotteries $p_1,p_2 \in \mathcal{P}$:</p>
+
+\[p_1 \preceq p_2
+\quad \Longleftrightarrow \quad
+\mathbb{E}_{p_1}[u(O)]
+\leq
+\mathbb{E}_{p_2}[u(O)]\]
+
+<p>In words:</p>
+
+<blockquote>
+  <p>Comparing lotteries is equivalent to comparing their expected utilities.</p>
+</blockquote>
+
+<p>This is powerful because it turns a complicated preference comparison over lotteries into an optimization problem over real numbers.</p>
+
+<hr>
+
+<h2 id="why-the-theorem-matters">Why the Theorem Matters</h2>
+
+<p>The theorem says that if a person’s preferences over lotteries satisfy the axioms, then they are implicitly maximizing expected utility.</p>
+
+<p>The utility function captures:</p>
+
+<ul>
+  <li>how the decision maker values outcomes</li>
+  <li>how they trade off risk and reward</li>
+  <li>why two people may make different choices under the same probabilities and outcomes</li>
+</ul>
+
+<p>This makes expected utility theory a cornerstone for decision making under uncertainty.</p>
+
+<hr>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<ul>
+  <li>Expected utility theory evaluates decisions by the expected utility of outcomes.</li>
+  <li>In the investment example, average outcome says invest fully in $B$, while worst-case logic says invest fully in $A$.</li>
+  <li>Expected utility can recommend an interior allocation between $A$ and $B$.</li>
+  <li>The shape of the utility function encodes risk attitude.</li>
+  <li>Linear utility makes only the mean matter.</li>
+  <li>Nonlinear utility can make higher moments matter.</li>
+  <li>Lotteries can be mixed using convex combinations.</li>
+  <li>Under reasonable preference axioms, a utility function exists.</li>
+  <li>Comparing lotteries then becomes equivalent to comparing expected utilities.</li>
+</ul>
 
     </div>
   </article>
