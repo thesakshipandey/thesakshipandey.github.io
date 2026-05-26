@@ -17,13 +17,12 @@
   
   
     
-      The Godfather | Sakshi
+      5. Role of Information in Decision Making | Sakshi
     
   
 </title>
 <meta name="author" content="Sakshi S. Pandey">
-<meta name="description" content="Hello 👋🏻 Welcome to Sakshi's World! =)
-">
+<meta name="description" content="A two-stage control example showing how information changes feasible policies and optimal values.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -51,6 +50,9 @@
 <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
 
 
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
 
 <!-- Styles -->
 
@@ -60,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://sakshipandey.github.io/books/the_godfather/">
+<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/05-role-of-information-in-decision-making/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
@@ -379,10 +381,8 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   <a class="nav-link" href="/books/">Bookshelf
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -421,6 +421,14 @@
     <div class="container mt-5" role="main">
       
         
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
 
 
 
@@ -428,233 +436,364 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">The Godfather</h1>
-    
-      <p class="post-meta">
-        
-          Mario Puzo
-        
-          ·  
-        
-          1969
-        
-      </p>
-    
-
-    
-      <p class="post-meta">
-        
-          <i class="fa-solid fa-play fa-sm" style="color: var(--global-tip-block) !important"></i> <em>2024-08-23</em>
-        
-        
-          
-             · 
-          
-          <i class="fa-solid fa-stop fa-sm" style="color: #e56565 !important"></i> <em>2024-09-07</em>
-        
-        
-          
-             · 
-          
-          
-            <a target="_blank" href="https://www.goodreads.com/review/show/6318556633" rel="external nofollow noopener"><i class="fa-brands fa-goodreads-g"></i>
-          
-          
-          
-          
-          
-          <i class="fa-solid fa-star fa-sm"></i><i class="fa-solid fa-star fa-sm"></i><i class="fa-solid fa-star fa-sm"></i><i class="fa-solid fa-star fa-sm"></i><i class="fa-solid fa-star fa-sm"></i>
-            </a>
-          
-        
-        
-          
-             · 
-          
-          <a target="_blank" href="https://www.amazon.com/Godfather-Deluxe-Mario-Puzo/dp/0593542592" rel="external nofollow noopener"><i class="fa-solid fa-cart-shopping"></i>
-            
-            
-              <i class="fa-brands fa-amazon"></i>
-            
-          </a>
-        
-      </p>
-    
-    <p class="post-tags">
-      <a href="/books/2024"> <i class="fa-solid fa-calendar fa-sm"></i> 2024</a>
+    <h1 class="post-title">5. Role of Information in Decision Making</h1>
+    <p class="post-meta">
+      Created on May 26, 2026
       
-         · 
-        
-          <a href="/books/tag/top-100"> <i class="fa-solid fa-hashtag fa-sm"></i> top-100</a>
-          
-        
       
-
-      
-         · 
-        
-          <a href="/books/category/classics"> <i class="fa-solid fa-tag fa-sm"></i> classics</a>
-          
-             
-          
-        
-          <a href="/books/category/crime"> <i class="fa-solid fa-tag fa-sm"></i> crime</a>
-          
-             
-          
-        
-          <a href="/books/category/historical-fiction"> <i class="fa-solid fa-tag fa-sm"></i> historical-fiction</a>
-          
-             
-          
-        
-          <a href="/books/category/mystery"> <i class="fa-solid fa-tag fa-sm"></i> mystery</a>
-          
-             
-          
-        
-          <a href="/books/category/novels"> <i class="fa-solid fa-tag fa-sm"></i> novels</a>
-          
-             
-          
-        
-          <a href="/books/category/thriller"> <i class="fa-solid fa-tag fa-sm"></i> thriller</a>
-          
-        
       
     </p>
-    <hr>
+    <p class="post-tags">
+      
+        <i class="fa-solid fa-calendar fa-sm"></i> 2026
+      
+      
+          ·  
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> decision-making
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> uncertainty
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> information
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> sequential-decisions
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> stochastic-control
+          
+          
+        
+      
+
+      
+    </p>
   </header>
 
-  <article>
+  <article class="post-content">
     
-      <figure>
-        
-          <img alt="The Godfather cover" src="/assets/img/book_covers/the_godfather.jpg">
-          <figcaption>
-            Cover of <em>The Godfather</em>
-          </figcaption>
-        
-      </figure>
-      <br class="mobile-break" clear="right">
-      <h4>
-        
-        
-      </h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sollicitudin eros sit amet ante aliquet, sit amet vulputate lectus mattis. Aenean ullamcorper pretium nunc, sed egestas lorem elementum id. Nulla id mi id neque ultrices egestas ut in urna. Sed ac ultricies nunc. Nam convallis placerat urna id egestas. Nulla porta, est interdum vestibulum venenatis, lorem odio laoreet sapien, in pulvinar tellus eros a dolor. Vivamus sapien justo, ullamcorper a mi eget, scelerisque euismod nunc. In augue augue, ultrices a ornare non, tincidunt quis justo. Donec sit amet consectetur eros. Nullam neque leo, tincidunt id ipsum ac, volutpat lobortis mi. Phasellus consequat ultricies arcu, eu semper ligula ultrices eget. Ut in fringilla elit, ac tincidunt nisi.</p>
+    <div id="markdown-content">
+      <h1 id="5-role-of-information-in-decision-making">5. Role of Information in Decision Making</h1>
 
-<p>Nunc commodo elit nec turpis feugiat consectetur. Nullam in nisi egestas, fermentum ligula hendrerit, euismod enim. Nulla eu hendrerit eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et velit ante. Vestibulum pretium vitae quam et sagittis. Proin eu nunc vel velit accumsan eleifend. Nulla facilisis, diam tempus imperdiet ultrices, massa ipsum consequat orci, sed efficitur eros mi a felis. Cras lobortis turpis sem, sed lobortis nunc ullamcorper tristique. Nam vehicula rhoncus ante, in faucibus sapien scelerisque et. Donec semper libero et tincidunt mattis. In vestibulum, nulla pretium dictum commodo, risus nulla vestibulum felis, at tincidunt massa mi in odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+<p>Source: <a href="https://youtu.be/PZBkfpuKj-A?si=8V1nCkJtvH5ur2je" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
 
-<p>Donec efficitur ultrices purus sit amet imperdiet. Nam consequat metus in erat sodales faucibus. Aliquam maximus fermentum nulla id finibus. Aliquam iaculis sed odio vel rutrum. Curabitur sed odio est. Praesent nec sollicitudin tortor. Praesent pharetra, turpis quis porttitor rhoncus, ante massa fringilla lacus, nec porttitor magna turpis vitae felis. Nullam tristique massa id odio imperdiet, nec sodales massa egestas. Proin nisi metus, euismod sed accumsan vitae, facilisis vel risus. Morbi suscipit auctor erat, nec viverra elit fringilla eu. Mauris congue, purus id tristique facilisis, felis nisi efficitur magna, eu consectetur augue sem vitae lacus. Aliquam erat volutpat. Cras at nibh ultricies, volutpat arcu vitae, dictum est. In ac dolor sagittis, egestas lectus et, semper nisl. Etiam consectetur purus vitae sapien porttitor auctor.</p>
+<h2 id="big-picture">Big Picture</h2>
 
-<p>Nulla sit amet venenatis odio. Suspendisse ac lacus quis augue mollis tempus vel in lorem. Donec augue turpis, eleifend nec nibh eu, elementum dictum metus. Proin ut est ligula. Etiam vehicula facilisis metus, sit amet consectetur risus ullamcorper porttitor. In congue nibh quis sollicitudin iaculis. Donec a mollis lorem, non mollis lacus. Nulla et leo ex. Aliquam erat volutpat. Nam sit amet tincidunt mauris. Vivamus vitae est sit amet nisi semper egestas. Donec in diam pharetra, commodo diam vitae, imperdiet ligula. Cras iaculis ac diam eget vehicula. Proin suscipit ante enim, quis vehicula mi porta bibendum. Aliquam a diam porttitor, sollicitudin justo vitae, tempor odio.</p>
+<p>So far, risk has been treated as one central feature of decision making under uncertainty.</p>
 
-<p>Cras fermentum dignissim pretium. Donec quis turpis eu neque lacinia facilisis in sit amet nibh. Nulla non tortor ultricies, euismod est in, blandit nibh. Ut a neque metus. Sed convallis condimentum nibh quis finibus. Praesent aliquam sem iaculis eros maximus accumsan. Nulla venenatis mauris id aliquet maximus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at enim vitae ex porttitor vestibulum sed eget nibh. Suspendisse accumsan feugiat quam eget ultricies.</p>
+<p>The second central feature is <strong>information</strong>.</p>
 
-    
+<p>Information matters because the nature of a decision problem depends on what is known when each decision is made.</p>
+
+<p>Changing the information structure can change:</p>
+
+<ul>
+  <li>the feasible decisions</li>
+  <li>the form of the optimal decision rule</li>
+  <li>the optimal value of the objective</li>
+  <li>whether the decision is a fixed scalar or an adaptive policy</li>
+</ul>
+
+<p>The lecture illustrates this through a simple two-stage system.</p>
+
+<hr>
+
+<h2 id="system-model">System Model</h2>
+
+<p>Consider a scalar system evolving over two time steps:</p>
+
+\[x_1 = u_0 + w_0\]
+
+\[x_2 = x_1 + u_1\]
+
+<p>where:</p>
+
+<ul>
+  <li>$x_1, x_2$ are the system states at times 1 and 2</li>
+  <li>$u_0, u_1$ are decisions</li>
+  <li>$w_0$ is an external random disturbance</li>
+</ul>
+
+<p>The disturbance is:</p>
+
+\[w_0 =
+\begin{cases}
++1, &amp; \text{with probability } 1/2,\\
+-1, &amp; \text{with probability } 1/2.
+\end{cases}\]
+
+<p>The objective is to choose $u_0$ and $u_1$ to minimize:</p>
+
+\[\mathbb{E}[|x_2|]\]
+
+<p>This is a decision problem under uncertainty because $w_0$ is not controlled by the decision maker.</p>
+
+<hr>
+
+<h2 id="information-structure-1-decisions-chosen-before-uncertainty">Information Structure 1: Decisions Chosen Before Uncertainty</h2>
+
+<p>First assume that both $u_0$ and $u_1$ are chosen <strong>before</strong> $w_0$ is realized.</p>
+
+<p>Then $u_0$ and $u_1$ are deterministic scalars. They cannot depend on $w_0$, $x_1$, or any later information.</p>
+
+<p>Using the system equations:</p>
+
+\[x_2 = x_1 + u_1 = u_0 + w_0 + u_1\]
+
+<p>So:</p>
+
+\[|x_2| = |u_0 + u_1 + w_0|\]
+
+<p>Taking expectation over the only random quantity, $w_0$:</p>
+
+\[\mathbb{E}[|x_2|]
+=
+\frac{1}{2}|u_0 + u_1 + 1|
++
+\frac{1}{2}|u_0 + u_1 - 1|\]
+
+<p>Let:</p>
+
+\[z = u_0 + u_1\]
+
+<p>Then the objective becomes:</p>
+
+\[\frac{1}{2}|z+1| + \frac{1}{2}|z-1|\]
+
+<p>This is the average distance of $z$ from $-1$ and $+1$.</p>
+
+<hr>
+
+<h2 id="solving-the-deterministic-decision-case">Solving the Deterministic-Decision Case</h2>
+
+<p>If:</p>
+
+\[z \in [-1,1]\]
+
+<p>then:</p>
+
+\[|z+1| + |z-1| = 2\]
+
+<p>and therefore:</p>
+
+\[\frac{1}{2}|z+1| + \frac{1}{2}|z-1| = 1\]
+
+<p>If $z$ lies outside $[-1,1]$, the sum of distances becomes larger.</p>
+
+<p>Therefore:</p>
+
+\[\min_{u_0,u_1}\mathbb{E}[|x_2|] = 1\]
+
+<p>and the minimum is attained whenever:</p>
+
+\[u_0 + u_1 \in [-1,1]\]
+
+<p>There are many optimal deterministic pairs $(u_0,u_1)$, but all of them achieve the same optimal value:</p>
+
+\[1\]
+
+<hr>
+
+<h2 id="information-structure-2-sequential-decisions">Information Structure 2: Sequential Decisions</h2>
+
+<p>Now change the information structure.</p>
+
+<p>Assume:</p>
+
+<ul>
+  <li>$u_0$ is chosen before $w_0$ is realized</li>
+  <li>$x_1$ is then realized</li>
+  <li>$x_1$ is known to the decision maker when choosing $u_1$</li>
+</ul>
+
+<p>So $u_1$ is not just a fixed scalar anymore. It can be a function of the observed state:</p>
+
+\[u_1 = \gamma_1(x_1)\]
+
+<p>This turns the decision problem into a policy-design problem.</p>
+
+<p>The decision maker is no longer choosing just two numbers. The decision maker chooses:</p>
+
+<ul>
+  <li>a scalar $u_0$</li>
+  <li>a rule or policy for how to choose $u_1$ after observing $x_1$</li>
+</ul>
+
+<hr>
+
+<h2 id="solving-the-sequential-case">Solving the Sequential Case</h2>
+
+<p>The objective is still:</p>
+
+\[\mathbb{E}[|x_2|]\]
+
+<p>and:</p>
+
+\[x_2 = x_1 + u_1\]
+
+<p>But now $x_1$ is known when choosing $u_1$.</p>
+
+<p>So choose:</p>
+
+\[u_1 = -x_1\]
+
+<p>Then:</p>
+
+\[x_2 = x_1 + (-x_1) = 0\]
+
+<p>Therefore:</p>
+
+\[\mathbb{E}[|x_2|] = 0\]
+
+<p>This is the smallest possible value because absolute value is always nonnegative.</p>
+
+<p>So under this information structure:</p>
+
+\[\min \mathbb{E}[|x_2|] = 0\]
+
+<p>Here $u_0$ can be any scalar. Its value does not matter because once $x_1$ is observed, $u_1$ can exactly cancel it.</p>
+
+<hr>
+
+<h2 id="comparing-the-two-information-structures">Comparing the Two Information Structures</h2>
+
+<p>The only difference between the two cases is what is known when $u_1$ is chosen.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Case</th>
+      <th>What is allowed?</th>
+      <th>Optimal value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Both decisions chosen before $w_0$</td>
+      <td>$u_0,u_1$ are deterministic scalars</td>
+      <td>$1$</td>
+    </tr>
+    <tr>
+      <td>$u_1$ chosen after observing $x_1$</td>
+      <td>$u_1$ can be a function of $x_1$</td>
+      <td>$0$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The second case performs better because the decision maker can adapt the second decision to observed information.</p>
+
+<p>This shows that information has real operational value. It changes what decisions are available and can improve the best achievable objective value.</p>
+
+<hr>
+
+<h2 id="actions-vs-policies">Actions vs. Policies</h2>
+
+<p>In the first problem, the decision maker chooses actions:</p>
+
+\[u_0, u_1 \in \mathbb{R}\]
+
+<p>In the second problem, the decision maker chooses a policy:</p>
+
+\[u_1 = \gamma_1(x_1)\]
+
+<p>A policy is a rule that maps available information to an action.</p>
+
+<p>This distinction is fundamental in sequential decision making. Once decisions happen over time, it is not enough to specify actions. One must specify what information each action can depend on.</p>
+
+<hr>
+
+<h2 id="role-of-information">Role of Information</h2>
+
+<p>This example shows that the information structure determines the problem.</p>
+
+<p>Changing the information structure changes:</p>
+
+<ul>
+  <li>whether decisions are deterministic numbers or functions of observations</li>
+  <li>the set of feasible strategies</li>
+  <li>the optimal policy</li>
+  <li>the optimal value</li>
+</ul>
+
+<p>In the first case, the decision maker cannot react to the random disturbance. In the second case, the decision maker observes $x_1$ and can choose $u_1$ to cancel the state exactly.</p>
+
+<p>So information is not merely a detail in the model. It is part of the model itself.</p>
+
+<hr>
+
+<h2 id="toward-sequential-decision-models">Toward Sequential Decision Models</h2>
+
+<p>The lectures so far have isolated two core aspects of decision making under uncertainty:</p>
+
+<ol>
+  <li>
+<strong>Risk:</strong> uncertain outcomes must be evaluated through preferences or utilities, not just averages.</li>
+  <li>
+<strong>Information:</strong> decisions depend on what is known at the time they are made.</li>
+</ol>
+
+<p>The next step is to build formal models of sequential decision making where risk, uncertainty, dynamics, and information all interact.</p>
+
+<hr>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<ul>
+  <li>Information plays a critical role in decision making under uncertainty.</li>
+  <li>A decision problem is incomplete unless we specify what is known when each decision is made.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>If $u_0$ and $u_1$ are chosen before $w_0$ is realized, the best value of $\mathbb{E}[</td>
+          <td>x_2</td>
+          <td>]$ is $1$.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>If $u_1$ is chosen after observing $x_1$, choosing $u_1=-x_1$ gives optimal value $0$.</li>
+  <li>More information can expand the set of feasible policies and improve performance.</li>
+  <li>In sequential problems, the decision object is often a policy, not a single action.</li>
+</ul>
+
+    </div>
   </article>
 
   
+
+  
+
+  
+    
+  
+
+  
+  
 </div>
-
-<style>
-      figure {
-        float: none;
-        width: auto;
-        display: block;
-        margin-right: auto;
-        margin-left: auto;
-
-      }
-      figure  > img {
-
-           vertical-align: top;
-           display: block;
-           margin-right: 0px;
-           margin-left: 0px;
-           padding: 0px;
-
-      }
-      figure figcaption {
-
-        display: block;
-        caption-side: bottom;
-        text-align: center;
-      }
-
-      @media screen and (min-width: 600px)  {
-
-        .empty-review{
-          float: left;
-          display: block; /* in-line block; */
-          margin: 0px 0px 0px 0px;  /* adjust as needed */
-          padding: 0px 0px 0px 20px;
-         /* top right bottom left */
-          }
-
-         .empty-review-caption {
-                  caption-side: left;
-                  text-align: left;
-
-
-                  }
-
-          .empty-review-cover {
-              width:250px;
-              vertical-align: top;
-              padding-right: 40px;
-              }
-
-          figure {
-
-                float: right;
-                display: in-line block; /* in-line block; */
-                margin: 0px 0px 0px 0px;  /* adjust as needed */
-                padding: 0px 0px 0px 20px;
-               /* top right bottom left */
-              }
-
-          figure img {
-                  width:300px;
-                  vertical-align: top;
-
-                }
-
-          figure figcaption {
-                  caption-side: bottom;
-                  text-align: left;
-
-                  }
-
-          .mobile-break { display: none; }
-
-  /* =Blockquote
-  -------------------------------------------------------------- */
-  blockquote {
-
-      position: relative;
-      marign: 0px;
-      display: table;
-
-  }
-  blockquote:before, blockquote:after {
-
-   /* properties to format the block quotes /*
-
-  }
-  blockquote:before {
-      top: 0;
-      left: 0;
-
-
-  }
-  blockquote:after {
-      top: 0;
-      right: 0;
-
-  }
-</style>
-
+</div>
+          </div>
+        
       
     </div>
 
@@ -719,6 +858,9 @@
   <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
 
 
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
 
 
 
