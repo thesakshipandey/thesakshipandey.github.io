@@ -4,9 +4,6 @@
   <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
-      
-      <meta http-equiv="refresh" content="3; url=/assets/pdf/example_pdf.pdf">
-    
     <!-- Metadata, OpenGraph and Schema.org -->
 
 
@@ -20,12 +17,12 @@
   
   
     
-      a post with redirect | Sakshi
+      7. Inventory Control Problem II | Sakshi
     
   
 </title>
 <meta name="author" content="Sakshi S. Pandey">
-<meta name="description" content="you can also redirect to assets like pdf">
+<meta name="description" content="Backlogged demand, inventory costs, closed-loop policies, and why stochastic problems require strategies rather than fixed actions.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -53,6 +50,9 @@
 <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
 
 
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
 
 <!-- Styles -->
 
@@ -62,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://sakshipandey.github.io/blog/2022/redirect/">
+<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/07-inventory-control-problem-ii/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
@@ -328,10 +328,8 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   <a class="nav-link" href="/blog/">Blog
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -427,6 +425,13 @@
     <div class="container mt-5" role="main">
       
         
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
 
 
 
@@ -435,17 +440,53 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">a post with redirect</h1>
+    <h1 class="post-title">7. Inventory Control Problem II</h1>
     <p class="post-meta">
-      Created on February 01, 2022
+      Created on May 26, 2026
       
       
       
     </p>
     <p class="post-tags">
       
-        <a href="/blog/2022"> <i class="fa-solid fa-calendar fa-sm"></i> 2022 </a>
+        <i class="fa-solid fa-calendar fa-sm"></i> 2026
       
+      
+          ·  
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> decision-making
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> uncertainty
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> inventory-control
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> stochastic-control
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> policies
+          
+          
+        
       
 
       
@@ -455,7 +496,308 @@
   <article class="post-content">
     
     <div id="markdown-content">
-      <p>Redirecting to another page.</p>
+      <h1 id="7-inventory-control-problem-ii">7. Inventory Control Problem II</h1>
+
+<p>Source: <a href="https://youtu.be/IeajGgUgUXw?si=duh2rSLIplKOa6-6" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
+
+<h2 id="recap">Recap</h2>
+
+<p>In the inventory-control model:</p>
+
+<ul>
+  <li>$x_k$ is the stock available at the beginning of period $k$</li>
+  <li>$u_k$ is the additional stock ordered at the beginning of period $k$</li>
+  <li>$w_k$ is the random demand during period $k$</li>
+</ul>
+
+<p>The order is assumed to be delivered immediately.</p>
+
+<p>The timing in each period is:</p>
+
+<ol>
+  <li>$x_k$ becomes known.</li>
+  <li>$u_k$ is chosen.</li>
+  <li>demand $w_k$ is realized.</li>
+</ol>
+
+<p>So the inventory decision is made before the demand for that period is known.</p>
+
+<hr>
+
+<h2 id="backlogged-demand">Backlogged Demand</h2>
+
+<p>The lecture assumes that unfulfilled demand can be backlogged.</p>
+
+<p>This means if demand cannot be satisfied in the current period, it can be carried forward and fulfilled in later periods.</p>
+
+<p>As a result, inventory can be negative:</p>
+
+<ul>
+  <li>$x_k &gt; 0$ means positive stock is available</li>
+  <li>$x_k &lt; 0$ means there is backlog or unfulfilled demand</li>
+</ul>
+
+<p>This allows the state to take values on the real line, not just nonnegative values.</p>
+
+<hr>
+
+<h2 id="inventory-dynamics">Inventory Dynamics</h2>
+
+<p>Because backlogging is allowed, the next inventory state is:</p>
+
+\[x_{k+1} = x_k + u_k - w_k\]
+
+<p>Interpretation:</p>
+
+<ul>
+  <li>start with stock $x_k$</li>
+  <li>order additional stock $u_k$</li>
+  <li>demand $w_k$ consumes stock</li>
+  <li>the remaining stock, possibly negative, becomes $x_{k+1}$</li>
+</ul>
+
+<p>If:</p>
+
+\[w_k &gt; x_k + u_k\]
+
+<p>then demand exceeds available inventory, and:</p>
+
+\[x_{k+1} &lt; 0\]
+
+<p>This negative inventory represents backlogged demand.</p>
+
+<hr>
+
+<h2 id="stage-cost">Stage Cost</h2>
+
+<p>At each time period, there is a cost:</p>
+
+\[r(x_k) + c u_k\]
+
+<p>where:</p>
+
+<ul>
+  <li>$r(x_k)$ is the inventory-related penalty</li>
+  <li>$cu_k$ is the purchasing cost</li>
+  <li>$c$ is the per-unit purchasing cost</li>
+</ul>
+
+<p>The function $r(x_k)$ can capture two kinds of penalties.</p>
+
+<h3 id="positive-stock">Positive Stock</h3>
+
+<p>If $x_k &gt; 0$, then $r(x_k)$ can represent a holding cost:</p>
+
+<ul>
+  <li>storage cost</li>
+  <li>excess inventory cost</li>
+  <li>cost of keeping unsold stock</li>
+</ul>
+
+<h3 id="negative-stock">Negative Stock</h3>
+
+<p>If $x_k &lt; 0$, then $r(x_k)$ can represent a shortage cost:</p>
+
+<ul>
+  <li>penalty for unfulfilled demand</li>
+  <li>customer dissatisfaction</li>
+  <li>cost of delayed fulfillment</li>
+</ul>
+
+<p>So $r(x_k)$ penalizes both too much inventory and too little inventory.</p>
+
+<hr>
+
+<h2 id="terminal-cost">Terminal Cost</h2>
+
+<p>At the end of the horizon, there may be leftover inventory or backlog.</p>
+
+<p>This is captured by a terminal cost:</p>
+
+\[R(x_N)\]
+
+<p>where $x_N$ is the inventory state at time $N$.</p>
+
+<p>The terminal cost penalizes being left with inventory or backlog after the final period.</p>
+
+<hr>
+
+<h2 id="total-cost-objective">Total Cost Objective</h2>
+
+<p>The total cost is:</p>
+
+\[R(x_N) + \sum_{k=0}^{N-1} \left(r(x_k) + c u_k\right)\]
+
+<p>Since demand is random, the states are random, and the total cost is random.</p>
+
+<p>The stochastic control objective is therefore:</p>
+
+\[\min \mathbb{E}\left[
+R(x_N) + \sum_{k=0}^{N-1} \left(r(x_k) + c u_k\right)
+\right]\]
+
+<p>The order quantity must satisfy:</p>
+
+\[u_k \geq 0\]
+
+<p>because the store can order additional stock but cannot return existing stock in this model.</p>
+
+<hr>
+
+<h2 id="open-loop-and-closed-loop-inventory-policies">Open-Loop and Closed-Loop Inventory Policies</h2>
+
+<p>In an <strong>open-loop</strong> model, the sequence:</p>
+
+\[u_0,u_1,\ldots,u_{N-1}\]
+
+<p>is chosen before the uncertainties are realized.</p>
+
+<p>This gives a fixed ordering schedule that does not react to actual inventory levels or realized demand.</p>
+
+<p>In a <strong>closed-loop</strong> model, the order quantity at time $k$ is chosen using the information available at time $k$.</p>
+
+<p>Here the relevant information is the current inventory state $x_k$, so:</p>
+
+\[u_k = \mu_k(x_k)\]
+
+<p>This means the order quantity adapts to the stock level observed at the beginning of the period.</p>
+
+<hr>
+
+<h2 id="action-vs-strategy">Action vs. Strategy</h2>
+
+<p>The lecture emphasizes a key distinction:</p>
+
+<ul>
+  <li>an <strong>action</strong> is the actual order quantity $u_k$</li>
+  <li>a <strong>strategy</strong> or <strong>decision rule</strong> is a function $\mu_k$ that tells us what action to take for each possible state</li>
+</ul>
+
+<p>In real time, after observing $x_k$, the decision maker takes an action:</p>
+
+\[u_k\]
+
+<p>But before the system evolves, the decision maker cannot know what $x_k$ will be in the future. So the decision maker cannot pre-select the exact future action.</p>
+
+<p>Instead, the decision maker must choose a plan:</p>
+
+\[\mu_k: x_k \mapsto u_k\]
+
+<p>This plan specifies what to do for every possible inventory level that may be realized.</p>
+
+<hr>
+
+<h2 id="policies">Policies</h2>
+
+<p>A full plan over the horizon is a sequence:</p>
+
+\[\mu_0,\mu_1,\ldots,\mu_{N-1}\]
+
+<p>This sequence is called a <strong>policy</strong>.</p>
+
+<p>Each $\mu_k$ is:</p>
+
+<ul>
+  <li>a strategy</li>
+  <li>a decision rule</li>
+  <li>a mapping from state to action</li>
+</ul>
+
+<p>In this inventory model:</p>
+
+\[\mu_k: \mathbb{R} \to [0,\infty)\]
+
+<p>because:</p>
+
+<ul>
+  <li>the state $x_k$ can be any real number due to backlogging</li>
+  <li>the action $u_k$ must be nonnegative</li>
+</ul>
+
+<hr>
+
+<h2 id="correct-optimization-variable">Correct Optimization Variable</h2>
+
+<p>The closed-loop problem is not really:</p>
+
+\[\min_{u_0,\ldots,u_{N-1}} \mathbb{E}\left[
+R(x_N) + \sum_{k=0}^{N-1} \left(r(x_k) + c u_k\right)
+\right]\]
+
+<p>because the future $u_k$ values cannot be fixed in advance without knowing the future states.</p>
+
+<p>Instead, the correct problem is:</p>
+
+\[\min_{\mu_0,\ldots,\mu_{N-1}} \mathbb{E}\left[
+R(x_N) + \sum_{k=0}^{N-1} \left(r(x_k) + c\mu_k(x_k)\right)
+\right]\]
+
+<p>subject to:</p>
+
+\[x_{k+1} = x_k + \mu_k(x_k) - w_k\]
+
+<p>and:</p>
+
+\[\mu_k(x_k) \geq 0\]
+
+<p>The decision variables are functions, not numbers.</p>
+
+<hr>
+
+<h2 id="why-stochasticity-changes-the-problem">Why Stochasticity Changes the Problem</h2>
+
+<p>If demand were deterministic and known in advance, future inventory levels would be known.</p>
+
+<p>Then one could choose a fixed sequence of actions:</p>
+
+\[u_0,u_1,\ldots,u_{N-1}\]
+
+<p>But demand is random. Therefore future inventory levels are random.</p>
+
+<p>At time 0, the decision maker cannot know what action should be taken at future times because future states are not yet known.</p>
+
+<p>The best one can do is choose rules that say:</p>
+
+<blockquote>
+  <p>If this stock level occurs, take this action.</p>
+</blockquote>
+
+<p>This is why stochastic decision problems are naturally formulated over strategies or policies.</p>
+
+<hr>
+
+<h2 id="lifting-from-actions-to-functions">Lifting from Actions to Functions</h2>
+
+<p>In deterministic optimization, the decision variables may be scalars or vectors.</p>
+
+<p>In stochastic sequential decision making, the decision variables are often functions:</p>
+
+\[\mu_k: \text{state space} \to \text{action space}\]
+
+<p>For this inventory problem:</p>
+
+\[\mu_k: \mathbb{R} \to [0,\infty)\]
+
+<p>This makes stochastic decision problems harder than deterministic ones.</p>
+
+<p>The problem is lifted from choosing quantities to choosing functions.</p>
+
+<hr>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<ul>
+  <li>Backlogged demand allows inventory $x_k$ to become negative.</li>
+  <li>The inventory dynamics are $x_{k+1}=x_k+u_k-w_k$.</li>
+  <li>The stage cost is $r(x_k)+cu_k$.</li>
+  <li>$r(x_k)$ captures holding costs for positive stock and shortage costs for negative stock.</li>
+  <li>The terminal cost is $R(x_N)$.</li>
+  <li>The constraint $u_k \geq 0$ reflects that stock can be ordered but not returned.</li>
+  <li>In closed-loop control, $u_k$ is chosen as a function of $x_k$.</li>
+  <li>The true optimization variables are decision rules $\mu_k$, not realized actions $u_k$.</li>
+  <li>A policy is a sequence of decision rules $\mu_0,\ldots,\mu_{N-1}$.</li>
+  <li>Stochasticity lifts the problem from choosing actions to choosing functions.</li>
+</ul>
 
     </div>
   </article>
@@ -466,67 +808,14 @@
 
   
     
-      
-
-  
-    
-    <br>
-    <hr>
-    <br>
-    <ul class="list-disc pl-8"></ul>
-
-    <!-- Adds related posts to the end of an article -->
-    <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2>
-    <p class="mb-2">Here are some more articles you might like to read next:</p>
-  
-
-  <li class="my-2">
-    
-      <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2026/decision-making-under-uncertainity/">Decision Making under Uncertainity</a>
-    
-  </li>
-
-  
-
-  <li class="my-2">
-    
-      <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2026/online-learning-optimization/">Online Learning and Optimization (EE6106)</a>
-    
-  </li>
-
-  
-
-  <li class="my-2">
-    
-      <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/plotly/">a post with plotly.js</a>
-    
-  </li>
-
-  
-
-  <li class="my-2">
-    
-      <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/photo-gallery/">a post with image galleries</a>
-    
-  </li>
-
-  
-
-  <li class="my-2">
-    
-      <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/tabs/">a post with tabs</a>
-    
-  </li>
-
-
-
-    
   
 
   
   
 </div>
-
+</div>
+          </div>
+        
       
     </div>
 
@@ -591,6 +880,9 @@
   <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
 
 
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
 
 
 
