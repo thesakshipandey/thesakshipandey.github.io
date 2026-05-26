@@ -17,12 +17,12 @@
   
   
     
-      Exponential Weighted Majority Algorithm | Sakshi
+      4. Expected Utility Theory III | Sakshi
     
   
 </title>
 <meta name="author" content="Sakshi S. Pandey">
-<meta name="description" content="Real-valued predictions, Hoeffding's Lemma, and the O(sqrt(n ln K)) regret bound.">
+<meta name="description" content="Utility theorem refinements, concavity, risk aversion, certainty equivalents, and the Arrow-Pratt measure.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -62,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://sakshipandey.github.io/online-learning-and-optimization/prediction-via-expert-advice/03-exponential-wma/">
+<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/04-expected-utility-theory-iii/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
@@ -434,9 +434,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Exponential Weighted Majority Algorithm</h1>
+    <h1 class="post-title">4. Expected Utility Theory III</h1>
     <p class="post-meta">
-      Created on January 14, 2026
+      Created on May 26, 2026
       
       
       
@@ -449,21 +449,35 @@
           ·  
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> online-learning
+            <i class="fa-solid fa-hashtag fa-sm"></i> decision-making
           
           
              
           
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> expert-advice
+            <i class="fa-solid fa-hashtag fa-sm"></i> uncertainty
           
           
              
           
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> regret
+            <i class="fa-solid fa-hashtag fa-sm"></i> expected-utility
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> risk-aversion
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> arrow-pratt
           
           
         
@@ -476,140 +490,382 @@
   <article class="post-content">
     
     <div id="markdown-content">
-      <h1 id="exponential-weighted-majority-algorithm">Exponential Weighted Majority Algorithm</h1>
+      <h1 id="4-expected-utility-theory-iii">4. Expected Utility Theory III</h1>
 
-<h2 id="from-binary-to-real-valued-predictions">From Binary to Real-Valued Predictions</h2>
+<p>Source: <a href="https://youtu.be/S0T92GBszHw?si=rhO_Zj30UGLHkq7L" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
 
-<p>We now move from binary sequences to real-valued ones. Let $X_t, Y_{i,t}, A_t \in [0, 1]$. Define a loss function $\ell(X_t, A_t) \in [0, 1]$ incurred when the agent takes action $A_t$ and the truth is $X_t$.</p>
+<h2 id="recap-the-expected-utility-theorem">Recap: The Expected Utility Theorem</h2>
 
-<p><strong>Key assumption:</strong> $\ell$ is <strong>convex</strong> in its second argument $A_t$.</p>
+<p>The previous lecture ended with the central theorem of expected utility theory.</p>
 
-<p>The cumulative loss is:</p>
+<p>If preferences over lotteries satisfy a certain set of axioms, then there exists a utility function $u$ such that comparing lotteries is equivalent to comparing their expected utilities.</p>
 
-\[L_n = \sum_{t=1}^n \ell(X_t, A_t)\]
+<p>For two lotteries $p_1$ and $p_2$:</p>
 
-<hr>
+\[p_1 \preceq p_2
+\quad \Longleftrightarrow \quad
+\mathbb{E}_{p_1}[u(O)]
+\leq
+\mathbb{E}_{p_2}[u(O)]\]
 
-<h2 id="algorithm-3-exponential-wma-ewma">Algorithm 3: Exponential WMA (EWMA)</h2>
-
-<p>Rather than a binary vote, the agent takes a <strong>weighted average</strong> of expert predictions. Weights are updated exponentially based on each expert’s loss.</p>
-
-<p><strong>Require:</strong> Number of experts $K$, horizon $n$, learning rate $\beta &gt; 0$</p>
-
-<ol>
-  <li>
-<strong>Initialize:</strong> $W_0 = {1, 1, \ldots, 1}$</li>
-  <li>
-<strong>For</strong> $t = 1$ to $n$ <strong>do:</strong>
-    <ul>
-      <li>$A_t = \frac{\sum_{i=1}^K W_t[i] \cdot Y_{i,t}}{\sum_{i=1}^K W_t[i]}$ (weighted average of expert predictions)</li>
-      <li>Observe $X_t$</li>
-      <li>
-<strong>For</strong> $i = 1$ to $K$: $W_{t+1}[i] = W_t[i] \cdot e^{-\beta \cdot \ell(X_t, Y_{i,t})}$</li>
-    </ul>
-  </li>
-  <li><strong>End for</strong></li>
-</ol>
-
-<p>The action $A_t$ is now a real number, not binary. Experts with low recent loss have higher weights and contribute more to the prediction. Higher $\beta$ makes the algorithm more sensitive: small losses still cause significant weight decay.</p>
+<p>This turns a preference comparison over probability distributions into a numerical comparison over real numbers.</p>
 
 <hr>
 
-<h2 id="hoeffdings-lemma">Hoeffding’s Lemma</h2>
+<h2 id="the-four-preference-axioms">The Four Preference Axioms</h2>
 
-<p>Before the regret analysis, we need a key tool for bounding the MGF of bounded random variables.</p>
+<p>The theorem rests on four assumptions about the preference relation over lotteries.</p>
 
-<p><strong>Lemma 1.4 (Hoeffding’s Lemma).</strong> <em>For a bounded random variable $X \in [a, b]$:</em></p>
+<h3 id="axiom-1-completeness-and-transitivity">Axiom 1: Completeness and Transitivity</h3>
 
-\[\mathbb E[e^{SX}] \leq \exp\!\left\{S\mathbb E[X] + \frac{1}{8} S^2 (b-a)^2\right\}\]
+<p>The preference relation must be complete and transitive.</p>
 
-<p><em>For $X \in [0,1]$ specifically:</em></p>
+<p>Completeness means any two lotteries can be compared:</p>
 
-\[\mathbb E[e^{SX}] \leq \exp\!\left\{S\mathbb E[X] + \frac{1}{8}S^2\right\}\]
+\[p_1 \preceq p_2
+\quad \text{or} \quad
+p_2 \preceq p_1\]
 
-<p><strong>Proof sketch.</strong> Introduce $X’$, an independent copy of $X$ with the same distribution. By convexity of $e^x$ and Jensen’s inequality:</p>
+<p>Transitivity means preferences are logically consistent. If:</p>
 
-\[\mathbb E_X[\exp\{S(X - \mathbb E_X[X])\}] \leq \mathbb E_X[\mathbb E_{X'}[\exp\{S(X - X')\}]]\]
+\[p_1 \preceq p_2
+\quad \text{and} \quad
+p_2 \preceq p_3\]
 
-<p>This symmetrization reduces the problem to a symmetric random variable, and the rest follows from Taylor expansion. $\square$</p>
+<p>then:</p>
+
+\[p_1 \preceq p_3\]
+
+<p>So if $p_3$ is preferred to $p_2$, and $p_2$ is preferred to $p_1$, then $p_3$ must also be preferred to $p_1$.</p>
+
+<h3 id="axiom-2-mixing-preserves-equivalence">Axiom 2: Mixing Preserves Equivalence</h3>
+
+<p>If two lotteries are equivalent:</p>
+
+\[p_1 \sim p_2\]
+
+<p>then mixing each of them with a third lottery $p$ in the same proportion should preserve equivalence:</p>
+
+\[\alpha p_1 + (1-\alpha)p
+\sim
+\alpha p_2 + (1-\alpha)p\]
+
+<p>The interpretation is that if $p_1$ and $p_2$ are equally preferred, then replacing $p_1$ by $p_2$ inside a larger mixed lottery should not matter.</p>
+
+<h3 id="axiom-3-mixing-preserves-strict-preference">Axiom 3: Mixing Preserves Strict Preference</h3>
+
+<p>If:</p>
+
+\[p_1 \prec p_2\]
+
+<p>then mixing both with the same third lottery $p$ in the same proportion should preserve the strict order:</p>
+
+\[\alpha p_1 + (1-\alpha)p
+\prec
+\alpha p_2 + (1-\alpha)p\]
+
+<p>So the preference order should not be reversed merely because both lotteries are mixed with the same outside lottery.</p>
+
+<h3 id="axiom-4-continuity">Axiom 4: Continuity</h3>
+
+<p>If:</p>
+
+\[p_1 \prec p_2 \prec p_3\]
+
+<p>then there exists $\alpha \in [0,1]$ such that:</p>
+
+\[\alpha p_1 + (1-\alpha)p_3 \sim p_2\]
+
+<p>This says that an intermediate lottery can be replicated, in preference terms, by a suitable mixture of a worse lottery and a better lottery.</p>
 
 <hr>
 
-<h2 id="regret-analysis">Regret Analysis</h2>
+<h2 id="from-lotteries-to-decisions">From Lotteries to Decisions</h2>
 
-<p>Define $W_t = \sum_{i=1}^K W_{i,t}$, the total weight at time $t$. We bound $W_{n+1}$ from both sides.</p>
+<p>A decision induces a lottery over outcomes.</p>
 
-<h3 id="lower-bound">Lower Bound</h3>
+<p>So if decision $d_2$ is preferred to decision $d_1$, this means the lottery induced by $d_2$ is preferred to the lottery induced by $d_1$.</p>
 
-<p>For any expert $i$, their weight after the horizon is $W_{i,n+1} = e^{-\beta L_{i,n}}$ (since each time step multiplies by $e^{-\beta \ell}$ and the product telescopes). Since total weight sums over all experts:</p>
+<p>By the expected utility theorem:</p>
 
-\[W_{n+1} \geq e^{-\beta L_{i,n}}\]
+\[d_1 \preceq d_2
+\quad \Longleftrightarrow \quad
+\mathbb{E}_{\omega}[u(f(d_1,\omega))]
+\leq
+\mathbb{E}_{\omega}[u(f(d_2,\omega))]\]
 
-<h3 id="upper-bound">Upper Bound</h3>
+<p>Therefore, finding the best decision becomes:</p>
 
-<p>We track how total weight changes each step. Define a random variable $Z = Y_{I,t}$ where expert $I$ is chosen with probability proportional to its weight $\frac{W_{i,t}}{\sum_j W_{j,t}}$. Then $A_t = \mathbb E[Z]$.</p>
+\[d^* \in \arg\max_d \mathbb{E}_{\omega}[u(f(d,\omega))]\]
 
-\[\frac{W_{t+1}}{W_t} = \mathbb{E}\left[e^{-\beta \cdot \ell(X_t, Z)}\right]\]
+<p>Expected utility theory gives a principled reason for maximizing expected utility rather than expected outcome.</p>
 
-<p>Applying Hoeffding’s Lemma with $S = -\beta$:</p>
+<hr>
 
-\[\frac{W_{t+1}}{W_t} \leq e^{-\beta \cdot \mathbb E[\ell(X_t, Z)]} \cdot e^{\beta^2/8}\]
+<h2 id="uniqueness-of-the-utility-function">Uniqueness of the Utility Function</h2>
 
-<p>By convexity of $\ell$ in its second argument and Jensen’s inequality:</p>
+<p>The utility function is essentially unique.</p>
 
-\[\mathbb E[\ell(X_t, Z)] \geq \ell(X_t, \mathbb E[Z]) = \ell(X_t, A_t)\]
+<p>If $\tilde{u}$ is another utility function that represents the same preference relation, then it must be related to $u$ by a positive affine transformation:</p>
+
+\[u = s_1 \tilde{u} + s_2\]
+
+<p>where:</p>
+
+\[s_1 &gt; 0\]
+
+<p>So the utility function is unique up to:</p>
+
+<ul>
+  <li>positive scaling</li>
+  <li>shifting by a constant</li>
+</ul>
+
+<p>These transformations do not change the maximizing decision. If $u$ and $\tilde{u}$ differ only by positive scaling and shifting, then:</p>
+
+\[\arg\max_d \mathbb{E}[u(f(d,\omega))]
+=
+\arg\max_d \mathbb{E}[\tilde{u}(f(d,\omega))]\]
+
+<p>The ranking of decisions remains the same.</p>
+
+<hr>
+
+<h2 id="typical-shape-of-utility-functions">Typical Shape of Utility Functions</h2>
+
+<p>Utility functions are typically:</p>
+
+<ul>
+  <li>increasing</li>
+  <li>concave</li>
+</ul>
+
+<p>If $u$ is differentiable, this means:</p>
+
+\[u'(x) &gt; 0\]
+
+<p>and:</p>
+
+\[u''(x) &lt; 0\]
+
+<p>Increasing utility means more of the outcome is preferred to less.</p>
+
+<p>Concavity means marginal utility decreases as the outcome grows. Each additional unit of outcome gives positive utility, but the extra utility becomes smaller and smaller.</p>
+
+<p>The exact form of $u$ depends on the underlying preference relation over lotteries. It could be quadratic, exponential, logarithmic, or another concave increasing function.</p>
+
+<hr>
+
+<h2 id="why-more-than-the-mean-matters">Why More Than the Mean Matters</h2>
+
+<p>If utility is nonlinear, expected utility generally depends on more than the mean of the uncertainty.</p>
+
+<p>Suppose $u$ can be expanded as a power series:</p>
+
+\[u(x) = a_0 + a_1x + a_2x^2 + a_3x^3 + \cdots\]
+
+<p>Then expected utility contains terms such as:</p>
+
+\[\mathbb{E}[u(X)]
+= a_0 + a_1\mathbb{E}[X] + a_2\mathbb{E}[X^2] + a_3\mathbb{E}[X^3] + \cdots\]
+
+<p>In general, all moments can matter:</p>
+
+<ul>
+  <li>the mean</li>
+  <li>the second moment</li>
+  <li>the third moment</li>
+  <li>higher-order moments</li>
+</ul>
+
+<p>The earlier mistake in the cake and house lottery examples was forcing the decision rule to depend only on the first moment, the average outcome.</p>
+
+<hr>
+
+<h2 id="cake-vs-house-lottery-revisited">Cake vs. House Lottery Revisited</h2>
+
+<p>The cake and house lottery puzzle becomes clearer through concave utility.</p>
+
+<p>In the cake lottery:</p>
+
+<ul>
+  <li>cost of entry: 100 rupees</li>
+  <li>outcome: 3 cakes with probability $2/3$, 0 cakes with probability $1/3$</li>
+</ul>
+
+<p>The expected utility is:</p>
+
+\[\frac{2}{3}u(3 \text{ cakes}) + \frac{1}{3}u(0 \text{ cakes})\]
+
+<p>If $u(0)=0$, this becomes:</p>
+
+\[\frac{2}{3}u(3 \text{ cakes})\]
+
+<p>For small stakes, this expected utility can exceed the utility cost of entering the lottery.</p>
+
+<p>But in the house lottery, the stakes are much larger:</p>
+
+<ul>
+  <li>cost of entry: 1 crore rupees</li>
+  <li>outcome: a house with three times the area with probability $2/3$, no house with probability $1/3$</li>
+</ul>
+
+<p>Because $u$ is concave, utility increases at a decreasing rate. The utility of a house three times as large is not necessarily three times the utility of the original house.</p>
+
+<p>So as stakes increase, the cost of entering the lottery grows in a way that can exceed the expected utility gain from the lottery.</p>
+
+<p>This explains why a person may accept the cake lottery but reject the house lottery.</p>
+
+<hr>
+
+<h2 id="risk-aversion">Risk Aversion</h2>
+
+<p>A decision maker is <strong>risk averse</strong> if, for any random outcome $X$:</p>
+
+\[\mathbb{E}[u(X)] \leq u(\mathbb{E}[X])\]
+
+<p>The left side is the utility of participating in the lottery.</p>
+
+<p>The right side is the utility of receiving the average outcome with certainty.</p>
+
+<p>So risk aversion means:</p>
+
+<blockquote>
+  <p>The decision maker weakly prefers the certain average outcome to the risky lottery with the same average outcome.</p>
+</blockquote>
+
+<p>This inequality is Jensen’s inequality. It holds whenever $u$ is concave.</p>
+
+<p>Thus, concave utility functions naturally model risk-averse behavior.</p>
+
+<hr>
+
+<h2 id="risk-seeking">Risk Seeking</h2>
+
+<p>Some decision makers may be risk seeking or risk loving.</p>
+
+<p>For such decision makers, the inequality reverses:</p>
+
+\[\mathbb{E}[u(X)] \geq u(\mathbb{E}[X])\]
+
+<p>This means the lottery is preferred to receiving the average outcome with certainty.</p>
+
+<p>The lecture notes that the course will mainly focus on risk-averse settings.</p>
+
+<hr>
+
+<h2 id="insurance-and-the-risk-premium">Insurance and the Risk Premium</h2>
+
+<p>Risk aversion motivates the idea of paying to avoid uncertainty.</p>
+
+<p>Suppose $X$ is a random outcome. Let:</p>
+
+\[\mu = \mathbb{E}[X]\]
+
+<p>If the decision maker can pay an amount $y$ to receive the average outcome with certainty, then the certain outcome becomes:</p>
+
+\[\mu - y\]
+
+<p>The maximum amount $y$ the decision maker is willing to pay is determined by:</p>
+
+\[u(\mathbb{E}[X] - y) = \mathbb{E}[u(X)]\]
+
+<p>Equivalently:</p>
+
+\[u(\mu - y) = \mathbb{E}[u(X)]\]
+
+<p>This $y$ is a measure of how much the decision maker dislikes the uncertainty in $X$.</p>
+
+<hr>
+
+<h2 id="taylor-approximation-for-the-risk-premium">Taylor Approximation for the Risk Premium</h2>
+
+<p>We can approximate $y$ using Taylor expansions around $\mu = \mathbb{E}[X]$.</p>
+
+<p>For the left side:</p>
+
+\[u(\mu-y) \approx u(\mu) - y u'(\mu)\]
+
+<p>For the right side:</p>
+
+\[\mathbb{E}[u(X)]
+\approx
+u(\mu)
++ \frac{1}{2}\mathbb{E}[(X-\mu)^2]u''(\mu)\]
+
+<p>Since:</p>
+
+\[\sigma^2 = \mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2]\]
+
+<p>equating both sides gives:</p>
+
+\[u(\mu) - y u'(\mu)
+\approx
+u(\mu) + \frac{1}{2}\sigma^2 u''(\mu)\]
 
 <p>Therefore:</p>
 
-\[\frac{W_{t+1}}{W_t} \leq e^{-\beta \cdot \ell(X_t, A_t)} \cdot e^{\beta^2/8}\]
+\[y \approx
+-\frac{1}{2}\sigma^2
+\frac{u''(\mu)}{u'(\mu)}\]
 
-<p>Telescoping over all $n$ steps and using $W_1 = K$:</p>
-
-\[\frac{W_{n+1}}{K} = \prod_{t=1}^n \frac{W_{t+1}}{W_t} \leq \exp\!\left\{-\beta L_n + \frac{n\beta^2}{8}\right\}\]
-
-\[W_{n+1} \leq K \cdot e^{-\beta L_n + n\beta^2/8}\]
-
-<h3 id="final-regret-bound">Final Regret Bound</h3>
-
-<p>Combining lower and upper bounds:</p>
-
-\[e^{-\beta L_{i,n}} \leq W_{n+1} \leq K \cdot e^{-\beta L_n + n\beta^2/8}\]
-
-<p>Taking $\log$ and dividing by $\beta$:</p>
-
-\[-L_{i,n} \leq \ln K - \beta L_n + \frac{n\beta^2}{8}\]
-
-\[\boxed{L_n \leq L_{i,n} + \frac{n\beta}{8} + \frac{\ln K}{\beta}}\]
-
-<p>This holds for any expert $i$. Taking the best expert:</p>
-
-\[L_n^{\text{EWMA}} \leq \left[\min_i L_{i,n}\right] + \frac{n\beta}{8} + \frac{\ln K}{\beta}\]
-
-<h3 id="optimal-beta-and-regret">Optimal $\beta$ and Regret</h3>
-
-<p>To minimize the bound over $\beta$, balance the two terms $\frac{n\beta}{8}$ and $\frac{\ln K}{\beta}$. Setting $\beta = \sqrt{\frac{8 \ln K}{n}}$:</p>
-
-\[R_n^{\text{EWMA}} = L_n^{\text{EWMA}} - \min_i L_{i,n} \leq \sqrt{\frac{n \ln K}{2}}\]
-
-<p>This is <strong>sub-linear</strong> in $n$, achieving the goal.</p>
+<p>For a concave utility function, $u’’(\mu)&lt;0$, so $y$ is positive.</p>
 
 <hr>
 
-<h2 id="the-anytime-problem">The Anytime Problem</h2>
+<h2 id="arrow-pratt-measure-of-risk-aversion">Arrow-Pratt Measure of Risk Aversion</h2>
 
-<p>There is a catch: the optimal $\beta = \sqrt{\frac{8 \ln K}{n}}$ requires knowing $n$ in advance. An algorithm that works without knowing the horizon is called an <strong>anytime algorithm</strong>. EWMA is <strong>not</strong> anytime.</p>
+<p>The quantity:</p>
 
-<p><strong>Fix:</strong> Make $\beta$ decay with time, setting $\beta_t$ instead of a fixed $\beta$.</p>
+\[r(x) =
+-\frac{u''(x)}{u'(x)}\]
+
+<p>is called the <strong>Arrow-Pratt measure of absolute risk aversion</strong>.</p>
+
+<p>Using this notation, the risk premium approximation becomes:</p>
+
+\[y \approx \frac{1}{2}\sigma^2 r(\mu)\]
+
+<p>This says the amount a decision maker is willing to pay to remove uncertainty scales with:</p>
 
 <ul>
-  <li>Setting $\beta_t = \frac{1}{\sqrt{t}}$: the weight update at time $t$ uses $W_{t+1}[i] = W_t[i] \cdot e^{-\ell / \sqrt{t}}$.</li>
+  <li>the variance of the random outcome</li>
+  <li>the curvature of the utility function</li>
+  <li>the Arrow-Pratt measure of risk aversion</li>
 </ul>
 
-<p>The lower bound becomes:</p>
+<p>The more curved the utility function is, the more risk averse the decision maker is.</p>
 
-\[W_{n+1} \geq \exp\!\left\{-\sum_{t=1}^n \beta_t \ell(X_t, Y_{i,t})\right\}\]
+<hr>
 
-<p>The upper bound telescopes similarly. Substituting $\beta_t = 1/\sqrt{t}$ and using the harmonic sum, one can still derive a sub-linear regret bound. The same approach works for $\beta_t = 1/t^2$ (with a different constant).</p>
+<h2 id="wealth-and-risk-aversion">Wealth and Risk Aversion</h2>
+
+<p>The lecture notes that this measure often decreases as wealth increases.</p>
+
+<p>Intuitively:</p>
+
+<ul>
+  <li>a poorer person may be highly sensitive to uncertainty</li>
+  <li>a wealthier person may tolerate the same uncertainty more easily</li>
+</ul>
+
+<p>In utility terms, this is captured by how $r(x)$ changes with $x$.</p>
+
+<hr>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<ul>
+  <li>The expected utility theorem converts preference ordering over lotteries into expected utility maximization.</li>
+  <li>The utility function is unique up to positive affine transformations.</li>
+  <li>Utility functions are typically increasing and concave.</li>
+  <li>Nonlinear utility means higher moments of uncertainty can matter.</li>
+  <li>Concave utility explains why the cake lottery and house lottery need not be treated the same way.</li>
+  <li>Risk aversion means preferring the certain average outcome to the lottery.</li>
+  <li>Jensen’s inequality gives $\mathbb{E}[u(X)] \leq u(\mathbb{E}[X])$ for concave $u$.</li>
+  <li>The risk premium is the amount a decision maker would pay to avoid uncertainty.</li>
+  <li>The Arrow-Pratt measure $r(x)=-u’‘(x)/u’(x)$ quantifies local risk aversion.</li>
+</ul>
 
     </div>
   </article>
