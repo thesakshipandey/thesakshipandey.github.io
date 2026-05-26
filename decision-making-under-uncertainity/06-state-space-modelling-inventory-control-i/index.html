@@ -17,12 +17,12 @@
   
   
     
-      Explore-then-Commit (ETC) | Sakshi
+      6. State Space Modelling of Sequential Decision Making; Inventory Control Problem I | Sakshi
     
   
 </title>
 <meta name="author" content="Sakshi S. Pandey">
-<meta name="description" content="Hard exploration-exploitation separation, optimal exploration length, and logarithmic regret.">
+<meta name="description" content="State-space formulation for sequential decision making and the first setup of an inventory control model.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -62,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://sakshipandey.github.io/online-learning-and-optimization/multi-armed-bandits/03-explore-then-commit/">
+<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/06-state-space-modelling-inventory-control-i/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
@@ -438,9 +438,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Explore-then-Commit (ETC)</h1>
+    <h1 class="post-title">6. State Space Modelling of Sequential Decision Making; Inventory Control Problem I</h1>
     <p class="post-meta">
-      Created on January 28, 2026
+      Created on May 26, 2026
       
       
       
@@ -453,21 +453,35 @@
           ·  
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> bandits
+            <i class="fa-solid fa-hashtag fa-sm"></i> decision-making
           
           
              
           
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> stochastic
+            <i class="fa-solid fa-hashtag fa-sm"></i> uncertainty
           
           
              
           
         
           
-            <i class="fa-solid fa-hashtag fa-sm"></i> exploration
+            <i class="fa-solid fa-hashtag fa-sm"></i> state-space
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> stochastic-control
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> inventory-control
           
           
         
@@ -480,91 +494,364 @@
   <article class="post-content">
     
     <div id="markdown-content">
-      <h1 id="explore-then-commit-etc">Explore-then-Commit (ETC)</h1>
+      <h1 id="6-state-space-modelling-of-sequential-decision-making-inventory-control-problem-i">6. State Space Modelling of Sequential Decision Making; Inventory Control Problem I</h1>
 
-<h2 id="the-bandit-setting">The Bandit Setting</h2>
+<p>Source: <a href="https://youtu.be/QX6K05pSg3U?si=6563FDUMq_l1pEE7" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
 
-<p>We now face the true bandit problem: only the pulled arm’s reward is observed. Pure exploitation (always pulling the empirically best arm) fails because we may never explore arms that are actually better than our initial guesses.</p>
+<h2 id="big-picture">Big Picture</h2>
 
-<p>The simplest structured approach: <strong>explore first, then commit</strong>.</p>
+<p>The previous lecture showed that information changes what decisions are possible and how well a decision maker can perform.</p>
+
+<p>We now begin the formal study of <strong>sequential decision making</strong>: problems where actions are chosen over multiple time steps and the goal is to minimize a total cost over a finite horizon.</p>
+
+<p>This general framework is known by different names in different fields:</p>
+
+<ul>
+  <li>
+<strong>stochastic control</strong> in control theory</li>
+  <li>
+<strong>Markov decision processes</strong> in operations research and computer science</li>
+</ul>
+
+<p>Both names refer to a state-based model for decision making under uncertainty.</p>
 
 <hr>
 
-<h2 id="algorithm-7-explore-then-commit-etc">Algorithm 7: Explore-then-Commit (ETC)</h2>
+<h2 id="discrete-time-model">Discrete-Time Model</h2>
 
-<p><strong>Require:</strong> Number of arms $K$, horizon $n$, number of exploration pulls $m$</p>
+<p>Time evolves in discrete steps:</p>
 
-<p><strong>Initialize:</strong> Pull each arm $m$ times.</p>
+\[k = 0,1,\ldots,N-1\]
 
-<p><strong>For</strong> $j = 1$ to $K$: compute $\hat{\mu}_j(m)$ (empirical mean after $m$ pulls)</p>
+<p>where $N$ is the finite <strong>time horizon</strong>.</p>
 
-<p>Pick the arm $A \in \arg\max_{i \in [K]} \hat{\mu}_i(m)$</p>
+<p>The model does not describe every continuous event between time steps. Instead, it describes the system at decision epochs.</p>
 
-<p><strong>For</strong> $t = mK + 1$ to $n$ <strong>do:</strong> Pull arm $A$</p>
+<hr>
 
-<p><strong>End for</strong></p>
+<h2 id="state">State</h2>
 
-<p>The algorithm has two hard phases: pure exploration ($mK$ steps) followed by pure exploitation (the remaining $n - mK$ steps). Once committed, it never revisits.</p>
+<p>Let:</p>
+
+\[x_k\]
+
+<p>denote the <strong>state of the system</strong> at time $k$.</p>
+
+<p>The state is meant to contain enough information about the system so that the decision problem can be described using it.</p>
+
+<p>Informally, the state is the complete configuration of the system at a given time.</p>
+
+<hr>
+
+<h2 id="control-action">Control Action</h2>
+
+<p>At each time $k$, the decision maker chooses an action:</p>
+
+\[u_k\]
+
+<p>This is also called:</p>
+
+<ul>
+  <li>a control action</li>
+  <li>a decision</li>
+  <li>an input</li>
+</ul>
+
+<p>The value of $u_k$ is chosen by the decision maker.</p>
+
+<hr>
+
+<h2 id="random-disturbance">Random Disturbance</h2>
+
+<p>At each time $k$, there is also a random parameter:</p>
+
+\[w_k\]
+
+<p>This is an external disturbance or noise.</p>
+
+<p>Unlike $u_k$, the decision maker does not control $w_k$ or its distribution. It is chosen by nature.</p>
+
+<p>Because $w_k$ is random, the future state is generally random even after the current state and action are fixed.</p>
+
+<hr>
+
+<h2 id="system-dynamics">System Dynamics</h2>
+
+<p>The system evolves according to:</p>
+
+\[x_{k+1} = f_k(x_k,u_k,w_k)\]
+
+<p>The function $f_k$ is called the <strong>dynamics</strong> of the system.</p>
+
+<p>It describes how the next state is generated from:</p>
+
+<ul>
+  <li>the current state $x_k$</li>
+  <li>the chosen action $u_k$</li>
+  <li>the random disturbance $w_k$</li>
+</ul>
+
+<p>The disturbance makes the transition uncertain. The next state is not completely determined by the decision maker.</p>
+
+<hr>
+
+<h2 id="cost-structure">Cost Structure</h2>
+
+<p>The goal is to minimize total cost over the horizon.</p>
+
+<p>The total cost has two parts:</p>
+
+\[g_N(x_N) + \sum_{k=0}^{N-1} g_k(x_k,u_k,w_k)\]
+
+<p>Here:</p>
+
+<ul>
+  <li>$g_k(x_k,u_k,w_k)$ is the <strong>stage-wise cost</strong> at time $k$</li>
+  <li>$g_N(x_N)$ is the <strong>terminal cost</strong>
+</li>
+</ul>
+
+<p>The terminal state $x_N$ is the state reached after the final action at time $N-1$ and the final system transition.</p>
+
+<p>Since the disturbances are random, the total cost is random. Therefore, the usual objective is to minimize expected cost:</p>
+
+\[\mathbb{E}\left[
+g_N(x_N) + \sum_{k=0}^{N-1} g_k(x_k,u_k,w_k)
+\right]\]
+
+<hr>
+
+<h2 id="stage-wise-and-terminal-costs">Stage-Wise and Terminal Costs</h2>
+
+<p>The <strong>stage-wise costs</strong> are incurred at every decision stage:</p>
+
+\[g_0, g_1, \ldots, g_{N-1}\]
+
+<p>Each stage cost can depend on:</p>
+
+<ul>
+  <li>current state</li>
+  <li>current action</li>
+  <li>current disturbance</li>
+</ul>
+
+<p>The <strong>terminal cost</strong>:</p>
+
+\[g_N(x_N)\]
+
+<p>depends only on the final state of the system.</p>
+
+<p>This captures how desirable or undesirable it is to end the problem in a particular state.</p>
+
+<hr>
+
+<h2 id="open-loop-problems">Open-Loop Problems</h2>
+
+<p>In an <strong>open-loop</strong> problem, all actions are chosen before the system evolves:</p>
+
+\[u_0,u_1,\ldots,u_{N-1}\]
+
+<p>These actions are selected without observing the future states or disturbances.</p>
+
+<p>So open-loop actions are not adapted to the realized evolution of the system.</p>
+
+<p>They are like a fixed plan made before uncertainty is revealed.</p>
+
+<hr>
+
+<h2 id="closed-loop-problems">Closed-Loop Problems</h2>
+
+<p>In a <strong>closed-loop</strong> problem, the action at time $k$ is chosen using information available up to time $k$.</p>
+
+<p>In general, this information could include the history:</p>
+
+\[x_0,u_0,x_1,u_1,\ldots,x_k\]
+
+<p>However, in the state-space model, the current state $x_k$ is designed to summarize the relevant past.</p>
+
+<p>So, without loss of generality in this setting, we often choose:</p>
+
+\[u_k = \mu_k(x_k)\]
+
+<p>where $\mu_k$ is a decision rule or policy at time $k$.</p>
+
+<p>Thus, the action is chosen based on the current state.</p>
+
+<hr>
+
+<h2 id="timing-of-information">Timing of Information</h2>
+
+<p>The order of events at time $k$ is important:</p>
+
+<ol>
+  <li>$x_k$ is known.</li>
+  <li>$u_k$ is chosen based on $x_k$.</li>
+  <li>$w_k$ is realized.</li>
+  <li>The next state is generated:</li>
+</ol>
+
+\[x_{k+1} = f_k(x_k,u_k,w_k)\]
+
+<p>The key point:</p>
 
 <blockquote>
-  <p>“Ek baar maine commitment kar di, toh main apni bhi nahi sunta.” This algorithm takes its commitment seriously.</p>
+  <p>$u_k$ can depend on $x_k$, but it cannot depend on $w_k$ because $w_k$ is not known when $u_k$ is chosen.</p>
 </blockquote>
 
-<hr>
-
-<h2 id="regret-analysis">Regret Analysis</h2>
-
-<p>Assume arm 1 is optimal (WLOG). For any sub-optimal arm $i$:</p>
-
-\[\mathbb E[T_i(n)] = m + \mathbb{P}(\hat{\mu}_i(m) \in \arg\max_j \hat{\mu}_j(m)) \cdot (n - mK)\]
-
-<p>The second term captures the probability that arm $i$ looks best after exploration, causing full commitment to it. Using the same sub-Gaussian analysis as the full-info setting:</p>
-
-\[\mathbb E[T_i(n)] \leq m + (n - mK) \cdot e^{-m\Delta_i^2/4}\]
-
-<p>Summing over all arms (using the regret decomposition):</p>
-
-\[\boxed{R_n^{\text{ETC}} \leq m\sum_{i=1}^K \Delta_i + (n - mK)\sum_{i=1}^K \Delta_i \cdot e^{-m\Delta_i^2/4}}\]
-
-<p>This is an <strong>instance-dependent</strong> bound: it depends on the specific values of $\Delta_i$.</p>
+<p>This preserves the causal structure of the decision problem.</p>
 
 <hr>
 
-<h2 id="choosing-the-optimal-m">Choosing the Optimal $m$</h2>
+<h2 id="inventory-control-example">Inventory Control Example</h2>
 
-<p>The bound has two competing terms: $m\sum \Delta_i$ (exploration cost) and $(n-mK)\sum \Delta_i e^{-m\Delta_i^2/4}$ (exploitation cost from wrong commitment). We want to balance them.</p>
+<p>To understand the framework, consider an inventory control problem.</p>
 
-<p>For a cleaner analysis, consider the two-arm case: arm 1 optimal ($\Delta_1 = 0$), arm 2 sub-optimal ($\Delta_2 = \Delta &gt; 0$).</p>
+<p>Example setting:</p>
 
-\[R_n^{\text{ETC}} \leq m\Delta + (n - 2m)\Delta \cdot e^{-m\Delta^2/4}\]
+<ul>
+  <li>a shop sells items, such as shoes</li>
+  <li>inventory is consumed by customer demand</li>
+  <li>future demand is random</li>
+  <li>at each time period, the shop must decide how much inventory to order</li>
+</ul>
 
-<p>Differentiating with respect to $m$ and setting to zero:</p>
-
-\[m^\ast = \frac{4}{\Delta^2} \ln\!\left(\frac{n\Delta^2}{4}\right)\]
-
-<p>Substituting back:</p>
-
-\[R_n^{\text{ETC}} \leq \frac{4}{\Delta}\left[1 + \ln\!\left(\frac{n\Delta^2}{4}\right)\right]\]
-
-<hr>
-
-<h2 id="key-observations">Key Observations</h2>
-
-<p><strong>Logarithmic regret:</strong> Even in the best case (optimal $m$), regret scales as $O(\ln n / \Delta)$. This is the fundamental scale for stochastic bandit problems.</p>
-
-<p><strong>Instance-dependent bound:</strong> The bound depends on $\Delta$. As $\Delta \to 0$, the optimal $m^\ast$ explodes: arms that are very close in distribution require far more exploration to distinguish. This makes intuitive sense.</p>
-
-<p><strong>You need to know $\Delta$ to set $m^\ast$:</strong> In practice, $\Delta$ is unknown. ETC requires knowing the sub-optimality gap to tune $m$, which it does not have access to.</p>
-
-<p><strong>ETC is anytime:</strong> Algorithm 7 itself does not depend on $n$ (it just commits after $mK$ pulls). However, finding $m^\ast$ requires $n$. A doubling trick can make this fully anytime.</p>
-
-<p><strong>Lower bound:</strong> Even with optimal $m$, the regret is $\Omega(\ln n)$. Logarithmic regret is both achievable and optimal for stochastic bandits. The question is whether we can achieve it without knowing $\Delta$.</p>
+<p>The decision problem is to choose replenishment quantities over time while accounting for uncertain demand.</p>
 
 <hr>
 
-<h2 id="the-limitation-of-etc">The Limitation of ETC</h2>
+<h2 id="inventory-state">Inventory State</h2>
 
-<p>ETC commits irrevocably after the exploration phase. If the exploration phase was unlucky (e.g., arm 2 happened to get high rewards by chance), the algorithm stays with the wrong arm forever. More adaptive algorithms continuously update their arm selection rather than committing once.</p>
+<p>Let:</p>
+
+\[x_k\]
+
+<p>be the stock available at the beginning of the $k$th time period.</p>
+
+<p>For example:</p>
+
+<ul>
+  <li>$x_0$ is the initial stock at the beginning of period 0</li>
+  <li>$x_1$ is the stock available at the beginning of period 1</li>
+  <li>and so on</li>
+</ul>
+
+<p>The horizon is:</p>
+
+\[k = 0,1,\ldots,N-1\]
+
+<hr>
+
+<h2 id="inventory-action">Inventory Action</h2>
+
+<p>Let:</p>
+
+\[u_k\]
+
+<p>be the stock ordered at the beginning of the $k$th period.</p>
+
+<p>The lecture assumes <strong>immediate delivery</strong>:</p>
+
+<blockquote>
+  <p>Stock ordered at time $k$ becomes available immediately during period $k$.</p>
+</blockquote>
+
+<p>This is equivalent to assuming that delivery time is negligible compared with the length of a decision period.</p>
+
+<hr>
+
+<h2 id="random-demand">Random Demand</h2>
+
+<p>Let:</p>
+
+\[w_k\]
+
+<p>be the demand during time period $k$.</p>
+
+<p>The demand sequence is assumed independent:</p>
+
+\[w_0,w_1,\ldots,w_{N-1}
+\quad \text{are independent.}\]
+
+<p>Demand is the source of randomness in the inventory problem.</p>
+
+<hr>
+
+<h2 id="timing-in-the-inventory-problem">Timing in the Inventory Problem</h2>
+
+<p>The sequence of events during period $k$ is:</p>
+
+<ol>
+  <li>Stock $x_k$ becomes known.</li>
+  <li>Order quantity $u_k$ is chosen.</li>
+  <li>Demand $w_k$ is realized.</li>
+  <li>Inventory evolves based on the order and demand.</li>
+</ol>
+
+<p>So:</p>
+
+<blockquote>
+  <p>$u_k$ is chosen before $w_k$ is known.</p>
+</blockquote>
+
+<p>This matters because the shop cannot order inventory after seeing the demand for the same period. It must decide using the current stock and whatever distributional information it has about future demand.</p>
+
+<hr>
+
+<h2 id="connecting-inventory-control-to-state-space-models">Connecting Inventory Control to State Space Models</h2>
+
+<p>The inventory control problem fits the state-space framework:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>State-space object</th>
+      <th>Inventory interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$x_k$</td>
+      <td>stock at the beginning of period $k$</td>
+    </tr>
+    <tr>
+      <td>$u_k$</td>
+      <td>amount ordered at the beginning of period $k$</td>
+    </tr>
+    <tr>
+      <td>$w_k$</td>
+      <td>random demand during period $k$</td>
+    </tr>
+    <tr>
+      <td>$f_k$</td>
+      <td>inventory update rule</td>
+    </tr>
+    <tr>
+      <td>$g_k$</td>
+      <td>cost during period $k$</td>
+    </tr>
+    <tr>
+      <td>$g_N$</td>
+      <td>terminal inventory cost</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The exact dynamics and cost functions are developed further in the next part of the inventory-control example.</p>
+
+<hr>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<ul>
+  <li>Sequential decision problems involve actions chosen over multiple time steps.</li>
+  <li>A state-space model describes the system using states, actions, disturbances, dynamics, and costs.</li>
+  <li>The state $x_k$ summarizes the system at time $k$.</li>
+  <li>The action $u_k$ is chosen by the decision maker.</li>
+  <li>The disturbance $w_k$ is chosen by nature and is not known when $u_k$ is chosen.</li>
+  <li>Open-loop decisions are fixed before the system evolves.</li>
+  <li>Closed-loop decisions adapt to the current state.</li>
+  <li>In inventory control, the state is stock, the action is order quantity, and the disturbance is demand.</li>
+</ul>
 
     </div>
   </article>
