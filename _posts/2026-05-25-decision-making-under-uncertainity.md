@@ -24,6 +24,7 @@ The course studies stochastic control and communication through one broader lens
 | 3 | [Expected Utility Theory II](/decision-making-under-uncertainity/03-expected-utility-theory-ii/) | [YouTube](https://youtu.be/NnIHpPb79ZY?si=EJHUMRoFFddu_c6N) |
 | 4 | [Expected Utility Theory III](/decision-making-under-uncertainity/04-expected-utility-theory-iii/) | [YouTube](https://youtu.be/S0T92GBszHw?si=rhO_Zj30UGLHkq7L) |
 | 5 | [Role of Information in Decision Making](/decision-making-under-uncertainity/05-role-of-information-in-decision-making/) | [YouTube](https://youtu.be/PZBkfpuKj-A?si=8V1nCkJtvH5ur2je) |
+| 6 | [State Space Modelling of Sequential Decision Making; Inventory Control Problem I](/decision-making-under-uncertainity/06-state-space-modelling-inventory-control-i/) | [YouTube](https://youtu.be/QX6K05pSg3U?si=6563FDUMq_l1pEE7) |
 
 ---
 
