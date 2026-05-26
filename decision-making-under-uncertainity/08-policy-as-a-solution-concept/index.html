@@ -17,13 +17,12 @@
   
   
     
-      dragons | Sakshi
+      8. Policy as a Solution Concept | Sakshi
     
   
 </title>
 <meta name="author" content="Sakshi S. Pandey">
-<meta name="description" content="Hello 👋🏻 Welcome to Sakshi's World! =)
-">
+<meta name="description" content="Why stochastic control solves for policies, threshold policies in inventory control, and how policies induce state-transition distributions.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -51,6 +50,9 @@
 <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
 
 
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
 
 <!-- Styles -->
 
@@ -60,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%9F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://sakshipandey.github.io/books/category/dragons/">
+<link rel="canonical" href="https://sakshipandey.github.io/decision-making-under-uncertainity/08-policy-as-a-solution-concept/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?cef5f310457b5b065775c7a31be91f90"></script>
@@ -114,8 +116,6 @@
 
           <!-- Other pages -->
           
-          
-            
           
             
           
@@ -387,10 +387,8 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   <a class="nav-link" href="/books/">Bookshelf
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -428,33 +426,412 @@
     <!-- Content -->
     <div class="container mt-5" role="main">
       
-        <div class="post">
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+<div class="post">
   <header class="post-header">
-    
-      <h1 class="post-title">
-<i class="fa-solid fa-tag fa-sm"></i> dragons</h1>
-      <p class="post-description">an archive of books in this category</p>
-    
+    <h1 class="post-title">8. Policy as a Solution Concept</h1>
+    <p class="post-meta">
+      Created on May 26, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <i class="fa-solid fa-calendar fa-sm"></i> 2026
+      
+      
+          ·  
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> decision-making
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> uncertainty
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> stochastic-control
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> policies
+          
+          
+             
+          
+        
+          
+            <i class="fa-solid fa-hashtag fa-sm"></i> inventory-control
+          
+          
+        
+      
+
+      
+    </p>
   </header>
 
-  <article class="archive">
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        
-          <tr>
-            <th scope="row">May 26, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/books/the_fourth_wing/">Fourth Wing</a>
-              
-            </td>
-          </tr>
-        
-      </table>
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h1 id="8-policy-as-a-solution-concept">8. Policy as a Solution Concept</h1>
+
+<p>Source: <a href="https://youtu.be/MQpSUVXVmYE?si=Z4ljREguq12hYP0G" rel="external nofollow noopener" target="_blank">YouTube lecture</a></p>
+
+<h2 id="recap-why-actions-are-not-enough">Recap: Why Actions Are Not Enough</h2>
+
+<p>In the inventory control problem, the question “how much inventory should be ordered?” is not well posed at the planning stage.</p>
+
+<p>The order quantity depends on the stock level available at that future time, and that stock level is random because it depends on future demand.</p>
+
+<p>So before the system evolves, we cannot choose exact future actions.</p>
+
+<p>Instead, we choose an action plan:</p>
+
+<blockquote>
+  <p>For every possible inventory level that may be observed, specify how much inventory should be ordered.</p>
+</blockquote>
+
+<p>These functions are called:</p>
+
+<ul>
+  <li>strategies</li>
+  <li>decision rules</li>
+  <li>control laws</li>
+</ul>
+
+<p>A sequence of such functions:</p>
+
+\[\mu_0,\mu_1,\ldots,\mu_{N-1}\]
+
+<p>is called a <strong>policy</strong>.</p>
+
+<hr>
+
+<h2 id="threshold-policy-in-inventory-control">Threshold Policy in Inventory Control</h2>
+
+<p>For many reasonable inventory cost functions, an optimal policy has a threshold form.</p>
+
+<p>At time $k$, the decision rule may be:</p>
+
+\[\mu_k(x_k) =
+\begin{cases}
+S_k - x_k, &amp; x_k &lt; S_k,\\
+0, &amp; x_k \geq S_k.
+\end{cases}\]
+
+<p>Here $S_k$ is a threshold level at time $k$.</p>
+
+<p>The interpretation is simple:</p>
+
+<ul>
+  <li>if inventory $x_k$ is below $S_k$, order enough to bring inventory up to $S_k$</li>
+  <li>if inventory $x_k$ is already at least $S_k$, order nothing</li>
+</ul>
+
+<p>So the policy says:</p>
+
+<blockquote>
+  <p>Top up to the threshold when stock falls below it.</p>
+</blockquote>
+
+<p>In a finite-horizon problem, the threshold can depend on time. So $S_k$ may differ from $S_{k+1}$.</p>
+
+<hr>
+
+<h2 id="how-the-threshold-policy-evolves">How the Threshold Policy Evolves</h2>
+
+<p>Under a threshold policy:</p>
+
+<ol>
+  <li>At time $k$, observe inventory $x_k$.</li>
+  <li>If $x_k&lt;S_k$, order $S_k-x_k$.</li>
+  <li>Inventory is topped up to $S_k$.</li>
+  <li>Demand during the period reduces inventory.</li>
+  <li>At time $k+1$, repeat using threshold $S_{k+1}$.</li>
+</ol>
+
+<p>The policy does not tell us a fixed order quantity in advance. It tells us how to compute the order quantity after observing the inventory state.</p>
+
+<hr>
+
+<h2 id="general-stochastic-control-problem">General Stochastic Control Problem</h2>
+
+<p>The general stochastic control problem is to minimize expected total cost:</p>
+
+\[\min_{\mu_0,\ldots,\mu_{N-1}}
+\mathbb{E}\left[
+g_N(x_N) + \sum_{k=0}^{N-1} g_k(x_k,u_k,w_k)
+\right]\]
+
+<p>where:</p>
+
+\[u_k = \mu_k(x_k)\]
+
+<p>Here:</p>
+
+<ul>
+  <li>$g_N(x_N)$ is the terminal cost</li>
+  <li>$g_k(x_k,u_k,w_k)$ is the stage-wise cost</li>
+  <li>$\mu_k$ maps the current state to the current action</li>
+</ul>
+
+<p>The optimization is over policies, not over realized actions.</p>
+
+<hr>
+
+<h2 id="state-and-action-spaces">State and Action Spaces</h2>
+
+<p>Let:</p>
+
+\[\mathcal{X}_k\]
+
+<p>be the state space at time $k$, and let:</p>
+
+\[\mathcal{U}_k\]
+
+<p>be the action space at time $k$.</p>
+
+<p>Then each decision rule is a function:</p>
+
+\[\mu_k: \mathcal{X}_k \to \mathcal{U}_k\]
+
+<p>In the inventory example:</p>
+
+\[\mathcal{X}_k = \mathbb{R}\]
+
+<p>because inventory can be positive or negative, and:</p>
+
+\[\mathcal{U}_k = [0,\infty)\]
+
+<p>because orders must be nonnegative.</p>
+
+<hr>
+
+<h2 id="state-dependent-feasible-actions">State-Dependent Feasible Actions</h2>
+
+<p>In some problems, the set of feasible actions depends on the current state.</p>
+
+<p>Let:</p>
+
+\[\tilde{\mathcal{U}}_k(x_k)\]
+
+<p>denote the set of feasible actions at time $k$ when the state is $x_k$.</p>
+
+<p>Then a policy must satisfy:</p>
+
+\[\mu_k(x_k) \in \tilde{\mathcal{U}}_k(x_k)\]
+
+<p>for every relevant state $x_k$.</p>
+
+<p>This is the condition that makes a policy admissible.</p>
+
+<p>In the inventory problem, the constraint is simpler:</p>
+
+\[u_k \geq 0\]
+
+<p>and it does not depend on $x_k$. But in general, action constraints may depend on both state and time.</p>
+
+<hr>
+
+<h2 id="inventory-control-as-a-stochastic-control-problem">Inventory Control as a Stochastic Control Problem</h2>
+
+<p>For the inventory problem:</p>
+
+\[x_{k+1} = x_k + u_k - w_k\]
+
+<p>where demands:</p>
+
+\[w_0,w_1,\ldots,w_{N-1}\]
+
+<p>are independent across time and unknown when $u_k$ is chosen.</p>
+
+<p>The constraint is:</p>
+
+\[u_k \geq 0\]
+
+<p>The total cost has:</p>
+
+<ul>
+  <li>terminal cost $R(x_N)$</li>
+  <li>stage cost $r(x_k)+cu_k$</li>
+</ul>
+
+<p>So the inventory problem is an instance of the general stochastic control formulation.</p>
+
+<hr>
+
+<h2 id="what-happens-after-a-policy-is-chosen">What Happens After a Policy Is Chosen?</h2>
+
+<p>The full policy:</p>
+
+\[\pi = (\mu_0,\mu_1,\ldots,\mu_{N-1})\]
+
+<p>is chosen before the uncertainty is realized.</p>
+
+<p>Then the system evolves as follows.</p>
+
+<p>At time 0:</p>
+
+<ol>
+  <li>Initial state $x_0$ is realized.</li>
+  <li>Action is chosen:</li>
+</ol>
+
+\[u_0 = \mu_0(x_0)\]
+
+<ol>
+  <li>Nature realizes noise $w_0$.</li>
+  <li>The next state is:</li>
+</ol>
+
+\[x_1 = f_0(x_0,\mu_0(x_0),w_0)\]
+
+<p>At time 1:</p>
+
+<ol>
+  <li>State $x_1$ is known.</li>
+  <li>Action is chosen:</li>
+</ol>
+
+\[u_1 = \mu_1(x_1)\]
+
+<ol>
+  <li>Nature realizes $w_1$.</li>
+  <li>The next state is:</li>
+</ol>
+
+\[x_2 = f_1(x_1,\mu_1(x_1),w_1)\]
+
+<p>This continues until the final state:</p>
+
+\[x_N = f_{N-1}(x_{N-1},\mu_{N-1}(x_{N-1}),w_{N-1})\]
+
+<hr>
+
+<h2 id="two-roles-of-a-policy">Two Roles of a Policy</h2>
+
+<p>A policy has two roles.</p>
+
+<h3 id="1-it-chooses-actions">1. It Chooses Actions</h3>
+
+<p>Given a state $x_k$, the policy directly specifies:</p>
+
+\[u_k = \mu_k(x_k)\]
+
+<p>So it tells the decision maker what action to take in real time.</p>
+
+<h3 id="2-it-influences-future-state-distributions">2. It Influences Future State Distributions</h3>
+
+<p>The next state is random because it depends on $w_k$:</p>
+
+\[x_{k+1} = f_k(x_k,\mu_k(x_k),w_k)\]
+
+<p>But the distribution of $x_{k+1}$ depends on the chosen policy.</p>
+
+<p>So a policy also determines, indirectly, the probability distribution of future states.</p>
+
+<p>This is often denoted:</p>
+
+\[P^\pi(x_{k+1}\mid x_k)\]
+
+<p>meaning the transition distribution under policy $\pi$.</p>
+
+<hr>
+
+<h2 id="why-policy-is-the-right-solution-concept">Why Policy Is the Right Solution Concept</h2>
+
+<p>In stochastic sequential decision making, uncertainty prevents us from choosing a fixed sequence of future actions in advance.</p>
+
+<p>The right object to choose is a policy:</p>
+
+\[\pi = (\mu_0,\mu_1,\ldots,\mu_{N-1})\]
+
+<p>Each $\mu_k$ maps observed information, here the current state, to an action.</p>
+
+<p>This lets the decision maker adapt to the actual trajectory of the system while respecting the causal order:</p>
+
+<ul>
+  <li>observe state</li>
+  <li>choose action</li>
+  <li>random disturbance occurs</li>
+  <li>next state is realized</li>
+</ul>
+
+<hr>
+
+<h2 id="toward-markov-decision-processes">Toward Markov Decision Processes</h2>
+
+<p>The lecture ends by pointing toward a more abstract model.</p>
+
+<p>Instead of specifying the next state explicitly as:</p>
+
+\[x_{k+1}=f_k(x_k,u_k,w_k)\]
+
+<p>one can directly specify the probability distribution:</p>
+
+\[P(x_{k+1}\mid x_k,u_k)\]
+
+<p>This is the model commonly used in operations research and computer science, called a <strong>Markov decision process</strong>.</p>
+
+<p>The next lecture moves toward finite-state, finite-action MDPs.</p>
+
+<hr>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<ul>
+  <li>In stochastic control, the solution is a policy, not a fixed action sequence.</li>
+  <li>A policy is a sequence of decision rules $\mu_0,\ldots,\mu_{N-1}$.</li>
+  <li>Each decision rule maps states to actions.</li>
+  <li>Inventory control often has a threshold policy: order up to $S_k$ if stock is below $S_k$.</li>
+  <li>Policies must respect feasible-action constraints.</li>
+  <li>A policy chooses current actions and also shapes the distribution of future states.</li>
+  <li>The notation $\pi$ is often used for the full policy.</li>
+  <li>Markov decision processes abstract the dynamics through transition probabilities rather than explicit noise equations.</li>
+</ul>
+
     </div>
   </article>
-</div>
 
+  
+
+  
+
+  
+    
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
       
     </div>
 
@@ -519,6 +896,9 @@
   <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
 
 
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
 
 
 

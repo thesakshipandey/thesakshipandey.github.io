@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-26T14:01:15+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-26T14:03:28+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
 </subtitle><entry><title type="html">Decision Making under Uncertainity</title><link href="https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity/" rel="alternate" type="text/html" title="Decision Making under Uncertainity" /><published>2026-05-25T10:00:00+00:00</published><updated>2026-05-25T10:00:00+00:00</updated><id>https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity/"><![CDATA[<p>The course studies stochastic control and communication through one broader lens: <strong>decision making under uncertainty</strong>. The same lens also covers team decision theory, collaborative decision making, economics, and organization theory.</p>
 
 <hr />
@@ -48,6 +48,11 @@
       <td>7</td>
       <td><a href="/decision-making-under-uncertainity/07-inventory-control-problem-ii/">Inventory Control Problem II</a></td>
       <td><a href="https://youtu.be/IeajGgUgUXw?si=duh2rSLIplKOa6-6">YouTube</a></td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td><a href="/decision-making-under-uncertainity/08-policy-as-a-solution-concept/">Policy as a Solution Concept</a></td>
+      <td><a href="https://youtu.be/MQpSUVXVmYE?si=Z4ljREguq12hYP0G">YouTube</a></td>
     </tr>
   </tbody>
 </table>
@@ -530,7 +535,7 @@ Content 2
 
 <p>With this you can generate visualizations like:</p>
 
-<ul id="log" class="tab" data-tab="2859ab21-7b1f-4013-9f30-8dd04f06b91f" data-name="log">
+<ul id="log" class="tab" data-tab="8804391c-c2be-4b0a-b2b6-94480bf7ec19" data-name="log">
   
       <li class="active" id="log-php">
           <a href="#">php </a>
@@ -545,7 +550,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="2859ab21-7b1f-4013-9f30-8dd04f06b91f" data-name="log">
+<ul class="tab-content" id="8804391c-c2be-4b0a-b2b6-94480bf7ec19" data-name="log">
   
       <li class="active">
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
@@ -569,7 +574,7 @@ Content 2
 
 <h2 id="another-example">Another example</h2>
 
-<ul id="data-struct" class="tab" data-tab="f74baa1d-c0c9-4cbc-bd57-60b3e70b25c4" data-name="data-struct">
+<ul id="data-struct" class="tab" data-tab="0e13e654-2975-434c-ba27-7e4d3dfde861" data-name="data-struct">
   
       <li class="active" id="data-struct-yaml">
           <a href="#">yaml </a>
@@ -580,7 +585,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="f74baa1d-c0c9-4cbc-bd57-60b3e70b25c4" data-name="data-struct">
+<ul class="tab-content" id="0e13e654-2975-434c-ba27-7e4d3dfde861" data-name="data-struct">
   
       <li class="active">
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
@@ -602,7 +607,7 @@ Content 2
 
 <h2 id="tabs-for-something-else">Tabs for something else</h2>
 
-<ul id="something-else" class="tab" data-tab="2c859fc1-23ec-4618-ba30-25951af196ec" data-name="something-else">
+<ul id="something-else" class="tab" data-tab="992a0bba-2855-4769-b5cf-e59b7ea28740" data-name="something-else">
   
       <li class="active" id="something-else-text">
           <a href="#">text </a>
@@ -617,7 +622,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="2c859fc1-23ec-4618-ba30-25951af196ec" data-name="something-else">
+<ul class="tab-content" id="992a0bba-2855-4769-b5cf-e59b7ea28740" data-name="something-else">
   
       <li class="active">
 <p>Regular text</p>
