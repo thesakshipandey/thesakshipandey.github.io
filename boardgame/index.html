@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Game Shelf</title>
+  <meta name="description" content="Board, card and duel games: search by players and type, with BGG data and Indian store prices.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="config.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#home" data-nav="home"><span class="die">🎲</span><span id="brandTitle">The Game Shelf</span></a>
+    <nav class="tabs" id="tabs">
+      <a href="#home" data-nav="home" class="active">Home</a>
+      <a href="#buy" data-nav="buy" class="auth-only">Buy list</a>
+      <a href="#shelf" data-nav="shelf" class="auth-only">My shelf</a>
+      <a href="#add" data-nav="add" class="admin-only">＋ Add game</a>
+    </nav>
+    <div class="who">
+      <div id="signin"></div>
+      <div id="userChip" class="user-chip" hidden>
+        <span id="userName"></span>
+        <button id="signout" class="link">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME: summary + search -->
+    <section id="view-home" class="view">
+      <div class="hero">
+        <h1>What are we playing<span class="accent">?</span></h1>
+        <div class="searchbar">
+          <span class="icon">⌕</span>
+          <input id="q" type="search" placeholder="Search games, mechanics, designers…" autocomplete="off">
+          <div class="players-box" title="Number of players">
+            <button class="step" data-step="-1" aria-label="Fewer players">−</button>
+            <input id="players" type="number" min="1" max="30" placeholder="Players" inputmode="numeric">
+            <button class="step" data-step="1" aria-label="More players">+</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <div class="chips" id="catChips"></div>
+          <select id="timeSel" aria-label="Play time">
+            <option value="">Any length</option>
+            <option value="20">≤ 20 min</option>
+            <option value="45">≤ 45 min</option>
+            <option value="90">≤ 90 min</option>
+            <option value="999">Long (90+)</option>
+          </select>
+          <select id="weightSel" aria-label="Complexity">
+            <option value="">Any complexity</option>
+            <option>Light</option><option>Medium Light</option><option>Medium</option><option>Heavy</option>
+          </select>
+          <select id="mineSel" class="auth-only" aria-label="Ownership">
+            <option value="">Everything</option>
+            <option value="owned">Owned</option>
+            <option value="notowned">Not owned</option>
+            <option value="wish">On my buy list</option>
+          </select>
+          <select id="sortSel" aria-label="Sort">
+            <option value="name">A → Z</option>
+            <option value="rank">BGG rank</option>
+            <option value="rating">BGG rating</option>
+            <option value="weight">Lightest first</option>
+            <option value="weightd">Heaviest first</option>
+            <option value="price">Cheapest in India</option>
+          </select>
+        </div>
+        <div class="chips types" id="typeChips"></div>
+        <div class="result-line"><span id="resultCount"></span><button id="clearAll" class="link" hidden>Clear filters</button></div>
+      </div>
+
+      <details id="summaryBox" class="summary-box" open>
+        <summary><span>Summary</span><span class="muted" id="summaryHint"></span></summary>
+        <div id="summary" class="summary"></div>
+      </details>
+
+      <div id="grid" class="grid"></div>
+    </section>
+
+    <!-- BUY LIST -->
+    <section id="view-buy" class="view" hidden>
+      <h1 class="page-title">Buy list</h1>
+      <p class="muted">Ordered like your sheet: Really want → Normal → Maybe, then the earliest tagged game first.</p>
+      <div id="buyTotals" class="tiles"></div>
+      <div id="buyList" class="table-wrap"></div>
+    </section>
+
+    <!-- SHELF -->
+    <section id="view-shelf" class="view" hidden>
+      <h1 class="page-title">My shelf</h1>
+      <div id="shelfTotals" class="tiles"></div>
+      <div id="shelfList" class="table-wrap"></div>
+    </section>
+
+    <!-- ADD (owner only) -->
+    <section id="view-add" class="view" hidden>
+      <h1 class="page-title">Add a game</h1>
+      <p class="muted">Search BoardGameGeek and the Indian stores. Pick a result and the form fills itself, then press Save to add it to your sheet.</p>
+      <div class="searchbar small">
+        <span class="icon">⌕</span>
+        <input id="addQ" type="search" placeholder="Game name, BGG link or BGG id">
+        <button id="addGo" class="btn">Search</button>
+      </div>
+      <div id="addResults" class="add-results"></div>
+      <form id="addForm" class="add-form" hidden>
+        <div class="add-preview" id="addPreview"></div>
+        <div class="form-grid">
+          <label>Name<input name="name" required></label>
+          <label>Category<select name="category"><option>Boards</option><option>Cards</option><option>Duels</option></select></label>
+          <label>Also counts as<input name="alsoIn" placeholder="e.g. Duels, Cards"></label>
+          <label>Min players<input name="minP" type="number" min="1"></label>
+          <label>Max players<input name="maxP" type="number" min="1"></label>
+          <label>Min time<input name="minT" type="number" min="0"></label>
+          <label>Max time<input name="maxT" type="number" min="0"></label>
+          <label>Age<input name="age" type="number" min="0"></label>
+          <label>BGG weight<input name="weight" type="number" step="0.01" min="0" max="5"></label>
+          <label>Genre<input name="genre" list="genreList"></label>
+          <label class="wide">Tags<input name="tags" placeholder="Comma separated"></label>
+          <label>Status<select name="status"><option>Wishlist</option><option>On the way</option><option>Owned</option><option>DIY</option></select></label>
+          <label>Interest<select name="interest"><option value="">—</option><option>Really want</option><option>Normal</option><option>Maybe</option></select></label>
+          <label>Price ₹<input name="price" type="number" min="0"></label>
+          <label class="wide">Buy link<input name="buyLink" type="url"></label>
+          <label>BGG id<input name="bggId"></label>
+        </div>
+        <datalist id="genreList"></datalist>
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Save to sheet</button>
+          <button type="button" id="addCancel" class="btn ghost">Cancel</button>
+          <span id="addMsg" class="muted"></span>
+        </div>
+      </form>
+      <div class="admin-tools">
+        <button id="refreshBtn" class="btn ghost">↻ Refresh BGFinder prices & BGG data</button>
+        <span id="refreshMsg" class="muted"></span>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="detail" class="detail"></dialog>
+  <div id="toast" class="toast" hidden></div>
+
+  <footer class="foot">
+    <span>Game data <a href="https://boardgamegeek.com" target="_blank" rel="noopener"><b>Powered by BGG</b></a> · India prices via <a href="https://www.bgfindertool.com/" target="_blank" rel="noopener">BGFinder</a></span>
+    <span id="dataStamp" class="muted"></span>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
