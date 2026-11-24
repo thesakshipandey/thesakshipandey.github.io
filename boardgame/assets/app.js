@@ -214,7 +214,7 @@
   function renderShowcase() {
     const el = $('#showcase');
     const picks = S.games.filter(g => g.image && g.bggRank).sort((a, b) => a.bggRank - b.bggRank).slice(0, 10);
-    el.classList.toggle('gone', filtersActive() || !picks.length);
+    el.classList.toggle('gone', !picks.length);
     const key = picks.map(g => g.name).join('|') + (S.mine ? isOwnedKey(picks) : '');
     if (SC.key === key) return;
     SC.key = key; SC.picks = picks; SC.i = Math.min(SC.i, Math.max(0, picks.length - 1));
@@ -275,8 +275,22 @@
     el.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') moveShowcase(-1); if (e.key === 'ArrowRight') moveShowcase(1); });
   }
 
+  function renderMini() {
+    const all = S.games, el = $('#miniSummary');
+    if (!all.length) { el.innerHTML = ''; return; }
+    const t = (v, k, cls = '', nav = 'summary') => `<button class="mini ${cls}" data-nav="${nav}"><b>${v}</b><span>${k}</span></button>`;
+    let html = t(all.length, 'games', '', 'games') + CATS.map(c => t(all.filter(g => g.category === c).length, c.toLowerCase(), '', 'games')).join('');
+    if (S.mine) {
+      html += t(all.filter(isOwned).length, 'owned', 'green', 'shelf') + t(all.filter(onWay).length, 'on the way', 'amber', 'shelf') + t(all.filter(onBuyList).length, 'on buy list', 'red', 'buy');
+    } else {
+      html += t(all.filter(g => g.best).length, 'in stock in India', '', 'games');
+    }
+    el.innerHTML = html + `<a class="mini-more" href="#summary" data-nav="summary">Full summary →</a>`;
+  }
+
   function renderAll() {
     renderShowcase();
+    renderMini();
     renderChips();
     renderGrid();
     renderSummary();
@@ -349,11 +363,10 @@
   }
 
   function renderSummary() {
-    const list = S.games.filter(g => matches(g));
+    const list = S.games;
     const authed = !!S.mine;
     const own = (g) => authed && (isOwned(g) || onWay(g));
     const fromSheet = !!(S.sheetSummary && S.mine && S.mine.isAdmin);
-    $('#summaryHint').textContent = filtersActive() ? `for the ${list.length} matching games` : 'whole collection';
     const avgW = avg(list.map(g => g.weight).filter(Boolean));
     // Same categories as the SUMMARY sheet (by tab), plus how many more also count there.
     const catTile = (c) => {
@@ -452,12 +465,11 @@
     const tone = (k) => /^owned/i.test(k) ? 'green' : /on the way/i.test(k) ? 'amber' : /saved/i.test(k) ? 'green' : /wishlist cost|spent/i.test(k) ? 'red' : '';
     const ovHTML = ov ? `<div class="tiles">${ov.rows.map(r => `<div class="tile ${tone(r[0])}"><div class="v ${String(r[1]).length > 12 ? 'small' : ''}" ${S.byName[r[1]] ? `data-g="${esc(r[1])}"` : ''}>${esc(r[1])}</div><div class="k">${esc(r[0])}</div></div>`).join('')}</div>` : '';
     const isNum = (c) => /^[₹\-\d.,\s/]+$/.test(c) && /\d/.test(c);
-    const table = (b) => `<div class="panel sheet-block"><h3>${esc(b.title)}</h3><table class="mini">
+    const table = (b) => `<div class="panel sheet-block"><h3>${esc(b.title)}</h3><div class="scroll"><table class="mini-t">
       ${b.header ? `<thead><tr>${b.header.map((h, i) => `<th class="${i ? 'num' : ''}">${esc(h)}</th>`).join('')}</tr></thead>` : ''}
-      <tbody>${b.rows.map(r => `<tr ${S.byName[r[0]] ? `class="clickable" data-g="${esc(r[0])}"` : ''}>${r.map((c, i) => `<td class="${i && isNum(c) ? 'num' : ''}">${esc(c || (i ? '' : '—'))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      <tbody>${b.rows.map(r => `<tr ${S.byName[r[0]] ? `class="clickable" data-g="${esc(r[0])}"` : ''}>${r.map((c, i) => `<td class="${i && isNum(c) ? 'num' : ''}">${esc(c || (i ? '' : '—'))}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`;
     return `<h3 class="sub">From your SUMMARY sheet <span class="muted">· only you can see this</span></h3>${ovHTML}
-      <details class="sheet-more"><summary>All SUMMARY sections (${blocks.length - (ov ? 1 : 0)})</summary>
-      <div class="panels">${blocks.filter(b => b !== ov).map(table).join('')}</div></details>`;
+      <div class="panels sheet">${blocks.filter(b => b !== ov).map(table).join('')}</div>`;
   }
 
   const sum = (a) => a.reduce((s, x) => s + (+x || 0), 0);
@@ -790,6 +802,7 @@
   function go(view) {
     if (['buy', 'shelf'].includes(view) && !S.mine) view = 'home';
     if (view === 'add' && !(S.mine && S.mine.isAdmin)) view = 'home';
+    if (!['home', 'games', 'summary', 'buy', 'shelf', 'add'].includes(view)) view = 'home';
     $$('.view').forEach(v => v.hidden = v.id !== 'view-' + view);
     $$('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.nav === view));
     if (view === 'buy') renderBuy();
@@ -815,7 +828,7 @@
     let qt;
     $('#q').addEventListener('input', e => { clearTimeout(qt); qt = setTimeout(() => { S.f.q = e.target.value; renderAll(); }, 120); });
     $('#players').addEventListener('input', e => { S.f.players = +e.target.value || null; renderAll(); });
-    $$('.step').forEach(b => b.addEventListener('click', () => {
+    $$('[data-step]').forEach(b => b.addEventListener('click', () => {
       const cur = S.f.players || 0;
       const n = Math.min(30, Math.max(0, cur + +b.dataset.step));
       S.f.players = n || null; $('#players').value = n || ''; renderAll();
@@ -845,30 +858,40 @@
         const c = el.dataset.v; S.f.cats.has(c) ? S.f.cats.delete(c) : S.f.cats.add(c); renderAll(); return;
       }
       if (el.closest('.stars')) return;
-      const toHome = () => { if (inDetail) $('#detail').close(); go('home'); setTimeout(() => $('#controls').scrollIntoView({ behavior: 'smooth', block: 'start' }), 30); };
+      const toHome = () => { if (inDetail) $('#detail').close(); go('games'); };
       if (el.dataset.t) { if (inDetail) S.f.types = new Set([el.dataset.t]); else setTypeFilter(el.dataset.t); toHome(); renderAll(); return; }
       if (el.dataset.p) { S.f.players = +el.dataset.p; $('#players').value = el.dataset.p; renderAll(); toHome(); return; }
-      if (el.dataset.w) { S.f.weight = S.f.weight === el.dataset.w ? '' : el.dataset.w; $('#weightSel').value = S.f.weight; renderAll(); return; }
-      if (el.dataset.time) { S.f.time = S.f.time === el.dataset.time ? '' : el.dataset.time; $('#timeSel').value = S.f.time; renderAll(); return; }
+      if (el.dataset.w) { S.f.weight = el.dataset.w; $('#weightSel').value = S.f.weight; renderAll(); toHome(); return; }
+      if (el.dataset.time) { S.f.time = el.dataset.time; $('#timeSel').value = S.f.time; renderAll(); toHome(); return; }
       if (el.dataset.q) { S.f.q = el.dataset.q; $('#q').value = el.dataset.q; toHome(); renderAll(); return; }
       if (el.dataset.g && !el.closest('form')) { openGame(el.dataset.g); }
     });
 
     const d = $('#detail');
     d.addEventListener('click', e => { if (e.target === d) d.close(); });
-    d.addEventListener('close', () => { if (location.hash.startsWith('#game=')) history.replaceState(null, '', '#home'); });
+    d.addEventListener('close', () => { if (location.hash.startsWith('#game=')) { const v = $$('.view').find(x => !x.hidden); history.replaceState(null, '', '#' + (v ? v.id.slice(5) : 'home')); } });
     window.addEventListener('hashchange', () => {
       const h = location.hash.slice(1);
-      if (h.startsWith('game=')) openFromHash(); else if (['home', 'buy', 'shelf', 'add'].includes(h)) go(h);
+      if (h.startsWith('game=')) openFromHash(); else if (['home', 'games', 'summary', 'buy', 'shelf', 'add'].includes(h)) go(h);
     });
     document.addEventListener('keydown', e => {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') { e.preventDefault(); go('home'); $('#q').focus(); }
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') { e.preventDefault(); go('games'); $('#q').focus(); }
     });
 
     $('#signout').onclick = () => signOut();
     wireShowcase();
-    $('#goBtn').onclick = () => { S.f.q = $('#q').value; renderAll(); $('#controls').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
-    $('#q').addEventListener('keydown', e => { if (e.key === 'Enter') $('#goBtn').click(); });
+    // Home search hands off to the All games page with the same query and player count.
+    $('#homeSearch').addEventListener('submit', e => {
+      e.preventDefault();
+      S.f.q = $('#hq').value.trim(); S.f.players = +$('#hp').value || null;
+      $('#q').value = S.f.q; $('#players').value = S.f.players || '';
+      renderAll(); go('games');
+    });
+    $$('[data-hstep]').forEach(b => b.addEventListener('click', () => {
+      const n = Math.min(30, Math.max(0, (+$('#hp').value || 0) + +b.dataset.hstep));
+      $('#hp').value = n || '';
+    }));
+    $('#year').textContent = new Date().getFullYear();
     const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
     $('#regForm').addEventListener('submit', submitRegister);
@@ -893,7 +916,7 @@
   wire();
   const h = location.hash.slice(1);
   pendingView = ['buy', 'shelf', 'add'].includes(h) ? h : null;
-  go('home');
+  go(['games', 'summary'].includes(h) ? h : 'home');
   if (h.startsWith('game=')) history.replaceState(null, '', '#' + h);
   loadCatalog();
   initAuth();
