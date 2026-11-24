@@ -738,7 +738,7 @@
       document.body.classList.toggle('admin', !!S.mine.isAdmin);
       $('#signin').hidden = true;
       $('#userChip').hidden = false;
-      $('#userName').innerHTML = esc((S.mine.name || S.mine.email).split(' ')[0]) + (S.mine.username ? ` <span class="muted">@${esc(S.mine.username)}</span>` : '') + (S.mine.isAdmin ? '<span class="badge-admin">owner</span>' : '');
+      renderUserChip();
       renderAll();
       if (pendingView) { go(pendingView); pendingView = null; }
       if (S.mine.isAdmin) api('summary').then(r => { S.sheetSummary = r.grid; renderSummary(); }).catch(() => {});
@@ -748,6 +748,25 @@
       toast(e.message, true);
       signOut(true);
     }
+  }
+
+  function renderUserChip() {
+    const full = S.mine.name || S.mine.email;
+    const pic = jwtPayload(S.token || '').picture;
+    const av = pic ? `<img src="${esc(pic)}" alt="" referrerpolicy="no-referrer">` : esc(full.trim()[0] || '?').toUpperCase();
+    $('#userAvatar').innerHTML = av;
+    $('#umAvatar').innerHTML = av;
+    $('#userName').textContent = full.split(' ')[0];
+    $('#umName').textContent = full;
+    $('#umHandle').textContent = S.mine.username ? '@' + S.mine.username : S.mine.email;
+    $('#umRole').hidden = !S.mine.isAdmin;
+  }
+
+  function toggleUserMenu(open) {
+    const menu = $('#userMenu'), btn = $('#userBtn');
+    const show = open == null ? menu.hidden : open;
+    menu.hidden = !show;
+    btn.setAttribute('aria-expanded', String(show));
   }
 
   function showRegister(me) {
@@ -878,7 +897,10 @@
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') { e.preventDefault(); go('games'); $('#q').focus(); }
     });
 
-    $('#signout').onclick = () => signOut();
+    $('#signout').onclick = () => { toggleUserMenu(false); signOut(); };
+    $('#userBtn').onclick = (e) => { e.stopPropagation(); toggleUserMenu(); };
+    document.addEventListener('click', e => { if (!e.target.closest('#userChip') || e.target.closest('.um-links a')) toggleUserMenu(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleUserMenu(false); });
     wireShowcase();
     // Home search hands off to the All games page with the same query and player count.
     $('#homeSearch').addEventListener('submit', e => {
