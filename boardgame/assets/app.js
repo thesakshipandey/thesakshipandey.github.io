@@ -88,11 +88,14 @@
   async function loadCatalog(fresh) {
     const cached = !fresh && localStorage.getItem('shelf_catalog');
     if (cached) { try { setCatalog(JSON.parse(cached), true); } catch (e) {} }
+    let slow;
+    if (!S.catalog) slow = setTimeout(() => { if (!S.catalog) fetch('data/snapshot.json').then(r => r.json()).then(c => { if (!S.catalog || S.catalog.snapshot) setCatalog(c, true); }).catch(() => {}); }, 6000);
     try {
       if (!CFG.API_URL) throw new Error('no api');
       const res = await fetch(CFG.API_URL + '?action=catalog' + (fresh ? '&fresh=1' : ''));
       const j = await res.json();
       if (!j.ok) throw new Error(j.error);
+      clearTimeout(slow);
       setCatalog(j.data);
       try { localStorage.setItem('shelf_catalog', JSON.stringify(j.data)); } catch (e) {}
     } catch (e) {
@@ -282,23 +285,33 @@
     const list = S.games.filter(g => matches(g));
     const authed = !!S.mine;
     const own = (g) => authed && (isOwned(g) || onWay(g));
+    const fromSheet = !!(S.sheetSummary && S.mine && S.mine.isAdmin);
     $('#summaryHint').textContent = filtersActive() ? `for the ${list.length} matching games` : 'whole collection';
     const avgW = avg(list.map(g => g.weight).filter(Boolean));
-    const tiles = [
-      ['Games', list.length],
-      ...CATS.map(c => [c, list.filter(g => g.cats.has(c)).length]),
-      ['Avg weight /5', avgW ? avgW.toFixed(2) : '–'],
-      ['In stock in India', list.filter(g => g.best).length]
-    ];
+    // Same categories as the SUMMARY sheet (by tab), plus how many more also count there.
+    const catTile = (c) => {
+      const primary = list.filter(g => g.category === c).length;
+      const extra = list.filter(g => g.category !== c && g.cats.has(c)).length;
+      return `<div class="tile"><div class="v">${primary}</div><div class="k">${c}${extra ? ` <span class="also">+${extra} also</span>` : ''}</div></div>`;
+    };
+    const tiles = `<div class="tiles">
+      <div class="tile"><div class="v">${list.length}</div><div class="k">Total games</div></div>
+      ${CATS.map(catTile).join('')}
+      <div class="tile"><div class="v">${avgW ? avgW.toFixed(2) : '–'}</div><div class="k">Avg BGG weight /5</div></div>
+      <div class="tile"><div class="v">${Math.max(0, ...list.map(g => g.maxP || 0))}</div><div class="k">Largest group</div></div>
+      <div class="tile"><div class="v">${list.filter(g => g.best).length}</div><div class="k">In stock in India</div></div>
+    </div>`;
     let personal = '';
-    if (authed) {
+    if (fromSheet) {
+      personal = sheetSummaryHTML();
+    } else if (authed) {
       const owned = list.filter(isOwned), way = list.filter(onWay);
       const wish = list.filter(g => !isOwned(g) && !onWay(g) && (statusOf(g) === 'Wishlist' || my(g).interest));
       const buy = list.filter(onBuyList);
       const spent = sum([...owned, ...way].map(g => my(g).pricePaid));
-      const listP = sum([...owned, ...way].filter(g => my(g).pricePaid != null).map(g => g.price));
+      const listP = sum([...owned, ...way].filter(g => my(g).pricePaid != null && my(g).pricePaid !== '').map(g => g.price));
       const ratings = list.map(g => my(g).rating).filter(x => x != null && x !== '');
-      personal = `<div class="tiles">
+      personal = `<h3 class="sub">My collection</h3><div class="tiles">
         <div class="tile green"><div class="v">${owned.length}</div><div class="k">Owned</div></div>
         <div class="tile amber"><div class="v">${way.length}</div><div class="k">On the way</div></div>
         <div class="tile"><div class="v">${wish.length}</div><div class="k">On wishlist</div></div>
@@ -310,7 +323,6 @@
         <div class="tile"><div class="v">${sum(list.map(g => my(g).plays))}</div><div class="k">Plays logged</div></div>
       </div>`;
     }
-    // player count
     const pc = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map(n => {
       const m = list.filter(g => g.minP != null && g.minP <= n && n <= g.maxP);
       return { n, all: m.length, own: m.filter(own).length };
@@ -319,26 +331,66 @@
     const pcHTML = `<div class="pcount">${pc.map(x => `<div class="pcol" data-p="${x.n}" title="${x.all} games for ${x.n}${authed ? `, ${x.own} owned` : ''}">
       <div class="stack" style="height:${x.all / pmax * 100}%"><i class="own" style="flex:${x.own}"></i><i style="flex:${x.all - x.own}"></i></div><span>${x.n}</span></div>`).join('')}</div>
       ${authed ? '<div class="legend"><span><i class="own"></i>owned</span><span><i></i>not owned</span></div>' : ''}`;
-    const typeRows = TYPES.map(([t]) => { const m = list.filter(g => g.types.includes(t)); return { label: t, n: m.length, own: m.filter(own).length }; })
-      .filter(r => r.n).sort((a, b) => b.n - a.n).slice(0, 10);
-    const cxRows = ['Light', 'Medium Light', 'Medium', 'Heavy', 'Unrated'].map(c => { const m = list.filter(g => g.cx === c); return { label: c, n: m.length, own: m.filter(own).length }; }).filter(r => r.n);
+    const rowsFor = (labels, test) => labels.map(l => { const m = list.filter(g => test(g, l)); return { label: l, n: m.length, own: m.filter(own).length }; }).filter(r => r.n);
+    const typeRows = rowsFor(TYPES.map(t => t[0]), (g, t) => g.types.includes(t)).sort((a, b) => b.n - a.n).slice(0, 10);
+    const cxRows = rowsFor(['Light', 'Medium Light', 'Medium', 'Heavy', 'Unrated'], (g, c) => g.cx === c);
+    const band = (g) => { const t = g.maxT || g.minT; return !t ? '' : t <= 20 ? 'Quick (≤20)' : t <= 45 ? 'Short (21–45)' : t <= 90 ? 'Medium (46–90)' : 'Long (90+)'; };
+    const timeRows = rowsFor(['Quick (≤20)', 'Short (21–45)', 'Medium (46–90)', 'Long (90+)'], (g, b) => band(g) === b);
+    const timeVal = { 'Quick (≤20)': '20', 'Short (21–45)': '45', 'Medium (46–90)': '90', 'Long (90+)': '999' };
     const genreMap = {};
     list.forEach(g => { if (g.genre) { const r = genreMap[g.genre] = genreMap[g.genre] || { label: g.genre, n: 0, own: 0 }; r.n++; if (own(g)) r.own++; } });
     const genreRows = Object.values(genreMap).sort((a, b) => b.n - a.n).slice(0, 10);
     const top = list.filter(g => g.bggRank).sort((a, b) => a.bggRank - b.bggRank).slice(0, 6);
-    const mineTop = authed ? list.filter(g => my(g).rating).sort((a, b) => my(b).rating - my(a).rating || (my(b).plays || 0) - (my(a).plays || 0)).slice(0, 6) : [];
     const maxOf = (rows) => Math.max(1, ...rows.map(r => r.n));
-    $('#summary').innerHTML = `
-      <div class="tiles">${tiles.map(([k, v]) => `<div class="tile"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('')}</div>
-      ${personal}
+    $('#summary').innerHTML = `${tiles}${personal}
       <div class="panels">
         <div class="panel"><h3>Player count</h3>${pcHTML}</div>
         <div class="panel"><h3>Types</h3>${bars(typeRows, maxOf(typeRows), r => `data-t="${esc(r.label)}"`)}</div>
         <div class="panel"><h3>Complexity</h3>${bars(cxRows, maxOf(cxRows), r => `data-w="${esc(r.label)}"`)}</div>
+        <div class="panel"><h3>Playtime</h3>${bars(timeRows, maxOf(timeRows), r => `data-time="${timeVal[r.label]}"`)}</div>
         <div class="panel"><h3>Genres</h3>${bars(genreRows, maxOf(genreRows), r => `data-q="${esc(r.label)}"`)}</div>
         <div class="panel"><h3>Top on BGG</h3><ul class="toplist">${top.map(g => `<li data-g="${esc(g.name)}"><b>${esc(g.name)}</b><span class="muted">#${g.bggRank} · ★${(+g.bggRating).toFixed(1)}</span></li>`).join('') || '<li class="muted">No BGG ranks yet</li>'}</ul></div>
-        ${authed ? `<div class="panel"><h3>My top rated</h3><ul class="toplist">${mineTop.map(g => `<li data-g="${esc(g.name)}"><b>${esc(g.name)}</b><span class="muted">${my(g).rating}/10 · ${my(g).plays || 0} plays</span></li>`).join('') || '<li class="muted">Rate games you own to see them here</li>'}</ul></div>` : ''}
       </div>`;
+  }
+
+  /* Owner only: the SUMMARY tab, block by block, exactly as the sheet computes it. */
+  function parseSheetSummary(grid) {
+    const blocks = [];
+    const regions = [[0, 4], [5, 11]];
+    for (const [c0, c1] of regions) {
+      let cur = null;
+      for (let r = 0; r < grid.length; r++) {
+        const cells = (grid[r] || []).slice(c0, c1 + 1).map(x => String(x || '').trim());
+        const filled = cells.filter(Boolean).length;
+        if (!filled) { cur = null; continue; }
+        const next = (grid[r + 1] || []).slice(c0, c1 + 1).filter(x => String(x || '').trim()).length;
+        if (filled === 1 && cells[0] && next >= 2 && !/\d/.test(cells[0])) {
+          cur = { title: cells[0], rows: [] }; blocks.push(cur); continue;
+        }
+        if (cur) cur.rows.push(cells);
+      }
+    }
+    blocks.forEach(b => {
+      const width = Math.max(...b.rows.map(r => r.reduce((w, c, i) => c ? i + 1 : w, 0)));
+      b.rows = b.rows.map(r => r.slice(0, width));
+      const first = b.rows[0] || [];
+      b.header = first.filter(Boolean).length >= 2 && first.every(c => !c || c === c.toUpperCase()) ? b.rows.shift() : null;
+    });
+    return blocks;
+  }
+
+  function sheetSummaryHTML() {
+    const blocks = parseSheetSummary(S.sheetSummary);
+    const ov = blocks.find(b => /^OVERVIEW$/i.test(b.title));
+    const tone = (k) => /^owned/i.test(k) ? 'green' : /on the way/i.test(k) ? 'amber' : /saved/i.test(k) ? 'green' : /wishlist cost|spent/i.test(k) ? 'red' : '';
+    const ovHTML = ov ? `<div class="tiles">${ov.rows.map(r => `<div class="tile ${tone(r[0])}"><div class="v ${String(r[1]).length > 12 ? 'small' : ''}" ${S.byName[r[1]] ? `data-g="${esc(r[1])}"` : ''}>${esc(r[1])}</div><div class="k">${esc(r[0])}</div></div>`).join('')}</div>` : '';
+    const isNum = (c) => /^[₹\-\d.,\s/]+$/.test(c) && /\d/.test(c);
+    const table = (b) => `<div class="panel sheet-block"><h3>${esc(b.title)}</h3><table class="mini">
+      ${b.header ? `<thead><tr>${b.header.map((h, i) => `<th class="${i ? 'num' : ''}">${esc(h)}</th>`).join('')}</tr></thead>` : ''}
+      <tbody>${b.rows.map(r => `<tr ${S.byName[r[0]] ? `class="clickable" data-g="${esc(r[0])}"` : ''}>${r.map((c, i) => `<td class="${i && isNum(c) ? 'num' : ''}">${esc(c || (i ? '' : '—'))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    return `<h3 class="sub">From your SUMMARY sheet <span class="muted">· only you can see this</span></h3>${ovHTML}
+      <details class="sheet-more"><summary>All SUMMARY sections (${blocks.length - (ov ? 1 : 0)})</summary>
+      <div class="panels">${blocks.filter(b => b !== ov).map(table).join('')}</div></details>`;
   }
 
   const sum = (a) => a.reduce((s, x) => s + (+x || 0), 0);
@@ -437,6 +489,7 @@
         const saved = await api('saveMine', { game: g.name, fields });
         S.mine.items[g.name] = Object.assign(S.mine.items[g.name] || {}, saved);
         stEl.textContent = 'Saved ✓';
+        if (S.mine.isAdmin) api('summary').then(r => { S.sheetSummary = r.grid; renderSummary(); }).catch(() => {});
         renderAll();
       } catch (e) {
         S.mine.items[g.name] = before;
@@ -585,6 +638,7 @@
       $('#userName').innerHTML = esc((S.mine.name || S.mine.email).split(' ')[0]) + (S.mine.isAdmin ? '<span class="badge-admin">owner</span>' : '');
       renderAll();
       if (pendingView) { go(pendingView); pendingView = null; }
+      if (S.mine.isAdmin) api('summary').then(r => { S.sheetSummary = r.grid; renderSummary(); }).catch(() => {});
       const d = $('#detail');
       if (d.open) { const name = decodeURIComponent((location.hash.match(/game=(.*)/) || [])[1] || ''); if (name) openGame(name); }
     } catch (e) {
@@ -594,7 +648,7 @@
   }
 
   function signOut(silent) {
-    S.token = null; S.mine = null;
+    S.token = null; S.mine = null; S.sheetSummary = null;
     sessionStorage.removeItem('shelf_token');
     document.body.classList.remove('authed', 'admin');
     $('#signin').hidden = false; $('#userChip').hidden = true;
@@ -662,7 +716,7 @@
     };
 
     document.addEventListener('click', e => {
-      const el = e.target.closest('[data-v],[data-t],[data-g],[data-p],[data-w],[data-q],[data-nav],[data-copy],[data-id],#manualAdd');
+      const el = e.target.closest('[data-v],[data-t],[data-g],[data-p],[data-w],[data-q],[data-time],[data-nav],[data-copy],[data-id],#manualAdd');
       if (!el) return;
       const inDetail = !!el.closest('#detail');
       if (el.matches('a[data-copy]')) {
@@ -680,6 +734,7 @@
       if (el.dataset.t) { if (inDetail) S.f.types = new Set([el.dataset.t]); else setTypeFilter(el.dataset.t); toHome(); renderAll(); return; }
       if (el.dataset.p) { S.f.players = +el.dataset.p; $('#players').value = el.dataset.p; renderAll(); toHome(); return; }
       if (el.dataset.w) { S.f.weight = S.f.weight === el.dataset.w ? '' : el.dataset.w; $('#weightSel').value = S.f.weight; renderAll(); return; }
+      if (el.dataset.time) { S.f.time = S.f.time === el.dataset.time ? '' : el.dataset.time; $('#timeSel').value = S.f.time; renderAll(); return; }
       if (el.dataset.q) { S.f.q = el.dataset.q; $('#q').value = el.dataset.q; toHome(); renderAll(); return; }
       if (el.dataset.g && !el.closest('form')) { openGame(el.dataset.g); }
     });
