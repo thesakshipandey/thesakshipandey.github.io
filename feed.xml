@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-11-24T22:22:47+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://sakshipandey.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sakshipandey.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-11-24T22:28:11+00:00</updated><id>https://sakshipandey.github.io/feed.xml</id><title type="html">Sakshi</title><subtitle>Hello 👋🏻 Welcome to Sakshi&apos;s World! =)
 </subtitle><entry><title type="html">Decision Making under Uncertainity</title><link href="https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity/" rel="alternate" type="text/html" title="Decision Making under Uncertainity" /><published>2026-05-25T10:00:00+00:00</published><updated>2026-05-25T10:00:00+00:00</updated><id>https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity</id><content type="html" xml:base="https://sakshipandey.github.io/blog/2026/decision-making-under-uncertainity/"><![CDATA[<p>The course studies stochastic control and communication through one broader lens: <strong>decision making under uncertainty</strong>. The same lens also covers team decision theory, collaborative decision making, economics, and organization theory.</p>
 
 <hr />
@@ -535,7 +535,7 @@ Content 2
 
 <p>With this you can generate visualizations like:</p>
 
-<ul id="log" class="tab" data-tab="e4c8c096-fefc-4761-9c9e-4ba2fd43e9a1" data-name="log">
+<ul id="log" class="tab" data-tab="026f5001-e842-480d-b94b-b8dfcdd3fcc3" data-name="log">
   
       <li class="active" id="log-php">
           <a href="#">php </a>
@@ -550,7 +550,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="e4c8c096-fefc-4761-9c9e-4ba2fd43e9a1" data-name="log">
+<ul class="tab-content" id="026f5001-e842-480d-b94b-b8dfcdd3fcc3" data-name="log">
   
       <li class="active">
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
@@ -574,7 +574,7 @@ Content 2
 
 <h2 id="another-example">Another example</h2>
 
-<ul id="data-struct" class="tab" data-tab="71d41664-9a5e-40b9-995c-5723f6079f5a" data-name="data-struct">
+<ul id="data-struct" class="tab" data-tab="10dcb824-0d5d-43d8-b454-548c7d00221b" data-name="data-struct">
   
       <li class="active" id="data-struct-yaml">
           <a href="#">yaml </a>
@@ -585,7 +585,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="71d41664-9a5e-40b9-995c-5723f6079f5a" data-name="data-struct">
+<ul class="tab-content" id="10dcb824-0d5d-43d8-b454-548c7d00221b" data-name="data-struct">
   
       <li class="active">
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
@@ -607,7 +607,7 @@ Content 2
 
 <h2 id="tabs-for-something-else">Tabs for something else</h2>
 
-<ul id="something-else" class="tab" data-tab="72e89ac9-c239-4aea-af7d-f8f82e77246b" data-name="something-else">
+<ul id="something-else" class="tab" data-tab="ab976049-e4b8-4282-acb9-2fc7f32b5925" data-name="something-else">
   
       <li class="active" id="something-else-text">
           <a href="#">text </a>
@@ -622,7 +622,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="72e89ac9-c239-4aea-af7d-f8f82e77246b" data-name="something-else">
+<ul class="tab-content" id="ab976049-e4b8-4282-acb9-2fc7f32b5925" data-name="something-else">
   
       <li class="active">
 <p>Regular text</p>
