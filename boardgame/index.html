@@ -21,6 +21,8 @@
       <span id="brandTitle">The Game Shelf</span></a>
     <nav class="tabs" id="tabs">
       <a href="#home" data-nav="home" class="active">Home</a>
+      <a href="#games" data-nav="games">All games</a>
+      <a href="#summary" data-nav="summary">Summary</a>
       <a href="#buy" data-nav="buy" class="auth-only">Buy list</a>
       <a href="#shelf" data-nav="shelf" class="auth-only">My shelf</a>
       <a href="#add" data-nav="add" class="admin-only">＋ Add game</a>
@@ -35,12 +37,31 @@
   </header>
 
   <main>
-    <!-- HOME: summary + search -->
+    <!-- HOME: hero, search, small summary, top-games carousel -->
     <section id="view-home" class="view">
       <div class="hero">
         <h1>Every game we play,<br>own, or want next</h1>
         <p class="lede">Search by player count and type of game, with BoardGameGeek details and live prices from Indian stores.</p>
-        <div class="searchbar">
+        <form class="searchbar" id="homeSearch" role="search">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="hq" type="search" placeholder="Search games, mechanics, designers" autocomplete="off">
+          <div class="players-box" title="Number of players">
+            <button type="button" class="step" data-hstep="-1" aria-label="Fewer players">−</button>
+            <input id="hp" type="number" min="1" max="30" placeholder="Players" inputmode="numeric">
+            <button type="button" class="step" data-hstep="1" aria-label="More players">+</button>
+          </div>
+          <button type="submit" class="gloss">Search</button>
+        </form>
+        <div id="miniSummary" class="mini-summary"></div>
+        <div class="showcase" id="showcase" aria-label="Top ranked games"></div>
+      </div>
+    </section>
+
+    <!-- ALL GAMES: search, filters, grid -->
+    <section id="view-games" class="view" hidden>
+      <h1 class="page-title">All games</h1>
+      <div class="controls" id="controls">
+        <div class="searchbar small">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input id="q" type="search" placeholder="Search games, mechanics, designers" autocomplete="off">
           <div class="players-box" title="Number of players">
@@ -48,12 +69,7 @@
             <input id="players" type="number" min="1" max="30" placeholder="Players" inputmode="numeric">
             <button class="step" data-step="1" aria-label="More players">+</button>
           </div>
-          <button id="goBtn" class="gloss">Search</button>
         </div>
-        <div class="showcase" id="showcase" aria-label="Top ranked games"></div>
-      </div>
-
-      <div class="controls" id="controls">
         <div class="filter-row">
           <div class="chips" id="catChips"></div>
           <select id="timeSel" aria-label="Play time">
@@ -85,13 +101,14 @@
         <div class="chips types" id="typeChips"></div>
         <div class="result-line"><span id="resultCount"></span><button id="clearAll" class="link" hidden>Clear filters</button></div>
       </div>
-
-      <details id="summaryBox" class="summary-box" open>
-        <summary><span>Summary</span><span class="muted" id="summaryHint"></span></summary>
-        <div id="summary" class="summary"></div>
-      </details>
-
       <div id="grid" class="grid"></div>
+    </section>
+
+    <!-- SUMMARY: the full picture -->
+    <section id="view-summary" class="view" hidden>
+      <h1 class="page-title">Summary</h1>
+      <p class="muted">Click any bar to see those games.</p>
+      <div id="summary" class="summary page"></div>
     </section>
 
     <!-- BUY LIST -->
@@ -173,6 +190,7 @@
 
   <footer class="foot">
     <span>Game data <a href="https://boardgamegeek.com" target="_blank" rel="noopener"><b>Powered by BGG</b></a> · India prices via <a href="https://www.bgfindertool.com/" target="_blank" rel="noopener">BGFinder</a></span>
+    <span class="love">Made with <span class="heart" aria-label="love">♥</span> by Sakshi · © <span id="year">2026</span> Sakshi Pandey</span>
     <span id="dataStamp" class="muted"></span>
   </footer>
 

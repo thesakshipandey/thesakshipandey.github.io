@@ -389,3 +389,33 @@ tr.clickable:hover td { background: rgba(255, 255, 255, .035); }
   .sc-nav { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* home: small summary strip */
+.mini-summary { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 26px auto 0; max-width: 900px; }
+.mini { border: 0; cursor: pointer; font: inherit; color: var(--ink); display: flex; align-items: baseline; gap: 7px; padding: 8px 16px; border-radius: 999px;
+  background: var(--glass); box-shadow: inset 0 0 0 1px var(--line); backdrop-filter: blur(10px); transition: background .15s; }
+.mini:hover { background: var(--glass2); }
+.mini b { font: 600 17px var(--display); }
+.mini span { color: var(--ink2); font-size: 13px; }
+.mini.green b { color: var(--owned); } .mini.amber b { color: var(--way); } .mini.red b { color: var(--accent); }
+.mini-more { align-self: center; padding: 8px 6px; font-size: 13px; font-weight: 600; color: var(--blue); }
+.showcase { margin-top: 46px; margin-bottom: 40px; }
+
+/* games page search */
+#view-games .controls { margin-top: 18px; }
+#view-games .searchbar.small { margin: 0 auto 18px; }
+
+/* summary page */
+.summary.page { padding: 24px; margin-top: 18px; background: var(--glass); border-radius: 24px; box-shadow: inset 0 0 0 1px var(--line); }
+.sheet-block { min-width: 0; }
+.sheet-block .scroll { overflow-x: auto; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); }
+table.mini-t { font-size: 13px; width: 100%; }
+table.mini-t th, table.mini-t td { padding: 7px 10px; white-space: nowrap; }
+table.mini-t th { position: static; white-space: normal; line-height: 1.25; vertical-align: bottom; min-width: 60px; }
+.panels.sheet { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+.panel { min-width: 0; }
+
+/* footer credit */
+.love { color: var(--ink2); }
+.heart { color: #ff6b8b; display: inline-block; animation: beat 1.6s ease-in-out infinite; }
+@keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } }
