@@ -399,6 +399,14 @@ textarea {
   color: #75715e;
 }
 
+:-ms-input-placeholder {
+  color: #75715e;
+}
+
+:-moz-placeholder {
+  color: #75715e;
+}
+
 ::-webkit-scrollbar {
   width: 11px;
   max-height: 9px;
@@ -483,6 +491,26 @@ div.cell.selected:before {
   left: 0px;
   width: 0px;
   height: 100%;
+}
+
+div.prompt,
+.prompt {
+  font-family: monospace, monospace;
+  font-size: 9pt !important;
+  font-weight: normal;
+  color: #75715e;
+  line-height: 170%;
+  padding: 0px;
+  padding-top: 4px;
+  padding-left: 0px;
+  padding-right: 1px;
+  text-align: right !important;
+  min-width: 11.5ex !important;
+  width: 11.5ex !important;
+}
+
+div.cell.selected .prompt {
+  top: 0;
 }
 
 pre,
