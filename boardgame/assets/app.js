@@ -209,22 +209,70 @@
   }
 
   /* ------------------------------------------------------------ render: home */
+  /* Showcase carousel: top-ranked games, fanned three at a time. Swipe, arrows, dots, auto-advance. */
+  const SC = { picks: [], i: 0, timer: null, key: '' };
   function renderShowcase() {
     const el = $('#showcase');
-    const picks = S.games.filter(g => g.image && g.bggRank).sort((a, b) => a.bggRank - b.bggRank).slice(0, 3);
-    el.classList.toggle('gone', filtersActive() || picks.length < 1);
-    const key = picks.map(g => g.name).join('|') + (S.mine ? '1' : '0');
-    if (el.dataset.key === key) return;
-    el.dataset.key = key;
-    el.innerHTML = picks.map((g, i) => {
+    const picks = S.games.filter(g => g.image && g.bggRank).sort((a, b) => a.bggRank - b.bggRank).slice(0, 10);
+    el.classList.toggle('gone', filtersActive() || !picks.length);
+    const key = picks.map(g => g.name).join('|') + (S.mine ? isOwnedKey(picks) : '');
+    if (SC.key === key) return;
+    SC.key = key; SC.picks = picks; SC.i = Math.min(SC.i, Math.max(0, picks.length - 1));
+    el.innerHTML = `<div class="sc-stage">${picks.map((g, i) => {
       const players = g.minP ? (g.minP === g.maxP ? g.minP : `${g.minP}–${g.maxP}`) : '';
-      return `<button class="sc-card c${i}" data-g="${esc(g.name)}" aria-label="${esc(g.name)}">
-        <span class="sc-glow"></span><span class="sc-rank">BGG #${g.bggRank}${isOwned(g) ? ' · owned' : ''}</span>
-        <span class="sc-chip"></span><span class="sc-wave">)))</span>
-        <span class="sc-meta">${players ? `<span>${players} players</span>` : ''}${g.bggRating ? `<span>★ ${(+g.bggRating).toFixed(1)}</span>` : ''}</span>
+      return `<button class="sc-card" data-sc="${i}" aria-label="${esc(g.name)}">
+        <span class="sc-glow"></span><span class="sc-rank">BGG #${g.bggRank}${isOwned(g) ? ' · <em>owned</em>' : ''}</span>
+        <span class="sc-genre">${esc(g.genre || '')}</span>
+        <span class="sc-meta">${players ? `<span>${players} players</span>` : ''}${g.bggRating ? `<span>★ ${(+g.bggRating).toFixed(1)}</span>` : ''}${g.best ? `<span>${inr(g.best.price)}</span>` : ''}</span>
         <span class="sc-name">${esc(g.name)}</span>
-        <img src="${esc(g.image)}" alt="" referrerpolicy="no-referrer" loading="lazy"></button>`;
-    }).join('');
+        <img src="${esc(g.image)}" alt="" referrerpolicy="no-referrer" loading="lazy" draggable="false"></button>`;
+    }).join('')}</div>
+      ${picks.length > 1 ? `<button class="sc-nav prev" data-scnav="-1" aria-label="Previous">‹</button><button class="sc-nav next" data-scnav="1" aria-label="Next">›</button>
+      <div class="sc-dots">${picks.map((_, i) => `<button data-scdot="${i}" aria-label="Show ${i + 1}"></button>`).join('')}</div>` : ''}`;
+    placeShowcase();
+    startShowcase();
+  }
+  function isOwnedKey(picks) { return picks.map(g => isOwned(g) ? 1 : 0).join(''); }
+  function placeShowcase() {
+    const n = SC.picks.length;
+    $$('#showcase .sc-card').forEach(c => {
+      const i = +c.dataset.sc;
+      let d = (i - SC.i + n) % n; if (d > n / 2) d -= n;
+      c.className = 'sc-card ' + (d === 0 ? 'c0' : d === -1 ? 'c1' : d === 1 ? 'c2' : d < 0 ? 'cl' : 'cr');
+      c.tabIndex = d === 0 ? 0 : -1;
+    });
+    $$('#showcase [data-scdot]').forEach(b => b.classList.toggle('on', +b.dataset.scdot === SC.i));
+  }
+  function moveShowcase(step) {
+    const n = SC.picks.length;
+    if (n < 2) return;
+    SC.i = (SC.i + step + n) % n;
+    placeShowcase();
+  }
+  function startShowcase() {
+    clearInterval(SC.timer);
+    if (SC.picks.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) SC.timer = setInterval(() => { if (!document.hidden) moveShowcase(1); }, 5000);
+  }
+  function wireShowcase() {
+    const el = $('#showcase');
+    el.addEventListener('mouseenter', () => clearInterval(SC.timer));
+    el.addEventListener('mouseleave', startShowcase);
+    el.addEventListener('click', e => {
+      const nav = e.target.closest('[data-scnav]'), dot = e.target.closest('[data-scdot]'), card = e.target.closest('.sc-card');
+      if (nav) { moveShowcase(+nav.dataset.scnav); return; }
+      if (dot) { SC.i = +dot.dataset.scdot; placeShowcase(); return; }
+      if (!card || SC.swiped) return;
+      if (card.classList.contains('c0')) openGame(SC.picks[+card.dataset.sc].name);
+      else { SC.i = +card.dataset.sc; placeShowcase(); }
+    });
+    let x0 = null;
+    el.addEventListener('pointerdown', e => { x0 = e.clientX; SC.swiped = false; });
+    el.addEventListener('pointerup', e => {
+      if (x0 == null) return;
+      const dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) { SC.swiped = true; moveShowcase(dx < 0 ? 1 : -1); startShowcase(); setTimeout(() => SC.swiped = false, 50); }
+    });
+    el.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') moveShowcase(-1); if (e.key === 'ArrowRight') moveShowcase(1); });
   }
 
   function renderAll() {
@@ -589,12 +637,13 @@
     $('#addResults').innerHTML = '<div class="muted">Searching BoardGameGeek and the Indian stores…</div>';
     try {
       const hits = await api('bggSearch', { q });
+      if (hits.length === 1 && /^BGG #/.test(hits[0].name)) { addPick(hits[0].id); return; }
       $('#addResults').innerHTML = hits.length ? hits.map(h => {
         const exists = S.games.find(g => g.bggId === h.id || g.nameKey === norm(h.name));
         return `<button class="add-hit ${exists ? 'exists' : ''}" data-id="${esc(h.id)}"><b>${esc(h.name)}</b><small>${h.year ? esc(String(h.year).replace('.0', '')) + ' · ' : ''}BGG #${esc(h.id)}</small>
           ${h.inIndia ? '<span class="india">● Sold in India</span>' : ''}${exists ? '<small>Already on the shelf</small>' : ''}</button>`;
       }).join('') : '<div class="muted">No matches. Try another spelling or paste the BGG link. You can also fill the form by hand.</div>' +
-        '<button class="btn ghost" id="manualAdd" style="margin-top:8px">Fill in by hand</button>';
+        '<button class="btn" id="manualAdd" style="margin-top:8px">Fill in by hand</button>';
     } catch (e) { $('#addResults').innerHTML = `<div class="muted">${esc(e.message)}</div>`; }
   }
 
@@ -617,7 +666,28 @@
       f.hidden = false;
       $('#addResults').innerHTML = '';
       f.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } catch (e) { $('#addResults').innerHTML = `<div class="muted">${esc(e.message)}</div>`; }
+    } catch (e) { manualFromBgg(id); }
+  }
+
+  // No BGG data yet (token pending, or the game isn't sold in India): open the form pre-filled with
+  // what the link tells us. Art, rating and rank fill in automatically once BGG data is available.
+  function manualFromBgg(id) {
+    addDetails = null;
+    const f = $('#addForm');
+    f.reset();
+    const q = $('#addQ').value.trim();
+    const slug = (q.match(/boardgame(?:expansion)?\/\d+\/([^/?#]+)/) || [])[1] || '';
+    const name = slug ? decodeURIComponent(slug).replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : (/^\d+$/.test(q) || /boardgamegeek/.test(q) ? '' : q);
+    f.elements.name.value = name;
+    f.elements.bggId.value = id || '';
+    $('#addPreview').innerHTML = `<div><b>${esc(name || 'BGG #' + id)}</b><br>
+      <span class="muted">BoardGameGeek details aren't available for this game yet (your BGG API token is still pending). Fill in players, time and type below.
+      Box art, rating and rank are added automatically once the token is approved.</span>
+      ${id ? `<br><a href="https://boardgamegeek.com/boardgame/${esc(id)}" target="_blank" rel="noopener">Open it on BGG ↗</a> to copy the details.` : ''}</div>`;
+    $('#addResults').innerHTML = '';
+    f.hidden = false;
+    f.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    f.elements[name ? 'minP' : 'name'].focus({ preventScroll: true });
   }
 
   async function addSave(ev) {
@@ -796,6 +866,7 @@
     });
 
     $('#signout').onclick = () => signOut();
+    wireShowcase();
     $('#goBtn').onclick = () => { S.f.q = $('#q').value; renderAll(); $('#controls').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     $('#q').addEventListener('keydown', e => { if (e.key === 'Enter') $('#goBtn').click(); });
     const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 10);
