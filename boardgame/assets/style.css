@@ -280,3 +280,14 @@ tr.clickable:hover td { background: var(--bg); }
   .form-grid .wide { grid-column: 1 / -1; }
   .bar { grid-template-columns: 90px 1fr 32px; }
 }
+
+/* summary: sheet blocks */
+.summary h3.sub { margin: 4px 0 -6px; font: 700 14px var(--body); text-transform: uppercase; letter-spacing: .05em; }
+.summary h3.sub .muted { text-transform: none; letter-spacing: 0; font-weight: 500; }
+.tile .k .also { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--ink2); opacity: .8; }
+.tile .v.small { font-size: 17px; line-height: 1.3; }
+.tile .v[data-g] { cursor: pointer; }
+.sheet-more > summary { cursor: pointer; font-weight: 700; color: var(--blue); margin-bottom: 12px; }
+table.mini { font-size: 13px; background: none; }
+table.mini th, table.mini td { padding: 5px 8px; }
+table.mini th { position: static; }
