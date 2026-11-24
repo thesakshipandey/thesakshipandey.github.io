@@ -209,7 +209,26 @@
   }
 
   /* ------------------------------------------------------------ render: home */
+  function renderShowcase() {
+    const el = $('#showcase');
+    const picks = S.games.filter(g => g.image && g.bggRank).sort((a, b) => a.bggRank - b.bggRank).slice(0, 3);
+    el.classList.toggle('gone', filtersActive() || picks.length < 1);
+    const key = picks.map(g => g.name).join('|') + (S.mine ? '1' : '0');
+    if (el.dataset.key === key) return;
+    el.dataset.key = key;
+    el.innerHTML = picks.map((g, i) => {
+      const players = g.minP ? (g.minP === g.maxP ? g.minP : `${g.minP}–${g.maxP}`) : '';
+      return `<button class="sc-card c${i}" data-g="${esc(g.name)}" aria-label="${esc(g.name)}">
+        <span class="sc-glow"></span><span class="sc-rank">BGG #${g.bggRank}${isOwned(g) ? ' · owned' : ''}</span>
+        <span class="sc-chip"></span><span class="sc-wave">)))</span>
+        <span class="sc-meta">${players ? `<span>${players} players</span>` : ''}${g.bggRating ? `<span>★ ${(+g.bggRating).toFixed(1)}</span>` : ''}</span>
+        <span class="sc-name">${esc(g.name)}</span>
+        <img src="${esc(g.image)}" alt="" referrerpolicy="no-referrer" loading="lazy"></button>`;
+    }).join('');
+  }
+
   function renderAll() {
+    renderShowcase();
     renderChips();
     renderGrid();
     renderSummary();
@@ -241,7 +260,7 @@
   function initials(n) { return n.replace(/[^A-Za-z0-9 ]/g, '').split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); }
   function phStyle(g) {
     let h = 0; for (const c of g.name) h = (h * 31 + c.charCodeAt(0)) % 360;
-    return `background:linear-gradient(135deg,hsl(${h} 55% 52%),hsl(${(h + 40) % 360} 60% 38%))`;
+    return `background:radial-gradient(160px 120px at 30% 20%,hsl(${h} 35% 34% / .9),transparent 70%),linear-gradient(135deg,hsl(${(h + 30) % 360} 22% 20%),hsl(${(h + 60) % 360} 18% 11%))`;
   }
 
   function cardHTML(g) {
@@ -690,7 +709,7 @@
     if (saved && (jwtPayload(saved).exp || 0) * 1000 > Date.now() + 60000) { S.token = saved; loadMe(); }
     const start = () => {
       google.accounts.id.initialize({ client_id: CFG.GOOGLE_CLIENT_ID, callback: onCredential, auto_select: true, cancel_on_tap_outside: true });
-      google.accounts.id.renderButton($('#signin'), { theme: 'filled_black', size: 'medium', shape: 'pill', text: 'signin' });
+      google.accounts.id.renderButton($('#signin'), { theme: 'filled_black', size: 'large', shape: 'pill', text: 'signin' });
       if (!S.token) google.accounts.id.prompt();
     };
     if (window.google && google.accounts) start();
@@ -756,7 +775,7 @@
         const c = el.dataset.v; S.f.cats.has(c) ? S.f.cats.delete(c) : S.f.cats.add(c); renderAll(); return;
       }
       if (el.closest('.stars')) return;
-      const toHome = () => { if (inDetail) $('#detail').close(); go('home'); $('#q').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+      const toHome = () => { if (inDetail) $('#detail').close(); go('home'); setTimeout(() => $('#controls').scrollIntoView({ behavior: 'smooth', block: 'start' }), 30); };
       if (el.dataset.t) { if (inDetail) S.f.types = new Set([el.dataset.t]); else setTypeFilter(el.dataset.t); toHome(); renderAll(); return; }
       if (el.dataset.p) { S.f.players = +el.dataset.p; $('#players').value = el.dataset.p; renderAll(); toHome(); return; }
       if (el.dataset.w) { S.f.weight = S.f.weight === el.dataset.w ? '' : el.dataset.w; $('#weightSel').value = S.f.weight; renderAll(); return; }
@@ -777,6 +796,10 @@
     });
 
     $('#signout').onclick = () => signOut();
+    $('#goBtn').onclick = () => { S.f.q = $('#q').value; renderAll(); $('#controls').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    $('#q').addEventListener('keydown', e => { if (e.key === 'Enter') $('#goBtn').click(); });
+    const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
     $('#regForm').addEventListener('submit', submitRegister);
     $('#regCancel').onclick = () => { $('#register').close(); signOut(true); };
     $('#register').addEventListener('cancel', () => signOut(true));

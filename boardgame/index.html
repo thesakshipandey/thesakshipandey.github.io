@@ -3,19 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e0d0d">
   <title>The Game Shelf</title>
   <meta name="description" content="Board, card and duel games: search by players and type, with BGG data and Indian store prices.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
   <script src="config.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <header class="top">
-    <a class="brand" href="#home" data-nav="home"><span class="die">🎲</span><span id="brandTitle">The Game Shelf</span></a>
+    <a class="brand" href="#home" data-nav="home">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="22" height="22" rx="6" transform="rotate(12 16 16)" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="12" cy="13" r="2.1" fill="currentColor"/><circle cx="20" cy="19" r="2.1" fill="currentColor"/><circle cx="19.2" cy="11.6" r="2.1" fill="currentColor"/><circle cx="12.8" cy="20.4" r="2.1" fill="currentColor"/></svg>
+      <span id="brandTitle">The Game Shelf</span></a>
     <nav class="tabs" id="tabs">
       <a href="#home" data-nav="home" class="active">Home</a>
       <a href="#buy" data-nav="buy" class="auth-only">Buy list</a>
@@ -35,16 +38,22 @@
     <!-- HOME: summary + search -->
     <section id="view-home" class="view">
       <div class="hero">
-        <h1>What are we playing<span class="accent">?</span></h1>
+        <h1>Every game we play,<br>own, or want next</h1>
+        <p class="lede">Search by player count and type of game, with BoardGameGeek details and live prices from Indian stores.</p>
         <div class="searchbar">
-          <span class="icon">⌕</span>
-          <input id="q" type="search" placeholder="Search games, mechanics, designers…" autocomplete="off">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="Search games, mechanics, designers" autocomplete="off">
           <div class="players-box" title="Number of players">
             <button class="step" data-step="-1" aria-label="Fewer players">−</button>
             <input id="players" type="number" min="1" max="30" placeholder="Players" inputmode="numeric">
             <button class="step" data-step="1" aria-label="More players">+</button>
           </div>
+          <button id="goBtn" class="gloss">Search</button>
         </div>
+        <div class="showcase" id="showcase" aria-label="Top ranked games"></div>
+      </div>
+
+      <div class="controls" id="controls">
         <div class="filter-row">
           <div class="chips" id="catChips"></div>
           <select id="timeSel" aria-label="Play time">
