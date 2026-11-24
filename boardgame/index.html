@@ -145,6 +145,21 @@
   </main>
 
   <dialog id="detail" class="detail"></dialog>
+  <dialog id="register" class="register">
+    <form id="regForm" method="dialog">
+      <div class="reg-die">🎲</div>
+      <h2>Create your shelf</h2>
+      <p class="muted">One-time sign-up. Your shelf (owned games, prices, ratings, plays) is private: only you can see it.</p>
+      <label>Display name<input name="name" required minlength="2" maxlength="40" autocomplete="name"></label>
+      <label>Username<span class="uname"><span>@</span><input name="username" required pattern="[a-z0-9_]{3,20}" maxlength="20" autocomplete="username" title="3–20 lowercase letters, numbers or _"></span></label>
+      <p class="muted small" id="regEmail"></p>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Sign up</button>
+        <button type="button" id="regCancel" class="btn ghost">Cancel</button>
+      </div>
+      <p id="regMsg" class="reg-msg"></p>
+    </form>
+  </dialog>
   <div id="toast" class="toast" hidden></div>
 
   <footer class="foot">

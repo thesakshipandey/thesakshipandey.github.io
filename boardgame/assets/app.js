@@ -507,9 +507,9 @@
     });
     form.querySelectorAll('.stars button').forEach(b => b.addEventListener('click', () => {
       const v = +b.dataset.v;
-      const cur = +form.rating.value || 0;
+      const cur = +form.elements.rating.value || 0;
       const nv = cur === v ? '' : v;
-      form.rating.value = nv;
+      form.elements.rating.value = nv;
       form.querySelectorAll('.stars button').forEach(x => x.classList.toggle('on', +x.dataset.v <= (+nv || 0)));
       queue('rating', nv);
     }));
@@ -587,7 +587,7 @@
       addDetails = d;
       const f = $('#addForm');
       const s = d.suggest || {};
-      const set = (n, v) => { if (f[n]) f[n].value = v == null ? '' : v; };
+      const set = (n, v) => { if (f.elements[n]) f.elements[n].value = v == null ? '' : v; };
       set('name', d.name); set('category', s.category); set('alsoIn', s.alsoIn); set('minP', d.minP); set('maxP', d.maxP);
       set('minT', d.minT); set('maxT', d.maxT); set('age', d.age); set('weight', d.weight); set('genre', s.genre);
       set('tags', s.tags); set('status', 'Wishlist'); set('interest', ''); set('price', s.price); set('buyLink', s.buyLink); set('bggId', d.id);
@@ -630,12 +630,14 @@
 
   async function loadMe() {
     try {
-      S.mine = await api('me');
+      const me = await api('me');
+      if (!me.registered) { showRegister(me); return; }
+      S.mine = me;
       document.body.classList.add('authed');
       document.body.classList.toggle('admin', !!S.mine.isAdmin);
       $('#signin').hidden = true;
       $('#userChip').hidden = false;
-      $('#userName').innerHTML = esc((S.mine.name || S.mine.email).split(' ')[0]) + (S.mine.isAdmin ? '<span class="badge-admin">owner</span>' : '');
+      $('#userName').innerHTML = esc((S.mine.name || S.mine.email).split(' ')[0]) + (S.mine.username ? ` <span class="muted">@${esc(S.mine.username)}</span>` : '') + (S.mine.isAdmin ? '<span class="badge-admin">owner</span>' : '');
       renderAll();
       if (pendingView) { go(pendingView); pendingView = null; }
       if (S.mine.isAdmin) api('summary').then(r => { S.sheetSummary = r.grid; renderSummary(); }).catch(() => {});
@@ -645,6 +647,30 @@
       toast(e.message, true);
       signOut(true);
     }
+  }
+
+  function showRegister(me) {
+    const d = $('#register'), f = $('#regForm');
+    f.elements.name.value = me.name || '';
+    f.elements.username.value = (me.email || '').split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
+    $('#regEmail').textContent = 'Signed in with Google as ' + me.email;
+    $('#regMsg').textContent = '';
+    if (!d.open) d.showModal();
+  }
+
+  async function submitRegister(e) {
+    e.preventDefault();
+    const f = e.target, btn = f.querySelector('button[type=submit]');
+    f.elements.username.value = f.elements.username.value.trim().toLowerCase();
+    if (!f.reportValidity()) return;
+    btn.disabled = true; $('#regMsg').textContent = 'Creating your shelf…';
+    try {
+      await api('register', { name: f.elements.name.value, username: f.elements.username.value });
+      $('#register').close();
+      toast('Welcome to the shelf 🎲');
+      await loadMe();
+    } catch (err) { $('#regMsg').textContent = err.message; }
+    btn.disabled = false;
   }
 
   function signOut(silent) {
@@ -724,7 +750,7 @@
         return;
       }
       if (el.dataset.nav) { e.preventDefault(); go(el.dataset.nav); return; }
-      if (el.id === 'manualAdd') { addDetails = null; $('#addForm').reset(); $('#addForm').name.value = $('#addQ').value; $('#addForm').hidden = false; $('#addPreview').innerHTML = ''; return; }
+      if (el.id === 'manualAdd') { addDetails = null; $('#addForm').reset(); $('#addForm').elements.name.value = $('#addQ').value; $('#addForm').hidden = false; $('#addPreview').innerHTML = ''; return; }
       if (el.classList.contains('add-hit')) { addPick(el.dataset.id); return; }
       if (el.classList.contains('catchip')) {
         const c = el.dataset.v; S.f.cats.has(c) ? S.f.cats.delete(c) : S.f.cats.add(c); renderAll(); return;
@@ -751,6 +777,9 @@
     });
 
     $('#signout').onclick = () => signOut();
+    $('#regForm').addEventListener('submit', submitRegister);
+    $('#regCancel').onclick = () => { $('#register').close(); signOut(true); };
+    $('#register').addEventListener('cancel', () => signOut(true));
     $('#addGo').onclick = addSearch;
     $('#addQ').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addSearch(); } });
     $('#addForm').addEventListener('submit', addSave);

@@ -291,3 +291,17 @@ tr.clickable:hover td { background: var(--bg); }
 table.mini { font-size: 13px; background: none; }
 table.mini th, table.mini td { padding: 5px 8px; }
 table.mini th { position: static; }
+
+/* sign-up */
+.register { border: 0; border-radius: 20px; padding: 0; width: min(430px, 92vw); background: var(--card); color: var(--ink); box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+.register::backdrop { background: rgba(20, 15, 5, .55); backdrop-filter: blur(3px); }
+.register form { padding: 26px 26px 20px; display: grid; gap: 12px; }
+.register h2 { font: 800 28px var(--display); margin: 0; }
+.register p { margin: 0; }
+.reg-die { font-size: 34px; }
+.register label { display: flex; flex-direction: column; gap: 5px; font-size: 12px; font-weight: 700; color: var(--ink2); text-transform: uppercase; letter-spacing: .04em; }
+.register input { font: 500 16px var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; width: 100%; }
+.register .uname { display: flex; align-items: center; gap: 4px; }
+.register .uname span { font-size: 16px; color: var(--ink2); }
+.small { font-size: 12.5px; }
+.reg-msg { color: var(--accent); font-weight: 600; min-height: 1em; }
