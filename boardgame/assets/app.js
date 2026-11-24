@@ -913,11 +913,13 @@
   document.title = CFG.TITLE;
   $('#brandTitle').textContent = CFG.TITLE;
   $('#grid').innerHTML = Array.from({ length: 8 }, () => '<div class="skeleton"></div>').join('');
-  wire();
+  // Each boot step is isolated: if one fails, the others (games, carousel, sign-in) still run.
+  const safe = (name, fn) => { try { return fn(); } catch (e) { console.error('[shelf] ' + name + ' failed:', e); } };
+  safe('wire', wire);
   const h = location.hash.slice(1);
   pendingView = ['buy', 'shelf', 'add'].includes(h) ? h : null;
-  go(['games', 'summary'].includes(h) ? h : 'home');
+  safe('route', () => go(['games', 'summary'].includes(h) ? h : 'home'));
   if (h.startsWith('game=')) history.replaceState(null, '', '#' + h);
-  loadCatalog();
-  initAuth();
+  safe('catalog', () => loadCatalog().catch(e => { console.error(e); toast('Could not load games. Refresh the page.', true); }));
+  safe('auth', initAuth);
 })();
