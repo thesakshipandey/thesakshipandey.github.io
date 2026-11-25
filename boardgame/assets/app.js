@@ -8,7 +8,7 @@
   const inr = (n) => n == null || n === '' || isNaN(n) ? '—' : '₹' + Math.round(+n).toLocaleString('en-IN');
   const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 
-  const CATS = ['Boards', 'Cards', 'Duels'];
+  const CATS = ['Boards', 'Cards', 'Duels', 'Solo'];
   const OWNEDISH = ['Owned', 'DIY'];
   const INTEREST_ORDER = { 'Really want': 0, 'Normal': 1, 'Maybe': 2 };
 
@@ -105,7 +105,23 @@
     }
   }
 
+  let EXTRAS_FALLBACK = null;
+  function attachExtras(cat) {
+    if (cat.games.some(g => g.extras && g.extras.length)) return;
+    const use = (rows) => {
+      const by = {};
+      rows.slice(1).forEach(r => (by[norm(r[0])] = by[norm(r[0])] || []).push({ type: r[1], name: r[2], bgg: r[3], price: r[4] === '' ? null : +r[4], store: r[5], buy: r[6], note: r[7] }));
+      cat.games.forEach(g => { g.extras = by[norm(g.name)] || []; });
+    };
+    if (EXTRAS_FALLBACK) return use(EXTRAS_FALLBACK);
+    fetch('data/extras.json').then(r => r.json()).then(rows => {
+      EXTRAS_FALLBACK = rows; use(rows);
+      if (S.catalog === cat && $('#detail').open) openFromHash();
+    }).catch(() => {});
+  }
+
   function setCatalog(cat, fromCache) {
+    attachExtras(cat);
     S.catalog = cat;
     S.games = cat.games.map(enrich);
     S.byName = Object.fromEntries(S.games.map(g => [g.name, g]));
@@ -121,6 +137,7 @@
     g.minP = g.minP == null ? null : +g.minP; g.maxP = g.maxP == null ? null : +g.maxP;
     g.cats = new Set([g.category, ...(g.alsoIn || [])].filter(c => CATS.includes(c)));
     if (g.maxP === 2) g.cats.add('Duels');
+    if (g.minP === 1) g.cats.add('Solo');
     if ((g.bggCategories || []).includes('Card Game')) g.cats.add('Cards');
     g.hayTags = norm([g.genre, ...(g.tags || []), ...(g.mechanics || []), ...(g.bggCategories || [])].join(' | '));
     g.hay = norm([g.name, g.genre, ...(g.tags || []), ...(g.mechanics || []), ...(g.designers || []), ...(g.bggCategories || [])].join(' '));
@@ -279,7 +296,7 @@
     const all = S.games, el = $('#miniSummary');
     if (!all.length) { el.innerHTML = ''; return; }
     const t = (v, k, cls = '', nav = 'summary') => `<button class="mini ${cls}" data-nav="${nav}"><b>${v}</b><span>${k}</span></button>`;
-    let html = t(all.length, 'games', '', 'games') + CATS.map(c => t(all.filter(g => g.category === c).length, c.toLowerCase(), '', 'games')).join('');
+    let html = t(all.length, 'games', '', 'games') + CATS.map(c => t(all.filter(g => c === 'Solo' ? g.cats.has(c) : g.category === c).length, c === 'Solo' ? 'solo-able' : c.toLowerCase(), '', 'games')).join('');
     if (S.mine) {
       html += t(all.filter(isOwned).length, 'owned', 'green', 'shelf') + t(all.filter(onWay).length, 'on the way', 'amber', 'shelf') + t(all.filter(onBuyList).length, 'on buy list', 'red', 'buy');
     } else {
@@ -328,7 +345,8 @@
   function cardHTML(g) {
     const owned = isOwned(g), way = onWay(g), want = S.mine && onBuyList(g);
     const st = statusOf(g);
-    const pill = owned ? `<span class="pill">${st === 'DIY' ? 'DIY' : 'Owned'}</span>` : way ? '<span class="pill way">On the way</span>' : want ? `<span class="pill want">${esc(my(g).interest)}</span>` : '';
+    const ed = (owned || way) && my(g).edition && !/^standard/i.test(my(g).edition) ? `<span class="pill ed">${esc(my(g).edition.replace(g.name + ': ', '').slice(0, 26))}</span>` : '';
+    const pill = ed + (owned ? `<span class="pill">${st === 'DIY' ? 'DIY' : 'Owned'}</span>` : way ? '<span class="pill way">On the way</span>' : want ? `<span class="pill want">${esc(my(g).interest)}</span>` : '');
     const rank = g.bggRank ? `<span class="pill right">#${g.bggRank}</span>` : '';
     const players = g.minP ? (g.minP === g.maxP ? g.minP : `${g.minP}–${g.maxP}`) : '?';
     const time = g.minT ? (g.minT === g.maxT || !g.maxT ? g.minT : `${g.minT}–${g.maxT}`) + "'" : '';
@@ -370,6 +388,7 @@
     const avgW = avg(list.map(g => g.weight).filter(Boolean));
     // Same categories as the SUMMARY sheet (by tab), plus how many more also count there.
     const catTile = (c) => {
+      if (c === 'Solo') return `<div class="tile"><div class="v">${list.filter(g => g.cats.has(c)).length}</div><div class="k">Solo-able</div></div>`;
       const primary = list.filter(g => g.category === c).length;
       const extra = list.filter(g => g.category !== c && g.cats.has(c)).length;
       return `<div class="tile"><div class="v">${primary}</div><div class="k">${c}${extra ? ` <span class="also">+${extra} also</span>` : ''}</div></div>`;
@@ -486,7 +505,29 @@
       const pat = Object.keys(STORE_SEARCH).find(k => h.endsWith(k));
       return `<a href="${esc(pat ? STORE_SEARCH[pat].replace('{q}', q) : s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`;
     }).join('');
-    const fakes = (S.catalog.counterfeit || []).map(s => `<a href="${esc((s.search || s.url).replace('{q}', q))}" target="_blank" rel="noopener nofollow">${esc(s.name)}</a>`).join('');
+    const priced = g.fakes || [];
+    const fakeRows = priced.map(f => `<a class="offer fake" href="${esc(f.url)}" target="_blank" rel="noopener nofollow">
+      <span><b>${esc(f.store)}</b><br><span class="st">${esc(f.listing)}</span></span>
+      <span class="st ${f.inStock ? 'in' : ''}">${f.inStock ? 'In stock' : 'Out of stock'}</span><b>${inr(f.price)}</b></a>`).join('');
+    const pricedStores = new Set(priced.map(f => norm(f.store)));
+    const fakeLinks = (S.catalog.counterfeit || []).filter(s => !pricedStores.has(norm(s.name))).map(s => s.url || s.search
+      ? `<a href="${esc((s.search || s.url).replace('{q}', q))}" target="_blank" rel="noopener nofollow">Search ${esc(s.name)}</a>`
+      : `<span class="nolink">${esc(s.name)} (link needed)</span>`).join('');
+    const fakes = fakeRows || fakeLinks;
+    const xs = g.extras || [];
+    const xLink = (x) => {
+      const buy = x.buy || (x.type === 'Accessory' ? 'https://www.amazon.in/s?k=' + encodeURIComponent(g.name + ' ' + x.name) : '');
+      const bgg = x.bgg || 'https://boardgamegeek.com/geeksearch.php?action=search&objecttype=' + (x.type === 'Expansion' ? 'boardgameexpansion' : 'boardgame') + '&q=' + encodeURIComponent(x.name);
+      return `<div class="xrow">
+        <span class="xname">${esc(x.name.replace(g.name + ': ', ''))}${x.note ? `<small>${esc(x.note)}</small>` : ''}</span>
+        <span class="xlinks">${x.price ? `<b>${inr(x.price)}</b>` : ''}${buy ? `<a href="${esc(buy)}" target="_blank" rel="noopener">${esc(x.store || (x.type === 'Accessory' ? 'Find on Amazon' : 'Buy'))} ↗</a>` : ''}
+        ${x.type !== 'Accessory' || x.bgg ? `<a href="${esc(bgg)}" target="_blank" rel="noopener">BGG ↗</a>` : ''}
+        ${!x.price && x.type === 'Expansion' ? `<a href="https://www.bgfindertool.com/" target="_blank" rel="noopener" data-copy="${esc(x.name)}">India prices ↗</a>` : ''}</span></div>`;
+    };
+    const xsec = (type, title, hint) => {
+      const list = xs.filter(x => x.type === type);
+      return list.length ? `<div class="dsec"><h3>${title} <span class="count">${list.length}</span></h3>${hint ? `<p class="muted small">${hint}</p>` : ''}<div class="xlist">${list.map(xLink).join('')}</div></div>` : '';
+    };
     const ordered = (g.offers || []).slice().sort((a, b) => (a === g.best ? -1 : b === g.best ? 1 : 0) || (a.variant - b.variant) || ((a.price || 1e9) - (b.price || 1e9)));
     const offers = ordered.map(o => `<a class="offer ${o === g.best ? 'best' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">
       <span><b>${esc(o.store)}</b>${o === g.best ? ' <span class="st in">· best price</span>' : ''}<br><span class="st">${esc(o.listing)}${o.variant ? ' · <i>different edition / variant</i>' : ''}</span></span>
@@ -517,12 +558,15 @@
           <div class="dsec"><h3>Buy in India</h3>
             <div class="offers">${offers}${sheetLink}${!offers && !sheetLink ? '<div class="muted">No live listing found. Try the stores below.</div>' : ''}</div>
           </div>
+          ${xsec('Expansion', 'Expansions', 'These need the base game. Standalone spin-offs have their own cards.')}
+          ${xsec('Edition', 'Editions', 'Mark which one you own under My copy → Edition.')}
+          ${xsec('Accessory', 'Accessories & upgrades', '')}
           <div class="dsec"><h3>Search the stores</h3>
             <div class="storelinks"><a class="bgf" href="https://www.bgfindertool.com/" target="_blank" rel="noopener" data-copy="${esc(g.name)}">Compare on BGFinder ↗</a>${storeLinks}</div>
           </div>
-          ${fakes ? `<div class="dsec"><details class="fakebox"><summary>Counterfeit / budget copies</summary>
+          ${fakes ? `<div class="dsec"><details class="fakebox"${fakeRows ? ' open' : ''}><summary>Counterfeit / budget copies${priced.length ? ` · from ${inr(Math.min(...priced.filter(f => f.price).map(f => f.price)))}` : ''}</summary>
             <p>These sellers mostly stock unlicensed copies. They're cheaper, but the components are often worse and the designers aren't paid.</p>
-            <div class="storelinks">${fakes}</div></details></div>` : ''}
+            ${fakeRows ? `<div class="offers">${fakeRows}</div>` : ''}${fakeLinks ? `<div class="storelinks" style="margin-top:8px">${fakeLinks}</div>` : ''}</details></div>` : ''}
         </div>
       </div>`;
     d.querySelector('.close').onclick = () => d.close();
@@ -545,6 +589,8 @@
         <label>Status<select name="status">${opt(statuses, st)}</select></label>
         <label>Buy interest<select name="interest">${opt([['', '—'], ['Really want', 'Really want'], ['Normal', 'Normal'], ['Maybe', 'Maybe']], m.interest)}</select></label>
         <label>Authenticity<select name="authenticity">${opt([['', '—'], ['VERIFIED ORIGINAL', 'Verified original'], ['SUSPECTED COUNTERFEIT', 'Suspected counterfeit'], ['UNKNOWN', 'Unknown']], m.authenticity)}</select></label>
+        <label>Edition<input name="edition" list="ed-${esc(norm(g.name)).replace(/ /g, '-')}" placeholder="Standard" value="${esc(m.edition || '')}">
+          <datalist id="ed-${esc(norm(g.name)).replace(/ /g, '-')}"><option value="Standard / retail">${(g.extras || []).filter(x => x.type === 'Edition').map(x => `<option value="${esc(x.name)}">`).join('')}<option value="Kickstarter / deluxe"><option value="Limited edition"></datalist></label>
         <label>Price paid ₹<input name="pricePaid" type="number" min="0" value="${m.pricePaid == null ? '' : m.pricePaid}"></label>
         <label>Times played<input name="plays" type="number" min="0" value="${m.plays == null ? '' : m.plays}"></label>
         <label>Rating /10<div class="stars" data-r="${r}">${Array.from({ length: 10 }, (_, i) => `<button type="button" data-v="${i + 1}" class="${i < r ? 'on' : ''}" aria-label="${i + 1}">★</button>`).join('')}</div><input name="rating" type="hidden" value="${m.rating == null ? '' : m.rating}"></label>
@@ -632,9 +678,9 @@
       <div class="tile"><div class="v">${orig} / ${fake}</div><div class="k">Original / counterfeit</div></div>
       <div class="tile"><div class="v">${sum(list.map(g => my(g).plays))}</div><div class="k">Plays</div></div>`;
     const authTag = (a) => a === 'VERIFIED ORIGINAL' ? '<span class="auth-tag orig">ORIGINAL</span>' : a === 'SUSPECTED COUNTERFEIT' ? '<span class="auth-tag fake">COUNTERFEIT</span>' : a ? `<span class="auth-tag">${esc(a)}</span>` : '';
-    $('#shelfList').innerHTML = list.length ? `<table><thead><tr><th>Game</th><th>Status</th><th>Copy</th><th class="num">Paid ₹</th><th class="num">List ₹</th><th class="num">Saved ₹</th><th class="num">Rating</th><th class="num">Plays</th></tr></thead><tbody>
+    $('#shelfList').innerHTML = list.length ? `<table><thead><tr><th>Game</th><th>Status</th><th>Edition</th><th>Copy</th><th class="num">Paid ₹</th><th class="num">List ₹</th><th class="num">Saved ₹</th><th class="num">Rating</th><th class="num">Plays</th></tr></thead><tbody>
       ${list.map(g => { const m = my(g); const sv = m.pricePaid != null && m.pricePaid !== '' && g.price ? g.price - m.pricePaid : null;
-        return `<tr class="clickable" data-g="${esc(g.name)}"><td><b>${esc(g.name)}</b></td><td>${esc(statusOf(g))}</td><td>${authTag(m.authenticity)}</td>
+        return `<tr class="clickable" data-g="${esc(g.name)}"><td><b>${esc(g.name)}</b></td><td>${esc(statusOf(g))}</td><td>${esc((m.edition || '').replace(g.name + ': ', '')) || '<span class="muted">—</span>'}</td><td>${authTag(m.authenticity)}</td>
         <td class="num">${inr(m.pricePaid)}</td><td class="num">${inr(g.price)}</td><td class="num ${sv > 0 ? 'save-pos' : sv < 0 ? 'save-neg' : ''}">${sv == null ? '—' : inr(sv)}</td>
         <td class="num">${m.rating ? m.rating + '/10' : '—'}</td><td class="num">${m.plays || 0}</td></tr>`; }).join('')}</tbody></table>`
       : '<div class="empty">No owned games yet. Open a game and set its status to <b>Owned</b>.</div>';

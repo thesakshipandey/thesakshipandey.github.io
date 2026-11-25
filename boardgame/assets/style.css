@@ -456,3 +456,21 @@ table.mini-t th { position: static; white-space: normal; line-height: 1.25; vert
   background: linear-gradient(180deg, #fff, #e2deda 45%, #bab6b2); box-shadow: inset 0 1px 0 #fff; }
 .um-out:hover { filter: brightness(1.04); }
 @media (max-width: 640px) { .user-first { display: none; } .user-btn { padding-right: 10px; } }
+
+/* solo category */
+.cat.Solo { background: rgba(95, 211, 141, .16); color: #a8f0c4; }
+
+/* expansions / editions / accessories */
+.dsec h3 .count { font-weight: 600; color: var(--ink3); margin-left: 4px; }
+.dsec .small { margin: -4px 0 8px; font-size: 12.5px; }
+.xlist { display: grid; gap: 4px; }
+.xrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 12px; background: var(--glass); box-shadow: inset 0 0 0 1px var(--line); }
+.xname { font-size: 14px; font-weight: 500; min-width: 0; }
+.xname small { display: block; color: var(--ink2); font-size: 12px; font-weight: 400; }
+.xlinks { display: flex; gap: 10px; align-items: baseline; flex: none; font-size: 13px; }
+.xlinks b { font-variant-numeric: tabular-nums; }
+.offer.fake.best, .offer.fake:hover { box-shadow: inset 0 0 0 1px rgba(229, 138, 214, .5); }
+.nolink { font-size: 13px; padding: 6px 12px; color: var(--ink3); }
+.pill.ed { top: 36px; background: rgba(155, 123, 216, .9); color: #fff; text-transform: none; letter-spacing: 0; max-width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.chip.catchip.on[data-v=Solo] { background: #3f9e6a; color: #fff; box-shadow: none; }
