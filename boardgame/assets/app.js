@@ -120,8 +120,24 @@
     }).catch(() => {});
   }
 
+  let FAKES_FALLBACK = null;
+  function attachFakeList(cat) {
+    if (cat.games.some(g => (g.fakes || []).some(f => f.store === 'Funkky'))) return;
+    const use = (rows) => {
+      const by = {};
+      rows.slice(1).forEach(r => (by[norm(r[0])] = by[norm(r[0])] || []).push({ store: r[1], listing: r[2], price: +r[3], status: r[4], url: r[5], note: r[6] }));
+      cat.games.forEach(g => { g.fakes = (g.fakes || []).concat(by[norm(g.name)] || []); });
+    };
+    if (FAKES_FALLBACK) return use(FAKES_FALLBACK);
+    fetch('data/counterfeit_list.json').then(r => r.json()).then(rows => {
+      FAKES_FALLBACK = rows; use(rows);
+      if (S.catalog === cat && $('#detail').open) openFromHash();
+    }).catch(() => {});
+  }
+
   function setCatalog(cat, fromCache) {
     attachExtras(cat);
+    attachFakeList(cat);
     S.catalog = cat;
     S.games = cat.games.map(enrich);
     S.byName = Object.fromEntries(S.games.map(g => [g.name, g]));
@@ -506,13 +522,16 @@
       return `<a href="${esc(pat ? STORE_SEARCH[pat].replace('{q}', q) : s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`;
     }).join('');
     const priced = g.fakes || [];
-    const fakeRows = priced.map(f => `<a class="offer fake" href="${esc(f.url)}" target="_blank" rel="noopener nofollow">
-      <span><b>${esc(f.store)}</b><br><span class="st">${esc(f.listing)}</span></span>
-      <span class="st ${f.inStock ? 'in' : ''}">${f.inStock ? 'In stock' : 'Out of stock'}</span><b>${inr(f.price)}</b></a>`).join('');
+    priced.sort((a, b) => (a.price || 1e9) - (b.price || 1e9));
+    const fakeRows = priced.map(f => {
+      const st = f.status ? `<span class="st" title="${esc(f.note || '')}">${esc(f.status === 'catalogue' ? 'Catalogue price' : f.status)}</span>`
+        : `<span class="st ${f.inStock ? 'in' : ''}">${f.inStock ? 'In stock' : 'Out of stock'}</span>`;
+      const inner = `<span><b>${esc(f.store)}</b><br><span class="st">${esc(f.listing)}${f.note && f.store === 'Funkky' ? ' · ' + esc(f.note.replace('Funkky catalogue ', '')) : ''}</span></span>${st}<b>${inr(f.price)}</b>`;
+      return f.url ? `<a class="offer fake" href="${esc(f.url)}" target="_blank" rel="noopener nofollow">${inner}</a>` : `<div class="offer fake">${inner}</div>`;
+    }).join('');
     const pricedStores = new Set(priced.map(f => norm(f.store)));
-    const fakeLinks = (S.catalog.counterfeit || []).filter(s => !pricedStores.has(norm(s.name))).map(s => s.url || s.search
-      ? `<a href="${esc((s.search || s.url).replace('{q}', q))}" target="_blank" rel="noopener nofollow">Search ${esc(s.name)}</a>`
-      : `<span class="nolink">${esc(s.name)} (link needed)</span>`).join('');
+    const fakeLinks = (S.catalog.counterfeit || []).filter(s => !pricedStores.has(norm(s.name)) && (s.url || s.search))
+      .map(s => `<a href="${esc((s.search || s.url).replace('{q}', q))}" target="_blank" rel="noopener nofollow">Search ${esc(s.name)}</a>`).join('');
     const fakes = fakeRows || fakeLinks;
     const xs = g.extras || [];
     const xLink = (x) => {
