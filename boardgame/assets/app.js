@@ -5,6 +5,9 @@
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // BGG's API terms: public pages using its data show the "Powered by BGG" logo, linked to BoardGameGeek.
+  // Uses the official file at assets/powered-by-bgg.svg; shows a text badge until that file is added.
+  const bggBadge = () => `<a class="bggbadge" href="https://boardgamegeek.com" target="_blank" rel="noopener" title="Powered by BoardGameGeek"><img src="assets/powered-by-bgg.svg" alt="Powered by BGG" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Powered by BGG'}))"></a>`;
   const inr = (n) => n == null || n === '' || isNaN(n) ? '—' : '₹' + Math.round(+n).toLocaleString('en-IN');
   const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 
@@ -572,7 +575,8 @@
             ${fact('BGG rating', g.bggRating ? (+g.bggRating).toFixed(2) : '')}${fact('BGG rank', g.bggRank ? '#' + g.bggRank : '')}
           </div>
           <div class="taglist">${g.types.map(t => `<button class="chip on" data-t="${esc(t)}">${esc(t)}</button>`).join('')}${tags.map(t => `<button class="chip" data-q="${esc(t)}">${esc(t)}</button>`).join('')}</div>
-          ${g.description ? `<div class="desc">${esc(g.description)}</div>` : ''}
+          ${g.description ? `<div class="desc">${esc(g.description)}${g.descriptionCut ? '…' : ''}</div>` : ''}
+          ${g.bggId ? `<div class="bggcredit">${bggBadge()}<span>Game details, art and ratings from <a href="${esc(g.bggLink)}" target="_blank" rel="noopener">BoardGameGeek</a>${g.descriptionCut ? ` · <a href="${esc(g.bggLink)}" target="_blank" rel="noopener">full description ↗</a>` : ''}</span></div>` : ''}
           ${mineHTML(g)}
           <div class="dsec"><h3>Buy in India</h3>
             <div class="offers">${offers}${sheetLink}${!offers && !sheetLink ? '<div class="muted">No live listing found. Try the stores below.</div>' : ''}</div>
