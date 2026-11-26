@@ -319,13 +319,17 @@ dialog[open] { animation: dlgIn .18s ease-out; }
 @keyframes dlgIn { from { opacity: 0; transform: translateY(8px) scale(.985); } }
 .close { position: absolute; top: 14px; right: 16px; border: 0; background: rgba(255, 255, 255, .08); color: var(--ink); width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; z-index: 2; }
 .close:hover { background: rgba(255, 255, 255, .16); }
-.detail { width: min(1000px, 94vw); max-height: 92vh; }
+.detail { width: min(1000px, 94vw); max-height: 92vh; overflow: hidden; }
+.detail[open] { display: flex; }
+/* only the inside scrolls, so the close button always stays in the corner */
+.detail .dwrap { flex: 1; min-height: 0; max-height: 92vh; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.detail .close { position: absolute; top: 12px; right: 12px; z-index: 5; background: rgba(20, 18, 18, .82); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px var(--line2), 0 6px 18px rgba(0, 0, 0, .4); width: 40px; height: 40px; font-size: 17px; }
 .dwrap { display: grid; grid-template-columns: 330px 1fr; }
 .dart { padding: 24px; display: flex; flex-direction: column; gap: 12px; background: radial-gradient(300px 260px at 50% 100%, rgba(231, 169, 138, .22), transparent 70%), radial-gradient(260px 200px at 30% 0%, rgba(155, 123, 216, .2), transparent 70%), rgba(255, 255, 255, .02); }
 .dimg { aspect-ratio: 1; display: grid; place-items: center; }
 .dimg img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .6)); }
 .dimg .ph { border-radius: 14px; font-size: 60px; }
-.dmain { padding: 26px 28px 30px; overflow: auto; max-height: 92vh; }
+.dmain { padding: 26px 28px 30px; min-width: 0; }
 .dmain h2 { font: 600 32px/1.08 var(--display); letter-spacing: -.025em; margin: 0 0 6px; padding-right: 40px; }
 .quick { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .qbtn { border: 0; cursor: pointer; padding: 9px 8px; border-radius: 12px; font: 600 13px var(--body); color: var(--ink); background: var(--glass2); box-shadow: inset 0 0 0 1px var(--line); transition: background .15s; }
@@ -546,4 +550,16 @@ dialog[open] { animation: dlgIn .18s ease-out; }
   .types-box[open] > summary::after { transform: rotate(180deg); }
   .types-box .chips.types { padding: 0 12px 12px; max-height: 260px; overflow-y: auto; }
   .chip.catchip { padding: 7px 13px; font-size: 13px; }
+}
+
+/* phones: game popup fills the screen; date fields stay inside their column */
+.mine input, .mine select { min-width: 0; }
+.mine input[type=date] { -webkit-appearance: none; appearance: none; min-height: 40px; }
+@media (max-width: 640px) {
+  .detail { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; }
+  .detail .dwrap { max-height: 100dvh; }
+  .detail .close { top: calc(10px + env(safe-area-inset-top)); right: 10px; }
+  .dmain { padding: 18px 16px calc(40px + env(safe-area-inset-bottom)); }
+  .dmain h2 { font-size: 26px; padding-right: 0; }
+  .dart { padding: 16px 16px 0; padding-right: 60px; }
 }

@@ -581,8 +581,10 @@
     if (full) { const im = new Image(); im.referrerPolicy = 'no-referrer'; im.onload = () => { full.src = im.src; }; im.src = full.dataset.full; }
     wireMine(d, g);
     if (!d.open) d.showModal();
-    d.querySelector('.dmain').scrollTop = 0;
-    history.replaceState(null, '', '#game=' + encodeURIComponent(g.name));
+    d.querySelector('.dwrap').scrollTop = 0;
+    // A history entry per opened game, so the phone's Back button closes the popup.
+    const h = '#game=' + encodeURIComponent(g.name);
+    if (location.hash === h) {} else if (location.hash.startsWith('#game=')) history.replaceState(null, '', h); else history.pushState({ game: g.name }, '', h);
   }
 
   function quickHTML(g) {
@@ -1090,12 +1092,12 @@
         catch (err) { $('#jobMsg').textContent = err.message; }
         el.disabled = false; return;
       }
-      if (el.dataset.nav) { e.preventDefault(); toggleUserMenu(false); if (el.dataset.sort) { S.f.sort = el.dataset.sort; $('#sortSel').value = el.dataset.sort; } if (inDetail) $('#detail').close(); go(el.dataset.nav); return; }
+      if (el.dataset.nav) { e.preventDefault(); toggleUserMenu(false); if (el.dataset.sort) { S.f.sort = el.dataset.sort; $('#sortSel').value = el.dataset.sort; } if (inDetail) { $('#detail')._nav = true; $('#detail').close(); } go(el.dataset.nav); return; }
       if (el.id === 'manualAdd') { addDetails = null; $('#addForm').reset(); $('#addForm').elements.name.value = $('#addQ').value; $('#addForm').hidden = false; $('#addPreview').innerHTML = ''; return; }
       if (el.classList.contains('add-hit')) { addPick(el.dataset.id); return; }
       if (el.classList.contains('catchip')) { const c = el.dataset.v; S.f.cats.has(c) ? S.f.cats.delete(c) : S.f.cats.add(c); S.shown = PAGE; renderAll(); return; }
       if (el.closest('.stars') || el.closest('form.mine')) return;
-      const toGames = () => { if (inDetail) $('#detail').close(); go('games'); };
+      const toGames = () => { if (inDetail) { $('#detail')._nav = true; $('#detail').close(); } go('games'); };
       if (el.dataset.t) { if (inDetail) S.f.types = new Set([el.dataset.t]); else S.f.types.has(el.dataset.t) ? S.f.types.delete(el.dataset.t) : S.f.types.add(el.dataset.t); S.shown = PAGE; toGames(); renderAll(); return; }
       if (el.dataset.p) { S.f.players = +el.dataset.p; $('#players').value = el.dataset.p; toGames(); renderAll(); return; }
       if (el.dataset.w) { S.f.weight = el.dataset.w; $('#weightSel').value = S.f.weight; toGames(); renderAll(); return; }
@@ -1106,9 +1108,19 @@
 
     const d = $('#detail');
     d.addEventListener('click', e => { if (e.target === d) d.close(); });
-    d.addEventListener('close', () => { if (location.hash.startsWith('#game=')) history.replaceState(null, '', '#' + currentView()); });
+    d.addEventListener('close', () => {
+      const nav = d._nav; d._nav = false;
+      if (!location.hash.startsWith('#game=')) return;
+      if (!nav && history.state && history.state.game) history.back();   // X, Esc, backdrop: undo the game's history entry
+      else history.replaceState(null, '', '#' + currentView());
+    });
     ['#auth', '#pwDlg'].forEach(s => $(s).addEventListener('click', e => { if (e.target === $(s)) $(s).close(); }));
-    window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (h.startsWith('game=')) openFromHash(); else if (VIEWS.includes(h) || h === 'buy') go(h); });
+    window.addEventListener('hashchange', () => {
+      const h = location.hash.slice(1);
+      if (h.startsWith('game=')) { openFromHash(); return; }
+      if ($('#detail').open) $('#detail').close();
+      if ((VIEWS.includes(h) || h === 'buy') && h !== currentView()) go(h);
+    });
 
     $('#signout').onclick = () => { toggleUserMenu(false); signOut(); };
     $('#userBtn').onclick = (e) => { e.stopPropagation(); toggleUserMenu(); };
