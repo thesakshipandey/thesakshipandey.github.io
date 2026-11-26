@@ -104,7 +104,7 @@
     S.byId = Object.fromEntries(S.games.map(g => [g.id, g]));
     $('#genreList').innerHTML = [...new Set(S.games.map(g => g.genre))].filter(Boolean).sort().map(x => `<option value="${esc(x)}">`).join('');
     const when = cat.pricesUpdated || cat.built;
-    $('#dataStamp').textContent = (cat.snapshot ? 'Offline snapshot' : 'Prices updated') + (when ? ' ' + new Date(when).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '') + (fromCache ? ' · refreshing…' : '');
+    $('#dataStamp').textContent = (cat.snapshot ? 'Offline copy · prices from ' : 'India prices updated ') + (when ? new Date(when).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '');
     renderAll();
     openFromHash();
   }
