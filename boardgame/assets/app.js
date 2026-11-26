@@ -1,7 +1,7 @@
 /* The Game Shelf: front end. Plain JS, no build step. Data + accounts: Supabase. */
 (() => {
   'use strict';
-  const CFG = Object.assign({ SUPABASE_URL: '', SUPABASE_ANON_KEY: '', JOBS_URL: '', TITLE: 'The Game Shelf', SITE_URL: '' }, window.SHELF_CONFIG || {});
+  const CFG = Object.assign({ SUPABASE_URL: '', SUPABASE_ANON_KEY: '', JOBS_URL: '', GOOGLE_CLIENT_ID: '', TITLE: 'The Game Shelf', SITE_URL: '' }, window.SHELF_CONFIG || {});
   const SITE_URL = CFG.SITE_URL || (location.origin + location.pathname);
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -342,6 +342,7 @@
     const base = S.games.filter(g => matches(g, 'cats'));
     $('#catChips').innerHTML = CATS.map(c => `<button class="chip catchip ${S.f.cats.has(c) ? 'on' : ''}" data-v="${c}">${c}<span class="n">${base.filter(g => g.cats.has(c)).length}</span></button>`).join('');
     const tbase = S.games.filter(g => matches(g, 'types'));
+    $('#typesCount').textContent = S.f.types.size ? S.f.types.size + ' selected' : '';
     $('#typeChips').innerHTML = TYPES.map(([t]) => [t, tbase.filter(g => g.types.includes(t)).length])
       .filter(([t]) => S.f.types.has(t) || S.games.some(g => g.types.includes(t)))
       .map(([t, n]) => `<button class="chip ${S.f.types.has(t) ? 'on' : ''} ${n === 0 && !S.f.types.has(t) ? 'dim' : ''}" data-t="${esc(t)}">${esc(t)}<span class="n">${n}</span></button>`).join('');
@@ -797,6 +798,7 @@
     $('#authMsg').textContent = ''; $('#authMsg').className = 'auth-msg';
     $('#authDone').hidden = true; $('.auth-main').hidden = false;
     if (!d.open) d.showModal();
+    renderGoogleButton();
     setTimeout(() => (authMode === 'signup' ? f.elements.name : f.elements.email).focus(), 30);
   }
   function authMsg(text, ok) { const el = $('#authMsg'); el.textContent = text; el.className = 'auth-msg' + (ok ? ' ok' : ''); }
@@ -880,6 +882,36 @@
       if (v.length >= 8) s++; if (v.length >= 12) s++; if (/[A-Z]/.test(v) && /[a-z]/.test(v)) s++; if (/\d/.test(v)) s++; if (/[^A-Za-z0-9]/.test(v)) s++;
       bar.style.width = Math.min(100, s * 20) + '%'; bar.dataset.s = s;
     });
+  }
+
+  /* Google: its own button on this page, then the ID token goes straight to Supabase.
+     Google then names this site (or "The Game Shelf") instead of the database's address. */
+  let gsiReady = false;
+  async function initGoogleButton() {
+    if (!sb || !CFG.GOOGLE_CLIENT_ID) return;
+    const wait = (n) => new Promise(r => { const t = setInterval(() => { if (window.google && google.accounts && google.accounts.id) { clearInterval(t); r(true); } else if (--n <= 0) { clearInterval(t); r(false); } }, 200); });
+    if (!(await wait(40))) return;   // GIS blocked or offline: the redirect button stays
+    const raw = Array.from(crypto.getRandomValues(new Uint8Array(24)), b => b.toString(16).padStart(2, '0')).join('');
+    const hashed = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw))), b => b.toString(16).padStart(2, '0')).join('');
+    google.accounts.id.initialize({
+      client_id: CFG.GOOGLE_CLIENT_ID, nonce: hashed, ux_mode: 'popup', context: 'signin', itp_support: true, use_fedcm_for_button: true,
+      callback: async (resp) => {
+        authMsg('Signing in…', true);
+        const { error } = await sb.auth.signInWithIdToken({ provider: 'google', token: resp.credential, nonce: raw });
+        if (error) { authMsg(friendly(error)); return; }
+        if ($('#auth').open) $('#auth').close();
+      }
+    });
+    gsiReady = true;
+    renderGoogleButton();
+  }
+  function renderGoogleButton() {
+    if (!gsiReady) return;
+    const el = $('#gsiBtn');
+    const w = Math.max(240, Math.min(400, (el.parentElement.clientWidth || 360)));
+    el.innerHTML = '';
+    google.accounts.id.renderButton(el, { theme: 'outline', size: 'large', shape: 'pill', text: authMode === 'signup' ? 'signup_with' : 'continue_with', width: w, logo_alignment: 'center' });
+    $('#googleBtn').hidden = true;
   }
 
   async function onSession(session) {
@@ -1013,6 +1045,9 @@
     $('#mineSel').onchange = e => { S.f.mine = e.target.value; refilter(); };
     $('#sortSel').onchange = e => { S.f.sort = e.target.value; refilter(); };
     $('#clearAll').onclick = resetFilters;
+    const phone = matchMedia('(max-width: 640px)');
+    const fitTypes = () => { $('#typesBox').open = !phone.matches; };
+    fitTypes(); phone.addEventListener('change', fitTypes);
     $('#moreBtn').onclick = () => { S.shown += PAGE * 2; renderGrid(); };
     new IntersectionObserver(es => { if (es[0].isIntersecting && !$('#moreBtn').hidden && !$('#view-games').hidden) { S.shown += PAGE; renderGrid(); } }, { rootMargin: '600px' }).observe($('#moreBtn'));
     $$('#viewMode button').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; localStorage.setItem('shelf_mode', S.mode); renderGrid(); });
@@ -1094,6 +1129,7 @@
     $$('#authTabs button').forEach(b => b.onclick = () => openAuth(b.dataset.am));
     $('#authForm').addEventListener('submit', submitAuth);
     $('#forgotBtn').onclick = forgot;
+    initGoogleButton();
     $('#googleBtn').onclick = async () => {
       const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: SITE_URL, queryParams: { prompt: 'select_account' } } });
       if (error) authMsg(friendly(error));
