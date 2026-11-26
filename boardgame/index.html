@@ -2,33 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0e0d0d">
   <title>The Game Shelf</title>
-  <meta name="description" content="Board, card and duel games: search by players and type, with BGG data and Indian store prices.">
+  <meta name="description" content="Board, card and duel games: search by players and type, track your shelf and wishlist, with BoardGameGeek data and Indian store prices.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=20261126083855">
-  <script src="config.js?v=20261126083855"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=20261126092419">
+  <script src="config.js?v=20261126092419"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header class="top">
     <a class="brand" href="#home" data-nav="home">
       <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="22" height="22" rx="6" transform="rotate(12 16 16)" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="12" cy="13" r="2.1" fill="currentColor"/><circle cx="20" cy="19" r="2.1" fill="currentColor"/><circle cx="19.2" cy="11.6" r="2.1" fill="currentColor"/><circle cx="12.8" cy="20.4" r="2.1" fill="currentColor"/></svg>
       <span id="brandTitle">The Game Shelf</span></a>
-    <nav class="tabs" id="tabs">
-      <a href="#home" data-nav="home" class="active">Home</a>
-      <a href="#games" data-nav="games">All games</a>
+    <nav class="tabs" id="tabs" aria-label="Main">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#games" data-nav="games">Games</a>
       <a href="#summary" data-nav="summary">Summary</a>
-      <a href="#buy" data-nav="buy" class="auth-only">Buy list</a>
-      <a href="#shelf" data-nav="shelf" class="auth-only">My shelf</a>
-      <a href="#add" data-nav="add" class="admin-only">＋ Add game</a>
+      <a href="#wishlist" data-nav="wishlist" class="auth-only">Wishlist <span class="count-badge" id="navWish"></span></a>
+      <a href="#shelf" data-nav="shelf" class="auth-only">My shelf <span class="count-badge" id="navShelf"></span></a>
+      <a href="#add" data-nav="add" class="admin-only">＋ Add</a>
     </nav>
     <div class="who">
-      <div id="signin"></div>
+      <button id="signinBtn" class="btn primary sm" data-auth="signin">Sign in</button>
       <div id="userChip" class="user-chip" hidden>
         <button id="userBtn" class="user-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenu">
           <span class="avatar" id="userAvatar"></span>
@@ -38,15 +39,13 @@
         <div id="userMenu" class="user-menu" role="menu" hidden>
           <div class="um-head">
             <span class="avatar big" id="umAvatar"></span>
-            <div class="um-who">
-              <b id="umName"></b>
-              <span id="umHandle"></span>
-            </div>
+            <div class="um-who"><b id="umName"></b><span id="umHandle"></span></div>
           </div>
           <span id="umRole" class="um-role" hidden>Owner</span>
           <nav class="um-links">
             <a href="#shelf" data-nav="shelf" role="menuitem">My shelf</a>
-            <a href="#buy" data-nav="buy" role="menuitem">Buy list</a>
+            <a href="#wishlist" data-nav="wishlist" role="menuitem">Wishlist &amp; buy list</a>
+            <a href="#account" data-nav="account" role="menuitem">Account settings</a>
             <a href="#add" data-nav="add" role="menuitem" class="admin-only">Add a game</a>
           </nav>
           <button id="signout" class="um-out" role="menuitem">Sign out</button>
@@ -55,18 +54,19 @@
     </div>
   </header>
 
-  <main>
-    <!-- HOME: hero, search, small summary, top-games carousel -->
+  <main id="main">
+    <!-- HOME -->
     <section id="view-home" class="view">
       <div class="hero">
-        <h1>Every game we play,<br>own, or want next</h1>
+        <p class="eyebrow" id="heroEyebrow">Board · Card · Duel games</p>
+        <h1 id="heroTitle">Every game we play,<br>own, or want next</h1>
         <p class="lede">Search by player count and type of game, with BoardGameGeek details and live prices from Indian stores.</p>
         <form class="searchbar" id="homeSearch" role="search">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input id="hq" type="search" placeholder="Search games, mechanics, designers" autocomplete="off">
+          <input id="hq" type="search" placeholder="Search games, mechanics, designers" autocomplete="off" aria-label="Search">
           <div class="players-box" title="Number of players">
             <button type="button" class="step" data-hstep="-1" aria-label="Fewer players">−</button>
-            <input id="hp" type="number" min="1" max="30" placeholder="Players" inputmode="numeric">
+            <input id="hp" type="number" min="1" max="30" placeholder="Players" inputmode="numeric" aria-label="Players">
             <button type="button" class="step" data-hstep="1" aria-label="More players">+</button>
           </div>
           <button type="submit" class="gloss">Search</button>
@@ -74,88 +74,115 @@
         <div id="miniSummary" class="mini-summary"></div>
         <div class="showcase" id="showcase" aria-label="Top ranked games"></div>
       </div>
+      <div id="homeRows"></div>
     </section>
 
-    <!-- ALL GAMES: search, filters, grid -->
+    <!-- GAMES -->
     <section id="view-games" class="view" hidden>
-      <h1 class="page-title">All games</h1>
+      <header class="page-head">
+        <div><h1 class="page-title">All games</h1><p class="page-sub" id="gamesSub">The full catalogue, with BGG details and Indian prices.</p></div>
+      </header>
       <div class="controls" id="controls">
         <div class="searchbar small">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input id="q" type="search" placeholder="Search games, mechanics, designers" autocomplete="off">
+          <input id="q" type="search" placeholder="Search games, mechanics, designers   ( / )" autocomplete="off" aria-label="Search games">
           <div class="players-box" title="Number of players">
             <button class="step" data-step="-1" aria-label="Fewer players">−</button>
-            <input id="players" type="number" min="1" max="30" placeholder="Players" inputmode="numeric">
+            <input id="players" type="number" min="1" max="30" placeholder="Players" inputmode="numeric" aria-label="Players">
             <button class="step" data-step="1" aria-label="More players">+</button>
           </div>
         </div>
         <div class="filter-row">
           <div class="chips" id="catChips"></div>
           <select id="timeSel" aria-label="Play time">
-            <option value="">Any length</option>
-            <option value="20">≤ 20 min</option>
-            <option value="45">≤ 45 min</option>
-            <option value="90">≤ 90 min</option>
-            <option value="999">Long (90+)</option>
+            <option value="">Any length</option><option value="20">≤ 20 min</option><option value="45">≤ 45 min</option>
+            <option value="90">≤ 90 min</option><option value="999">Long (90+)</option>
           </select>
           <select id="weightSel" aria-label="Complexity">
-            <option value="">Any complexity</option>
-            <option>Light</option><option>Medium Light</option><option>Medium</option><option>Heavy</option>
+            <option value="">Any complexity</option><option>Light</option><option>Medium Light</option><option>Medium</option><option>Heavy</option>
           </select>
           <select id="mineSel" class="auth-only" aria-label="Ownership">
-            <option value="">Everything</option>
-            <option value="owned">Owned</option>
-            <option value="notowned">Not owned</option>
-            <option value="wish">On my buy list</option>
+            <option value="">Everything</option><option value="owned">On my shelf</option><option value="notowned">Not owned</option><option value="wish">On my wishlist</option>
           </select>
           <select id="sortSel" aria-label="Sort">
-            <option value="name">A → Z</option>
-            <option value="rank">BGG rank</option>
-            <option value="rating">BGG rating</option>
-            <option value="weight">Lightest first</option>
-            <option value="weightd">Heaviest first</option>
-            <option value="price">Cheapest in India</option>
+            <option value="name">A → Z</option><option value="rank">BGG rank</option><option value="rating">BGG rating</option>
+            <option value="weight">Lightest first</option><option value="weightd">Heaviest first</option><option value="price">Cheapest in India</option><option value="new">Recently added</option>
           </select>
+          <div class="seg" id="viewMode" role="group" aria-label="Layout">
+            <button data-mode="grid" class="on" aria-label="Grid">▦</button><button data-mode="list" aria-label="List">☰</button>
+          </div>
         </div>
         <div class="chips types" id="typeChips"></div>
         <div class="result-line"><span id="resultCount"></span><button id="clearAll" class="link" hidden>Clear filters</button></div>
       </div>
       <div id="grid" class="grid"></div>
+      <div class="more-wrap"><button id="moreBtn" class="btn" hidden>Show more</button></div>
     </section>
 
-    <!-- SUMMARY: the full picture -->
+    <!-- SUMMARY -->
     <section id="view-summary" class="view" hidden>
-      <h1 class="page-title">Summary</h1>
-      <p class="muted">Click any bar to see those games.</p>
-      <div id="summary" class="summary page"></div>
+      <header class="page-head">
+        <div><h1 class="page-title">Summary</h1><p class="page-sub">The collection at a glance. Click any bar to see those games.</p></div>
+      </header>
+      <div id="summary" class="summary"></div>
     </section>
 
-    <!-- BUY LIST -->
-    <section id="view-buy" class="view" hidden>
-      <h1 class="page-title">Buy list</h1>
-      <p class="muted">Ordered like your sheet: Really want → Normal → Maybe, then the earliest tagged game first.</p>
-      <div id="buyTotals" class="tiles"></div>
-      <div id="buyList" class="table-wrap"></div>
+    <!-- WISHLIST -->
+    <section id="view-wishlist" class="view" hidden>
+      <header class="page-head">
+        <div><h1 class="page-title">Wishlist</h1><p class="page-sub">Your buy list in priority order, with the best in-stock price in India.</p></div>
+        <div class="page-actions"><button class="btn" data-nav="games">Browse games</button></div>
+      </header>
+      <div id="wishTotals" class="tiles"></div>
+      <div class="seg wide" id="wishTabs" role="tablist">
+        <button data-wt="buy" class="on" role="tab">Buy list</button><button data-wt="someday" role="tab">Someday</button><button data-wt="all" role="tab">Everything</button>
+      </div>
+      <div id="wishList"></div>
     </section>
 
     <!-- SHELF -->
     <section id="view-shelf" class="view" hidden>
-      <h1 class="page-title">My shelf</h1>
+      <header class="page-head">
+        <div><h1 class="page-title">My shelf</h1><p class="page-sub">Everything you own or have on the way.</p></div>
+        <div class="page-actions"><button class="btn" id="exportShelf">Export CSV</button></div>
+      </header>
       <div id="shelfTotals" class="tiles"></div>
-      <div id="shelfList" class="table-wrap"></div>
+      <div class="toolbar">
+        <div class="seg" id="shelfTabs" role="tablist">
+          <button data-st="all" class="on">All</button><button data-st="Owned">Owned</button><button data-st="On the way">On the way</button><button data-st="DIY">DIY</button>
+        </div>
+        <input id="shelfQ" class="field" type="search" placeholder="Filter my shelf" aria-label="Filter my shelf">
+        <select id="shelfSort" aria-label="Sort shelf">
+          <option value="name">A → Z</option><option value="rating">My rating</option><option value="plays">Most played</option><option value="paid">Price paid</option><option value="recent">Recently updated</option>
+        </select>
+      </div>
+      <div id="shelfList"></div>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section id="view-account" class="view" hidden>
+      <header class="page-head">
+        <div><h1 class="page-title">Account</h1><p class="page-sub">Your profile and sign-in details.</p></div>
+      </header>
+      <div class="account-grid">
+        <div class="card" id="accProfile"></div>
+        <div class="card" id="accSecurity"></div>
+        <div class="card admin-only" id="accAdmin"></div>
+      </div>
     </section>
 
     <!-- ADD (owner only) -->
     <section id="view-add" class="view" hidden>
-      <h1 class="page-title">Add a game</h1>
-      <p class="muted">Search BoardGameGeek and the Indian stores. Pick a result and the form fills itself, then press Save to add it to your sheet.</p>
+      <header class="page-head">
+        <div><h1 class="page-title">Add a game</h1><p class="page-sub">Search BoardGameGeek and the Indian stores. Pick a result and the form fills itself.</p></div>
+      </header>
       <div class="searchbar small">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="addQ" type="search" placeholder="Game name, BGG link or BGG id">
+        <input id="addQ" type="search" placeholder="Game name, BGG link or BGG id" aria-label="Search BoardGameGeek">
         <button id="addGo" class="btn">Search</button>
       </div>
       <div id="addResults" class="add-results"></div>
-      <form id="addForm" class="add-form" hidden>
+      <form id="addForm" class="add-form card" hidden>
         <div class="add-preview" id="addPreview"></div>
         <div class="form-grid">
           <label>Name<input name="name" required></label>
@@ -169,50 +196,95 @@
           <label>BGG weight<input name="weight" type="number" step="0.01" min="0" max="5"></label>
           <label>Genre<input name="genre" list="genreList"></label>
           <label class="wide">Tags<input name="tags" placeholder="Comma separated"></label>
-          <label>Status<select name="status"><option>Wishlist</option><option>On the way</option><option>Owned</option><option>DIY</option></select></label>
-          <label>Interest<select name="interest"><option value="">—</option><option>Really want</option><option>Normal</option><option>Maybe</option></select></label>
-          <label>Price ₹<input name="price" type="number" min="0"></label>
+          <label>My status<select name="status"><option value="">Not on my shelf</option><option>Wishlist</option><option>On the way</option><option>Owned</option><option>DIY</option></select></label>
+          <label>Priority<select name="interest"><option value="">—</option><option>Really want</option><option>Normal</option><option>Maybe</option></select></label>
+          <label>List price ₹<input name="price" type="number" min="0"></label>
           <label class="wide">Buy link<input name="buyLink" type="url"></label>
-          <label>BGG id<input name="bggId"></label>
+          <label>BGG id<input name="bggId" inputmode="numeric"></label>
         </div>
         <datalist id="genreList"></datalist>
         <div class="form-actions">
-          <button type="submit" class="btn primary">Save to sheet</button>
+          <button type="submit" class="btn primary">Add to the catalogue</button>
           <button type="button" id="addCancel" class="btn ghost">Cancel</button>
           <span id="addMsg" class="muted"></span>
         </div>
       </form>
-      <div class="admin-tools">
-        <button id="refreshBtn" class="btn ghost">↻ Refresh BGFinder prices & BGG data</button>
-        <span id="refreshMsg" class="muted"></span>
-      </div>
     </section>
   </main>
 
-  <dialog id="detail" class="detail"></dialog>
-  <dialog id="register" class="register">
-    <form id="regForm" method="dialog">
-      <div class="reg-die">🎲</div>
-      <h2>Create your shelf</h2>
-      <p class="muted">One-time sign-up. Your shelf (owned games, prices, ratings, plays) is private: only you can see it.</p>
-      <label>Display name<input name="name" required minlength="2" maxlength="40" autocomplete="name"></label>
-      <label>Username<span class="uname"><span>@</span><input name="username" required pattern="[a-z0-9_]{3,20}" maxlength="20" autocomplete="username" title="3–20 lowercase letters, numbers or _"></span></label>
-      <p class="muted small" id="regEmail"></p>
-      <div class="form-actions">
-        <button type="submit" class="btn primary">Sign up</button>
-        <button type="button" id="regCancel" class="btn ghost">Cancel</button>
+  <!-- game detail -->
+  <dialog id="detail" class="detail" aria-label="Game details"></dialog>
+
+  <!-- sign in / sign up / reset -->
+  <dialog id="auth" class="auth" aria-labelledby="authTitle">
+    <button class="close" data-close aria-label="Close">✕</button>
+    <div class="auth-side" aria-hidden="true">
+      <div class="auth-die">🎲</div>
+      <h3>Your shelf, everywhere</h3>
+      <ul>
+        <li>Track owned games, editions and what you paid</li>
+        <li>Wishlist with priorities and best Indian prices</li>
+        <li>Rate games and log plays</li>
+        <li>Private: only you see your shelf</li>
+      </ul>
+    </div>
+    <div class="auth-main">
+      <div class="seg wide" id="authTabs" role="tablist">
+        <button data-am="signin" role="tab">Sign in</button><button data-am="signup" role="tab">Create account</button>
       </div>
-      <p id="regMsg" class="reg-msg"></p>
+      <h2 id="authTitle">Welcome back</h2>
+      <p class="muted" id="authLede">Sign in to see your shelf.</p>
+      <button type="button" class="btn google" id="googleBtn">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+        Continue with Google</button>
+      <div class="or"><span>or with email</span></div>
+      <form id="authForm" novalidate>
+        <label class="su">Display name<input name="name" autocomplete="name" minlength="2" maxlength="40" placeholder="How we greet you"></label>
+        <label class="su">Username<span class="uname"><span>@</span><input name="username" autocomplete="username" pattern="[a-z0-9_]{3,20}" maxlength="20" placeholder="3–20 letters, numbers or _"></span><small class="hint" id="unameHint"></small></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label class="pw">Password<span class="pwrap"><input name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters"><button type="button" class="peek" aria-label="Show password">Show</button></span>
+          <span class="meter su" aria-hidden="true"><i></i></span></label>
+        <label class="su check"><input type="checkbox" name="terms" required> <span>Your shelf stays private. I'm happy to receive account emails (confirmation, password reset).</span></label>
+        <button type="submit" class="btn primary block" id="authSubmit">Sign in</button>
+        <button type="button" class="link small si" id="forgotBtn">Forgot password?</button>
+      </form>
+      <p class="auth-msg" id="authMsg" role="status"></p>
+    </div>
+    <div class="auth-done" id="authDone" hidden></div>
+  </dialog>
+
+  <!-- complete profile (first Google sign-in) / new password after a reset link -->
+  <dialog id="profileDlg" class="small-dlg" aria-labelledby="profTitle">
+    <form id="profileForm">
+      <div class="reg-die">🎲</div>
+      <h2 id="profTitle">Finish setting up</h2>
+      <p class="muted">Pick how you appear on The Game Shelf. You can change this later in Account settings.</p>
+      <label>Display name<input name="name" required minlength="2" maxlength="40" autocomplete="name"></label>
+      <label>Username<span class="uname"><span>@</span><input name="username" required pattern="[a-z0-9_]{3,20}" maxlength="20" autocomplete="username"></span><small class="hint" id="profHint"></small></label>
+      <label>Usual number of players <span class="opt">optional</span><input name="fav" type="number" min="1" max="20" placeholder="e.g. 4"></label>
+      <p class="muted small" id="profEmail"></p>
+      <div class="form-actions"><button type="submit" class="btn primary">Create my shelf</button><button type="button" class="btn ghost" id="profLater">Sign out</button></div>
+      <p class="auth-msg" id="profMsg" role="status"></p>
     </form>
   </dialog>
-  <div id="toast" class="toast" hidden></div>
+  <dialog id="pwDlg" class="small-dlg" aria-labelledby="pwTitle">
+    <form id="pwForm">
+      <div class="reg-die">🔑</div>
+      <h2 id="pwTitle">Choose a new password</h2>
+      <label>New password<input name="password" type="password" minlength="8" required autocomplete="new-password"></label>
+      <label>Repeat it<input name="password2" type="password" minlength="8" required autocomplete="new-password"></label>
+      <div class="form-actions"><button type="submit" class="btn primary">Save password</button><button type="button" class="btn ghost" data-close>Cancel</button></div>
+      <p class="auth-msg" id="pwMsg" role="status"></p>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
 
   <footer class="foot">
-    <span class="credits"><a class="bggbadge" href="https://boardgamegeek.com" target="_blank" rel="noopener" title="Powered by BoardGameGeek"><img src="assets/powered-by-bgg.svg" alt="Powered by BGG" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Powered by BGG'}))"></a> Game data from <a href="https://boardgamegeek.com" target="_blank" rel="noopener">BoardGameGeek</a> · India prices via <a href="https://www.bgfindertool.com/" target="_blank" rel="noopener">BGFinder</a></span>
+    <span class="credits"><a class="bggbadge" href="https://boardgamegeek.com" target="_blank" rel="noopener" title="Powered by BoardGameGeek"><img src="assets/powered-by-bgg.svg" alt="Powered by BGG"></a> Game data from <a href="https://boardgamegeek.com" target="_blank" rel="noopener">BoardGameGeek</a> · India prices via <a href="https://www.bgfindertool.com/" target="_blank" rel="noopener">BGFinder</a></span>
     <span class="love">Made with <span class="heart" aria-label="love">♥</span> by Sakshi · © <span id="year">2026</span> Sakshi Pandey</span>
     <span id="dataStamp" class="muted"></span>
   </footer>
 
-  <script src="assets/app.js?v=20261126083855"></script>
+  <script src="assets/app.js?v=20261126092419"></script>
 </body>
 </html>
